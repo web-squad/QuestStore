@@ -12,8 +12,8 @@ body {
 header {
     display: flex;
     justify-content: space-between;
-    margin-left: 50px;
-    margin-right: 50px;
+    margin-left: 5%;
+    margin-right: 5%;
     padding-bottom: 10px;
 }
 #main-nav a {
@@ -95,6 +95,39 @@ th, td {
 .table-summary {
     font-size: 1.5em;
 }
+#profile-content {
+    display: flex;
+    justify-content: space-around;
+    margin: 0% 5%;
+    color: #535455;  
+}
+#profile-picture {
+    width: 30%;
+    padding: 2%;
+}
+#profile-picture img {
+    width: 100%;
+    height: auto;
+}
+#profile {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 40%;
+}
+#profile p {
+    display: flex;
+    flex-direction: column;
+}
+.info-type {
+    font-size: 1em;
+    font-weight: bold;
+}
+.profile-info {
+    padding: 3%;
+    font-size: 1.5em;
+}
+
 
 @media screen and (max-width: 800px) {
     header {
@@ -113,6 +146,28 @@ th, td {
         width: 90%;
         margin-top: 10px;
         margin-right: 0;
+    }
+}
+@media screen and (max-width: 700px) {
+    div#profile-picture {
+        width: 70%;
+    }
+    div#profile {
+        width: 80%;
+    }
+    
+}
+@media screen and (max-width: 430px) {
+    div#profile-picture {
+        width: 90%;
+    }
+    div#profile {
+        width: 90%;
+        padding-left: 5%;
+    }
+    div#profile-content {
+        flex-direction: column;
+        align-items: center;
     }
 }
 @media screen and (max-width: 600px) {
@@ -144,5 +199,7 @@ th, td {
         padding: 3px;
     }
 }
+
+
 
 
