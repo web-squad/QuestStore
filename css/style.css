@@ -90,13 +90,14 @@ footer {
 }
 .footer-el {
     display: flex;
-    width: 300px;
+    width: 600px;
 }
 ul#autors {
     list-style-type: none;
     margin-left: 20px;
     padding: 0;
 }
+
 table {
     border-collapse: collapse;
     width: 100%;
@@ -106,6 +107,9 @@ th, td {
     padding: 8px;
     text-align: left;
     border-top: 0.5px solid grey;
+}
+.td-center{
+    text-align: center;
 }
 .table-top {
     font-weight: bold;
@@ -120,3 +124,4 @@ th, td {
 .table-summary {
     font-size: 1.5em;
 }
+tr:hover {background-color: rgba(221, 221, 221, 0.37)}
