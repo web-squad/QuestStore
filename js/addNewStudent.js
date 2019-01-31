@@ -12,10 +12,6 @@ function validateForm() {
   const classReg = /[1-5]/;
   const dateReg = /[0-3][0-9]\.(0?[1-9]|1[0-12])\.[1900-2002]/;
   const mailReg = /[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9]+/;
-  
-  if (!nameReg.test(name)){
-    alert("Wrong Name type. Please enter name and surname.");
-  }
 
   if(name != "" || surname != "" || email != "" || studentClass != "" || birthDate != "" || studyBegan != ""){
     document.getElementById("btSubmit").removeAttribute("disabled");
@@ -35,7 +31,7 @@ function validateForm() {
       return false;
     }
     else{
-      window.alert("All informations has been sent");
+      window.alert("Student created successfully! :)");
       return true;
     }
   }
