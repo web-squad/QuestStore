@@ -36,6 +36,7 @@ header {
 #logo {
     
 }
+
 #main-nav {
     display: flex;
     justify-content: space-between;
@@ -139,4 +140,90 @@ th, td {
 }
 #main-nav .active {
     color: #ed7b7b;
+}
+/* Css Andrzeja*/
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+th{
+    background-color: #f1f1f154;
+}
+
+th, td {
+    padding: 8px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+tr:hover {background-color: rgba(221, 221, 221, 0.37)}
+
+.table-summary {
+    font-size: 1.5em;
+}
+
+.welcomePageScreen{
+    font-family: Courier;
+    text-shadow: 5px 5px #00000075;
+    width: 100%;
+    text-align: center;
+    padding: 60px;
+}
+
+.navbar {
+    font-family: Arial, Helvetica, sans-serif;
+}
+  
+.navbar a {
+float: left;
+font-size: 16px;
+color: rgb(73, 73, 73);
+text-align: center;
+text-decoration: none;
+}
+
+.dropbtn {
+background-color: rgba(255, 255, 255, 0);
+color: rgb(77, 77, 77);
+padding: 16px;
+font-size: 16px;
+border: none;
+}
+
+.dropdown {
+position: relative;
+display: inline-block;
+}
+
+.dropdown-content {
+display: none;
+position: absolute;
+background-color: #f1f1f1;
+min-width: 160px;
+box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+z-index: 1;
+}
+
+.dropdown-content a {
+    width: 100%;
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-content a:hover {background-color: rgb(151, 144, 144);}
+
+.dropdown:hover .dropdown-content {display: block;}
+
+.dropdown:hover .dropbtn {background-color: rgba(199, 199, 199, 0.616);}
+
+.show {
+display: block;
+}
+
+.editbtn{
+    background-color: rgba(255, 255, 255, 0); 
+    border: none;
 }
