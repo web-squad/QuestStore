@@ -17,7 +17,7 @@ header {
     padding-bottom: 10px;
 }
 #main-nav a {
-    color:#84868a;
+    color:#7a7676;
 }
 #main-nav a:hover {
     color: #ed7b7b;
@@ -30,7 +30,6 @@ header {
     justify-content: space-between;
     align-items: center;
     font-size: 0.9em;
-    font-weight: bold;
     text-transform: uppercase;
     margin-top: 5%;
     margin-right: 5%;
@@ -53,7 +52,7 @@ header {
 #content {
     display: flex;
     margin: 0% 5%;
-    color: #535455;
+    color: #7a7676;
 }
 footer {
     background-color: #7f8183;
@@ -89,7 +88,7 @@ th, td {
 }
 .table-top {
     font-weight: bold;
-    background-color:#e0e0e0;
+    background-color:rgba(230, 194, 179, 0.452);
     color: #535455;  
 }
 .table-summary {
