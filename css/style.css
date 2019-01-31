@@ -20,10 +20,10 @@ header {
     color:#7a7676;
 }
 #main-nav a:hover {
-    color: #ffffff;
+    color: #75caec;
 }
 #main-nav .active {
-    color: #ffffff;
+    color: #75caec;
 }
 #main-nav {
     display: flex;
@@ -71,6 +71,7 @@ footer {
     align-items: center;
     justify-content: center;
 }
+
 ul#autors {
     list-style-type: none;
     margin-left: 20px;
@@ -86,11 +87,26 @@ th, td {
     text-align: left;
     border-top: 0.5px solid grey;
 }
+.td-center{
+    text-align: center;
+}
+.table-top {
+    font-weight: bold;
+    background-color:lightblue;
+    opacity: 0.5;
+    color: black;
+    
+}
+.table-title {
+    color: black;
+}
+
 .table-top {
     font-weight: bold;
     background-color:rgba(230, 194, 179, 0.452);
     color: #535455;  
 }
+
 .table-summary {
     font-size: 1.5em;
 }
@@ -211,7 +227,6 @@ th, td {
     }
 }
 
-
 /* Css Andrzeja*/
 table {
     border-collapse: collapse;
@@ -240,6 +255,26 @@ tr:hover {background-color: rgba(221, 221, 221, 0.37)}
     width: 100%;
     text-align: center;
     padding: 60px;
+}
+
+.navbar {
+    /* font-family: Arial, Helvetica, sans-serif; */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.9em;
+    text-transform: uppercase;
+    margin-top: 5%;
+    margin-right: 5%;
+    width: 60%;
+}
+  
+.navbar a {
+float: left;
+font-size: 16px;
+color: rgb(73, 73, 73);
+text-align: center;
+text-decoration: none;
 }
 
 .dropbtn {
@@ -286,7 +321,6 @@ display: block;
     background-color: rgba(255, 255, 255, 0); 
     border: none;
 }
-
 .return-option{
     display: flex;
     flex-direction: row;
@@ -311,7 +345,14 @@ display: block;
     border-radius: 4px;
     resize: vertical;
   }
-  
+  input[type=password], select, textarea {
+    background-color: #ffffffab;
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    resize: vertical;
+  }
   label {
     padding: 12px 12px 12px 0;
     display: inline-block;
