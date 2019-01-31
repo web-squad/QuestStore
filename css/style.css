@@ -96,35 +96,26 @@ th, td {
 }
 #profile-content {
     display: flex;
-    justify-content: space-around;
+    flex-direction: column;
     margin: 0% 5%;
     color: #535455;  
-}
-#profile-picture {
-    width: 30%;
-    padding: 2%;
-}
-#profile-picture img {
-    width: 100%;
-    height: auto;
 }
 #profile {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    margin-top: 3%;
+    margin-bottom: 3%;
     width: 40%;
-}
-#profile p {
-    display: flex;
-    flex-direction: column;
 }
 .info-type {
     font-size: 1em;
-    font-weight: bold;
+    text-transform: uppercase;
 }
 .profile-info {
     padding: 3%;
-    font-size: 1.5em;
+    font-size: 1.2em;
+    
 }
 
 
