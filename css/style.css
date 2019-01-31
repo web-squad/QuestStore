@@ -26,10 +26,10 @@ header {
     color:#7a7676;
 }
 #main-nav a:hover {
-    color: #75caec;
+    color: #ed7b7b;
 }
 #main-nav .active {
-    color: #75caec;
+    color: #ed7b7b;
 }
 #main-nav {
     display: flex;
@@ -93,7 +93,7 @@ th, td {
     text-align: left;
     border-top: 0.5px solid grey;
 }
-.td-center{
+/*.td-center{
     text-align: center;
 }
 .table-top {
@@ -105,7 +105,7 @@ th, td {
 }
 .table-title {
     color: black;
-}
+}*/
 
 .table-top {
     font-weight: bold;
@@ -137,7 +137,6 @@ th, td {
 .profile-info {
     padding: 3%;
     font-size: 1.2em;
-    
 }
 .buy-button {
     cursor: pointer;
@@ -268,7 +267,7 @@ button.login:hover {
 }
 
 /* Css Andrzeja*/
-table {
+/*table {
     border-collapse: collapse;
     width: 100%;
 }
@@ -281,13 +280,9 @@ th, td {
     padding: 8px;
     text-align: left;
     border-bottom: 1px solid #ddd;
-}
+}*/
 
 tr:hover {background-color: rgba(221, 221, 221, 0.37)}
-
-.table-summary {
-    font-size: 1.5em;
-}
 
 .welcomePageScreen{
     font-family: Courier;
@@ -298,7 +293,6 @@ tr:hover {background-color: rgba(221, 221, 221, 0.37)}
 }
 
 .navbar {
-    /* font-family: Arial, Helvetica, sans-serif; */
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -310,24 +304,38 @@ tr:hover {background-color: rgba(221, 221, 221, 0.37)}
 }
   
 .navbar a {
-float: left;
-font-size: 16px;
-color: rgb(73, 73, 73);
-text-align: center;
-text-decoration: none;
+    float: left;
+    font-size: 1em;
+    color: #7a7676;
+    text-align: center;
+    text-transform: uppercase;
+    font-weight: bold;
+    letter-spacing: 0.1em;
 }
 
 .dropbtn {
-background-color: rgba(255, 255, 255, 0);
-color: rgb(77, 77, 77);
-padding: 16px;
-font-size: 16px;
-border: none;
+    background-color: rgba(255, 255, 255, 0);
+    color: #7a7676;
+    border: none;
+    font-size: 1em;
+    text-transform: uppercase;
+    margin-top: 5%;
+    margin-right: 5%;
+    width: 60%;
+    letter-spacing: 0.1em;
+}
+
+.dropbtn a:hover {
+    color: #ed7b7b;
+}
+.dropbtn .active {
+    color: #ed7b7b;
 }
 
 .dropdown {
 position: relative;
 display: inline-block;
+
 }
 
 .dropdown-content {
@@ -373,10 +381,6 @@ display: block;
     width: 100%;
 }
 
-* {
-    box-sizing: border-box;
-  }
-  
   input[type=text], select, textarea {
     background-color: #ffffffab;
     width: 100%;
@@ -401,17 +405,19 @@ display: block;
   }
   
   input[type=submit] {
-    background-color: #4CAF50;
-    color: rgb(255, 255, 255);
-    padding: 12px 20px;
+    background-color: #ed7b7b;
+    color: white;
+    padding: 1%;
+    margin: 1%;
     border: none;
-    border-radius: 4px;
     cursor: pointer;
-    float: right;
+  }
+  .row {
+      text-align: center;
   }
   
   input[type=submit]:hover {
-    background-color: #45a049;
+    opacity: 0.5;
   }
   
   .container {
