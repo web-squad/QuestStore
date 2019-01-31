@@ -9,104 +9,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Quest Store</title>
 </head>
-
 <body>
-<style>
 
-/* div {
-    width: 90%;
-    /* display: flex; */
-    /* flex-wrap: wrap; */
-    /* justify-content: flex-start; */
- /* }  */ 
-/* .div {
-    width: 90%;
-} */
-
-.displayStoreContent {
-    width: 90%;
-
-    /* top: 100px;
-    display: flex; */
-    /* flex-wrap: wrap; */
-    /* align-items: center; */
-}
-
-.itemCategory {
-    /* position: absolute; */
-    /* top: -20px; */
-    
-}
-
-.basicItems {
-    
-    display: flex;
-    /* justify-content: space-around; */
-    flex-wrap: wrap;
-    /* justify-content: flex-start; */
-    /* position: absolute; */
-    /* top: 100px; */
-    right: 0;
-    
-}
-
-.magicItems {
-    display: flex;
-    flex-wrap: wrap;
-    /* justify-content: flex-start; */
-    /* position: absolute; */
-    /* top: 250px; */
-    right: 0;
-}
-
-.itemText {
-    position: relative;
-    top: 0px;
-    right: -50px;
-}
-
-.itemImage {
-    background-image: url("item.png");
-    background-size: 60%;
-    background-repeat: no-repeat;
-}
-
-
-.item { 
-    border: 1px solid rgb(209, 17, 17);
-    padding: 15px;
-    width:250px;
-    margin: 5px;
-    background-image: url("item.png");
-    min-height: 7em;
-    background-size: 20%;
-    background-repeat: no-repeat;
-}
-
-.item .tiptext {
-  visibility: hidden;
-  width: 120px;
-  background-color: rgb(255, 255, 255);
-  color: rgb(0, 0, 0);
-  text-align: center;
-  border-radius: 6px;
-  padding: 2px 0;
-  /* Position the text: */
-  position: absolute;
-  z-index: 1;
-  top: 100px;
-}
-
-
-.item:hover .tiptext {
-    visibility: visible;
-}
-
-
-</style>
 <header>
     <div id="logo">
-        <a href="student.html"><img src="img/logo3.png" alt="logo"></a>
+        <a href="student.html"><img src="img/logo6.png" alt="logo"></a>
     </div>
 
     <div id="main-nav">
@@ -118,65 +25,88 @@
 
 </header>
 
-
-<p>
     <div class="displayStoreContent"> 
-        
-        
-        <div class="basicItems"> 
-        <div class="itemCategory">Basic items: </div>
-        <div class="item" onclick='alert("You bought this item");'> <div class="itemText">Combat training <br>50 cc </div><span class="tiptext"> Click to buy</span> </div>
-        <div class="item" onclick='alert("You bought this item");'> <div class="itemText">Sanctuary <br>300 cc</div> </div>
-        <div class="item" onclick='alert("You bought this item");'> <div class="itemText">Time Travel<br>500 cc</div></div>
+        <div id="contener">
+                <div id="heading">
+                    <h1>Store</h1>
+                </div>
+                <div id="content" style="overflow-x:auto;">
+                    <table> 
+                        <tr class="table-top">
+                            <th class="table-title">Basic items</th>
+                            <th class="table-title">Description</th>
+                            <th class="table-title">Price</th>
+                        </tr>
+                        <tr>
+                            <td><div class="item" onclick='alert("You bought this item");'>Combat training</div> </td>
+                            <td>Private mentoring</td>
+                            <td>50 cc</td>
+                        </tr>
+                        <tr> 
+                            <td><div class="item" onclick='alert("You bought this item");'>Sanctuary</div></td>
+                            <td>You can spend a day in home office</td>
+                            <td>300 cc</td>
+                        </tr>
+                        <tr>
+                            <td><div class="item" onclick='alert("You bought this item");'>Time Travel</div></td>
+                            <td>Extend SI week assignment deadline by one day</td>
+                            <td>500 cc</td>
+                        </tr>
+                        <tr class="table-top">
+                            <th class="table-title">Magic items</th>
+                            <th class="table-title">Description</th>
+                            <th class="table-title">Price</th>
+                        </tr>
+                        <tr>
+                            <td><div class="item" onclick='alert("You bought this item");'>Circle of Sorcery</div></td>
+                            <td>60 min workshop by a mentor(s) of the chosen topic</td>
+                            <td>1000 cc</td>
+                        </tr>
+                        <tr>
+                            <td><div class="item" onclick='alert("You bought this item");'>Summon Code Elemental</div></td>
+                            <td>mentor joins a students' team for a one hour</td>
+                            <td>1000 cc</td>
+                        </tr>
+                        <tr>
+                            <td><div class="item" onclick='alert("You bought this item");'>Tome of knowledge</div></td>
+                            <td>Extra material for the current topic</td>
+                            <td>500 cc</td>
+                        </tr>
+                        <tr>
+                            <td><div class="item" onclick='alert("You bought this item");'>Transform mentors</div></td>
+                            <td>All mentors should dress up as pirates (or just funny) for the day</td>
+                            <td>5000 cc</td>
+                        </tr>
+                        <tr>
+                            <td><div class="item" onclick='alert("You bought this item");'>Teleport</div></td>
+                            <td>The whole course goes to an off-school program instead for a day</td>
+                            <td>30000 cc</td>
+                        </tr>
+                    </table>
+
+            </div>
         </div>
-        
-        
-        <div class="magicItems"> 
-        <div class="itemCategory">Magic items: </div>
-        <div class="item" onclick='alert("You bought this item");'> <div class="itemText">Circle of Sorcery<br> 1000 cc</div></div>
-        <div class="item" onclick='alert("You bought this item");'> <div class="itemText">Summon Code Elemental <br>1000 cc </div></div>
-        <div class="item" onclick='alert("You bought this item");'> <div class="itemText">Tome of knowledge<br> 500 cc </div></div>
-        <div class="item" onclick='alert("You bought this item");'> <div class="itemText">Transform mentors<br> 5000 cc </div></div>
-        <div class="item" onclick='alert("You bought this item");'> <div class="itemText">Teleport<br> 30000 cc </div></div>
-        </div>
-
-        <!-- <h1> Items in store</h1>
-        <table> 
-            <tr class="table-top">
-                <th class="table-title">Basic items</th>
-                <th class="table-title">Name </th>
-                <th class="table-title">Price </th>
-            </tr>
-            <tr>
-                <td> <div class="item" onclick='alert("You bought this item");'> <span class="tiptext"> Click to buy</span> </div ></td>
-                <td> dsfsdfdsf</td>
-                <td> fdsfdsfdsf</td>
-            </tr>
-            <tr> 
-                <td>fdfdfdfdf </td>
-                <td> dfsfdsfdsf </td>
-            </tr>
-        </table> -->
-
-    </div>
-</p>
-
-<script>
-</script>
 
 <footer>
-    <div class="footer-el">
-        <p>© Quest Store 2019</p>
-    </div>
-    <div class="footer-el">
-        <p>Created by:</p>
-        <ul id="autors">
-          <li>Ewelina Jaworska</li>
-          <li>Konrad Suseł</li>
-          <li>Kamil Olsza</li>
-          <li>Andrzej Rzeszut</li>
-        </ul> 
-    </div>
-</footer>
+        <div id="footer-cont">
+            <div>
+                <p>© Quest Store 2019</p>
+            </div>
+            <div id="footer-logo">
+                <img src="img/whitering60.png">
+            </div>
+            <div>
+                <p>Created by:</p>
+                <ul id="autors">
+                    <li>Ewelina Jaworska</li>
+                    <li>Konrad Suseł</li>
+                    <li>Kamil Olsza</li>
+                    <li>Andrzej Rzeszut</li>
+                </ul>
+            </div>
+
+        </div>
+
+    </footer>
 </body>
 </html>
