@@ -81,7 +81,7 @@ a:hover {
 }
 footer {
     display: flex;
-    align-items: baseline;
+    /* align-items: baseline; */
     position: absolute;
     right: 0;
     bottom: 0;
