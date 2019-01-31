@@ -1,12 +1,6 @@
-let name = document.forms["inputs"]["name"].value;
-let surname = document.forms["inputs"]["surname"].value;
-let studentClass = document.forms["inputs"]["studentClass"].value;
-let birthDate = document.forms["inputs"]["birthDate"].value;
-let studyBegan = document.forms["inputs"]["studyBegan"].value;
-let email = document.forms["inputs"]["mail"].value;
+
 
 function validateForm() {
-
   let name = document.forms["inputs"]["name"].value;
   let surname = document.forms["inputs"]["surname"].value;
   let studentClass = document.forms["inputs"]["studentClass"].value;
@@ -26,20 +20,22 @@ function validateForm() {
   if(name != "" || surname != "" || email != "" || studentClass != "" || birthDate != "" || studyBegan != ""){
     document.getElementById("btSubmit").removeAttribute("disabled");
   }
-
 }
 
    
   function DoOnSubmit(){
+    let name = document.forms["inputs"]["name"].value;
+    let surname = document.forms["inputs"]["surname"].value;
+    let studentClass = document.forms["inputs"]["studentClass"].value;
+    let birthDate = document.forms["inputs"]["birthDate"].value;
+    let studyBegan = document.forms["inputs"]["studyBegan"].value;
+    let email = document.forms["inputs"]["mail"].value;
     if(name == "" || surname == "" || email == "" || studentClass == "" || birthDate == "" || studyBegan == ""){
       window.alert("All fields must be filled out.");
       return false;
     }
     else{
       window.alert("All informations has been sent");
-      document.getElementById("name").value = "";
-      document.getElementById("email").value = "";
-      document.getElementById("btSubmit").value = "";
       return true;
     }
   }
