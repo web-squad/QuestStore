@@ -15,19 +15,39 @@
 
     <header>
         <div id="logo">
-            <a href="student.html"><img src="img/logo3.png" alt="logo"></a>
+            <a href="student.html"><img src="img/logo6.png" alt="logo"></a>
         </div>
 
-        <div id="main-nav">
-            <a href="admin.html">Mentors</a>
-            <a href="#">Classes</a>
-            <a href="#">Logout</a>       
-        </div>
+        <div id="main-nav" >
+            <div class="dropdown">
+                <button class="dropbtn">Mentors</button>
+                <div class="dropdown-content">
+                <a href="admin.html">Mentors List</a>
+                <a href="addNewMentor.html">Add Mentor</a>
+                </div>
+            </div>
+            <div class="dropdown">
+                <button class="dropbtn">Classes</button>
+                <div class="dropdown-content">
+                    <a href="#">Add Class</a>
+                    <a href="#">Edit Class</a>
+                </div>
+            </div>
+                <div class="dropdown">
+                <button class="dropbtn">
+                <a href="#">Logout</a> 
+                </button> 
+                </div>
+            </div>    
+        </div> 
 
     </header>
 
-    <div id="content">
+    <div id="contener">
+        <div id="heading">
             <h1>Mentors</h1>
+        </div>
+        <div>
             <table>
                 <tr class="table-top">
                     <th class="table-title">Lp.</th>
@@ -61,21 +81,31 @@
                     <td class="td-center">II</td>
                     <td class="td-center">3</td>
                 </tr>
+            </table>
+        </div>
     </div>
 
     <footer>
-        <div class="footer-el">
-            <p>© Quest Store 2019</p>
-        </div>
-        <div class="footer-el">
-            <span>Created by: </span>
-            <span> Ewelina Jaworska |</span>
-            <span> Konrad Suseł |</span>
-            <span> Kamil Olsza |</span>
-            <span> Andrzej Rzeszut</span>
-        </div>
-    </footer>
+        <div id="footer-cont">
+            <div>
+                <p>© Quest Store 2019</p>
+            </div>
+            <div id="footer-logo">
+                <img src="img/whitering60.png">
+            </div>
+            <div>
+                <p>Created by:</p>
+                <ul id="autors">
+                    <li>Ewelina Jaworska</li>
+                    <li>Konrad Suseł</li>
+                    <li>Kamil Olsza</li>
+                    <li>Andrzej Rzeszut</li>
+                </ul>
+            </div>
 
+        </div>
+
+    </footer>
 
 </body>
 </html>
