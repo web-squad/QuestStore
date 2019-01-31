@@ -79,7 +79,7 @@ ul#autors {
 table {
     border-collapse: collapse;
     width: 100%;
-    margin: 4% 0%;
+    margin: 5% 0%;
 }
 th, td {
     padding: 8px;
@@ -116,6 +116,18 @@ th, td {
     padding: 3%;
     font-size: 1.2em;
     
+}
+.quest-icon {
+    background-image: url("../img/logogrey30.png");
+    margin: auto;
+    width: 30px;
+    height: 30px; 
+}
+.quest-icon:hover {
+    background-image: url("../img/logocolor30.png"); 
+}
+#mark {
+    text-align: center;
 }
 
 
