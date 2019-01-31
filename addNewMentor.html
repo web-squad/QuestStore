@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Add new student</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/style.css" />
+    <script src="js/addNewStudent.js"></script>
+</head>
+<body>
+
+    <header>
+        <div id="logo">
+            <a href="student.html"><img src="img/logo6.png" alt="logo"></a>
+        </div>
+        <div class="navbar">
+            <a href="admin.html" style="float: right">Back</a>      
+        </div>
+    </header>
+
+    <div class="container">
+        <form name="inputs"action="/action_page.php">
+            <div class="row">
+                <div class="col-25">
+                <label for="name">Name</label>
+                </div>
+                <div class="col-75">
+                <input type="text" id="name" name="firstname" placeholder="Enter name">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-25">
+                <label for="surname">Surname</label>
+                </div>
+                <div class="col-75">
+                <input type="text" id="surname" name="lastname" placeholder="Enter surname">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-25">
+                <label for="studentClass">Class</label>
+                </div>
+                <div class="col-75">
+                <input type="text" id="studentClass" name="studentClass" placeholder="Enter class">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-25">
+                <label for="birthDate">Level</label>
+                </div>
+                <div class="col-75">
+                <input type="text" id="birthDate" name="birthDate" placeholder="Enter level">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-25">
+                <label for="studyBegan">Login</label>
+                </div>
+                <div class="col-75">
+                <input type="text" id="studyBegan" name="studyBegan" placeholder="Enter login">
+                </div>
+            </div>
+            <div class="row">
+                    <div class="col-25">
+                    <label for="name">Password</label>
+                    </div>
+                    <div class="col-75">
+                    <input type="password" id="password" name="password" placeholder="Enter password">
+                    </div>
+            </div>
+            <div class="row">
+                <div class="col-25">
+                <label for="mail">Enter's mail</label>
+                </div>
+                <div class="col-75">
+                <textarea id="mail" name="mail" placeholder="Enter mail"></textarea>
+                </div>
+            </div>
+            <div class="row">
+                <input id="btSubmit" type="submit" value="Add Enter" disabled />
+            </div>
+        </form>
+    </div>
+          
+    <footer>
+        <div id="footer-cont">
+            <div class="footer-el">
+                <p>© Quest Store 2019</p>
+            </div>
+            <div id="footer-logo">
+                    <img src="img/whitering60.png">
+                </div>
+            <div class="footer-el">
+                <p>Created by:</p>
+                <ul id="autors">
+                    <li>Ewelina Jaworska</li>
+                    <li>Konrad Suseł</li>
+                    <li>Kamil Olsza</li>
+                    <li>Andrzej Rzeszut</li>
+                </ul> 
+            </div>
+        </div>      
+    </footer>
+</body>
+</html>
