@@ -93,20 +93,6 @@ th, td {
     text-align: left;
     border-top: 0.5px solid grey;
 }
-/*.td-center{
-    text-align: center;
-}
-.table-top {
-    font-weight: bold;
-    background-color:lightblue;
-    opacity: 0.5;
-    color: black;
-    
-}
-.table-title {
-    color: black;
-}*/
-
 .table-top {
     font-weight: bold;
     background-color:rgba(230, 194, 179, 0.452);
@@ -242,13 +228,6 @@ button.login:hover {
         flex-direction: column;
         justify-content: center;
     }
-}
-@media screen and (max-width: 500px) {
-    #main-nav {
-        width: 100%;
-    }
-}
-@media screen and (max-width: 600px) {
     #main-nav {
         flex-direction: column;
         justify-content: center;
@@ -257,7 +236,11 @@ button.login:hover {
         margin-bottom: 10px;
     }
 }
-
+@media screen and (max-width: 500px) {
+    #main-nav {
+        width: 100%;
+    }
+}
 @media screen and (max-width: 354px) {
     #main-nav {
         flex-direction: column;
@@ -268,20 +251,6 @@ button.login:hover {
 }
 
 /* Css Andrzeja*/
-/*table {
-    border-collapse: collapse;
-    width: 100%;
-}
-
-th{
-    background-color: #f1f1f154;
-}
-
-th, td {
-    padding: 8px;
-    text-align: left;
-    border-bottom: 1px solid #ddd;
-}*/
 
 tr:hover {background-color: rgba(221, 221, 221, 0.37)}
 
@@ -413,10 +382,6 @@ display: block;
     border: none;
     cursor: pointer;
   }
-  .row {
-      text-align: center;
-  }
-  
   input[type=submit]:hover {
     opacity: 0.5;
   }
@@ -437,6 +402,9 @@ display: block;
     float: left;
     width: 60%;
     margin: 1% 5%;
+  }
+  input#btSubmit {
+      float: right;
   }
   
   /* Clear floats after the columns */
