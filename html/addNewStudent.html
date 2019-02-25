@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Add new student</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" media="screen" href="css/style.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="../css/style.css" />
     <script src="js/addNewStudent.js"></script>
 </head>
 
@@ -15,71 +15,80 @@
     <header>
         <div class="header">
             <div id="logo">
-                <a href="admin.html"><img src="img/logo6.png" alt="logo"></a>
+                <a href="html/mentorsite.html"><img src="../img/logo6.png" alt="logo"></a>
             </div>
+
             <div class="navbar">
-                <a href="admin.html" style="float: right">Back to main site</a>
+                <a href="html/mentorsite.html"></i>Back to main site</a>
             </div>
         </div>
     </header>
 
     <div class="container">
-        <form name="inputs" action="/action_page.php">
+        <form name="inputs" onchange="validateForm()" onSubmit="return DoOnSubmit();">
             <div class="row">
                 <div class="col-25">
-                    <label for="name">Name</label>
+                    <label for="name">Student's name</label>
                 </div>
                 <div class="col-75">
-                    <input type="text" id="name" name="firstname" placeholder="Enter name">
+                    <input type="text" id="name" name="firstname" placeholder="Student name..">
                 </div>
             </div>
             <div class="row">
                 <div class="col-25">
-                    <label for="surname">Surname</label>
+                    <label for="surname">Student's surname</label>
                 </div>
                 <div class="col-75">
-                    <input type="text" id="surname" name="lastname" placeholder="Enter surname">
+                    <input type="text" id="surname" name="lastname" placeholder="Student surname">
                 </div>
             </div>
             <div class="row">
                 <div class="col-25">
-                    <label for="studentClass">Class</label>
+                    <label for="studentClass">Student's class</label>
                 </div>
                 <div class="col-75">
-                    <input type="text" id="studentClass" name="studentClass" placeholder="Enter class">
+                    <input type="text" id="studentClass" name="studentClass" placeholder="Student class">
                 </div>
             </div>
             <div class="row">
                 <div class="col-25">
-                    <label for="birthDate">Level</label>
+                    <label for="birthDate">Student's birth date</label>
                 </div>
                 <div class="col-75">
-                    <input type="text" id="birthDate" name="birthDate" placeholder="Enter level">
+                    <input type="text" id="birthDate" name="birthDate" placeholder="Student birth date">
                 </div>
             </div>
             <div class="row">
                 <div class="col-25">
-                    <label for="studyBegan">Login</label>
+                    <label for="studyBegan">Student's date</label>
                 </div>
                 <div class="col-75">
-                    <input type="text" id="studyBegan" name="studyBegan" placeholder="Enter login">
+                    <input type="text" id="studyBegan" name="studyBegan" placeholder="start learning">
                 </div>
             </div>
             <div class="row">
                 <div class="col-25">
-                    <label for="name">Password</label>
+                    <label for="country">Country</label>
                 </div>
                 <div class="col-75">
-                    <input type="password" id="password" name="password" placeholder="Enter password">
+                    <select id="country" name="country">
+                        <option value="australia">Australia</option>
+                        <option value="canada">Canada</option>
+                        <option value="usa">USA</option>
+                        <option value="poland">Poland</option>
+                        <option value="england">England</option>
+                        <option value="germany">Germany</option>
+                        <option value="hungary">Hungary</option>
+                    </select>
                 </div>
             </div>
             <div class="row">
                 <div class="col-25">
-                    <label for="mail">Enter's mail</label>
+                    <label for="mail">Student's mail</label>
                 </div>
                 <div class="col-75">
-                    <textarea id="mail" name="mail" placeholder="Enter mail"></textarea>
-                    <input id="btSubmit" type="submit" value="Add Mentor" disabled />
+                    <textarea id="mail" name="mail" placeholder="Student mail.."></textarea>
+                    <input id="btSubmit" type="submit" value="Add Student" disabled />
                 </div>
             </div>
         </form>
@@ -91,7 +100,7 @@
                 <p>© Quest Store 2019</p>
             </div>
             <div id="footer-logo">
-                <img src="img/whitering60.png">
+                <img src="../img/whitering60.png">
             </div>
             <div class="footer-el">
                 <p>Created by:</p>
