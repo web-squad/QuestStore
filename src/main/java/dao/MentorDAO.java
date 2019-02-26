@@ -1,3 +1,7 @@
+package dao;
+
+import user.Mentor;
+
 import java.util.List;
 
 public interface MentorDAO {

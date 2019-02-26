@@ -1,4 +1,4 @@
-
+package user;
 
 public class Mentor extends User{
     private Class mentorClass;

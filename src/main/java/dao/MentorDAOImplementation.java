@@ -1,9 +1,13 @@
+package dao;
+
+import user.Mentor;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class MentorDAOImplementation implements MentorDAO{
+public class MentorDAOImplementation implements MentorDAO {
     private Connection c = null;
     private PreparedStatement sqlStatement = null;
     private Statement stmt = null;
