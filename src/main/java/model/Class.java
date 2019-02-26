@@ -40,11 +40,13 @@ public class Class {
         codecoolerList.add(codecooler);
     }
 
-    public Codecooler getCodecoolerById(int id) {
-        for(Codecooler codecooler : codecoolerList) {
-            if(codecooler.getId());
-        }
-    }
+//    public Codecooler getCodecoolerById(int id) {
+//        for(Codecooler codecooler : codecoolerList) {
+//            if(codecooler.getId() == id) {
+//                return codecooler;
+//            }
+//        }
+//    }
 
     public Map<Integer, Team> getTeams() {
         return teams;
@@ -55,6 +57,6 @@ public class Class {
     }
 
     public Team getTeamById(int id) {
-        teams.get(id);
+        return teams.get(id);
     }
 }

@@ -1,7 +1,5 @@
 package model;
 
-import com.sun.org.apache.bcel.internal.classfile.Code;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,13 +33,13 @@ public class Team {
         codecoolerList.add(codecooler);
     }
 
-    public Codecooler getCodecoolerById(Codecooler codecooler) {
-        for (Codecooler c : codecoolerList) {
-            if (c.getId() == codecooler.getId()) {
-                return c;
-            }
-        }
-    }
+//    public Codecooler getCodecoolerById(Codecooler codecooler) {
+//        for (Codecooler c : codecoolerList) {
+//            if (c.getId() == codecooler.getId()) {
+//                return c;
+//            }
+//        }
+//    }
 
     public int getNumOfCodecoolers() {
         return  codecoolerList.size();
