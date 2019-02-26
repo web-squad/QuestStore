@@ -21,7 +21,7 @@ public class Codecooler {
         this.earnings = 0;
     }
 
-//
+    //
 //    public List<Item> getItems() {
 //        return itemsList;
 //    }
@@ -36,5 +36,25 @@ public class Codecooler {
 
     public int getEarnings() {
         return earnings;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public String getLogin() {
+        return login;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public String getUserType() {
+        return userType;
+    }
+
+    public String getName() {
+        return name;
     }
 }
