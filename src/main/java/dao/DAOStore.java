@@ -1,6 +1,6 @@
 package dao;
 
-import Model.Item;
+import model.Item;
 
 public interface DAOStore {
     void removeItem();

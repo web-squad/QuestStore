@@ -1,5 +1,5 @@
 package dao;
-import Model.Item;
+import model.Item;
 
 
 public class StoreDaoImpl implements DAOStore {
@@ -12,6 +12,7 @@ public class StoreDaoImpl implements DAOStore {
     }
 
     public String getBasicItems() {
+        return null;
     }
 
     public String getMagicItems() {
