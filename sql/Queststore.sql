@@ -41,6 +41,7 @@ CREATE TABLE "Item" (
   "id" INTEGER,
   "name" TEXT,
   "description" TEXT,
+  "itemType" TEXT,
   "price" REAL,
   PRIMARY KEY ("id")
 );
