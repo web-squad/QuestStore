@@ -13,5 +13,8 @@ public class main {
         DAORooms roomsDao = new RoomsDaoImpl(pool);
         Room cl = roomsDao.getRoomById(1);
         System.out.println(cl.getName());
+
+        Room cl2 = roomsDao.getRoomByName("java");
+        System.out.println(cl2.getId());
     }
 }

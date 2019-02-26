@@ -42,7 +42,7 @@ public class RoomsDaoImpl implements DAORooms {
 
     public Room getRoomByName(String name) {
         try {
-            connection = connectionPool.create();
+            connection = connectionPool.takeOut();
             pst = connection.prepareStatement("SELECT * FROM room WHERE name = ?");
             pst.setString(1, name);
 

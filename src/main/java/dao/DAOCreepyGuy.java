@@ -1,6 +1,6 @@
 package dao;
 
-import user.CreepyGuy;
+import model.user.CreepyGuy;
 
 public interface DAOCreepyGuy {
 

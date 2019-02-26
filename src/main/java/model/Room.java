@@ -1,5 +1,8 @@
 package model;
 
+import model.user.Codecooler;
+import model.user.Mentor;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -25,6 +28,10 @@ public class Room {
 
     public String getName() {
         return name;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public void setMentor(Mentor mentor) {
