@@ -20,20 +20,22 @@ public class RoomsDaoImpl implements DAORooms {
         try {
             connection = connectionPool.takeOut();
             connection.setAutoCommit(false);
-
-            pst = connection.prepareStatement("SELECT * FROM Room WHERE id = ?");
+            pst = connection.prepareStatement("SELECT * FROM room WHERE id = ?");
             pst.setInt(1, id);
 
             ResultSet recordFromDatabase = pst.executeQuery();
             if (recordFromDatabase.next()) {
+
                 String name = recordFromDatabase.getString("name");
                 return new Room(name, id);
             }
             connection.commit();
         } catch (Exception e) {
             System.err.println( e.getClass().getName()+": "+ e.getMessage() );
-        } finally {
-            connectionPool.dead(connection);
+        } try {
+            connectionPool.takeIn(connection);
+        } catch (Exception e){
+            System.err.println( e.getClass().getName()+": "+ e.getMessage() );
         }
         return null;
     }
@@ -41,7 +43,7 @@ public class RoomsDaoImpl implements DAORooms {
     public Room getRoomByName(String name) {
         try {
             connection = connectionPool.create();
-            pst = connection.prepareStatement("SELECT * FROM Room WHERE name = ?");
+            pst = connection.prepareStatement("SELECT * FROM room WHERE name = ?");
             pst.setString(1, name);
 
             ResultSet recordFromDatabase = pst.executeQuery();
