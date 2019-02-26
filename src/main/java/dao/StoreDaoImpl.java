@@ -1,4 +1,7 @@
-package main.java;
+package main.java.dao;
+
+import main.java.Model.Item;
+import main.java.dao.DAOStore;
 
 public class StoreDaoImpl implements DAOStore {
     public void removeItem() {

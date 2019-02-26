@@ -1,4 +1,4 @@
-package main.java;
+package main.java.Model;
 
 public class Item {
     String name;
