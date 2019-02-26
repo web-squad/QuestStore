@@ -6,14 +6,14 @@ import java.util.List;
 import java.util.Map;
 
 public class Class {
-    String name;
-    Mentor mentor;
-    List<Codecooler> codecoolerList;
-    Map<String,Team> teams;
+    private String name;
+    private Mentor mentor;
+    private List<Codecooler> codecoolerList;
+    private Map<Integer,Team> teams;
 
     public Class() {
         codecoolerList = new ArrayList<Codecooler>();
-        teams = new HashMap<String, Team>();
+        teams = new HashMap<Integer,Team>();
     }
 
     public void setName(String name) {
@@ -46,15 +46,15 @@ public class Class {
         }
     }
 
-    public Map<String, Team> getTeams() {
+    public Map<Integer, Team> getTeams() {
         return teams;
     }
 
     public void addTeam(Team team) {
-        teams.put(Team.getName(), team);
+        teams.put(team.getId(), team);
     }
 
-    public Team getTeamByName(String name) {
-        teams.get(name);
+    public Team getTeamById(int id) {
+        teams.get(id);
     }
 }
