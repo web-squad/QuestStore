@@ -5,13 +5,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Class {
+public class Room {
     private String name;
+    private int id;
     private Mentor mentor;
     private List<Codecooler> codecoolerList;
     private Map<Integer,Team> teams;
 
-    public Class() {
+    public Room(String name, int id) {
+        this.name = name;
+        this.id = id;
         codecoolerList = new ArrayList<Codecooler>();
         teams = new HashMap<Integer,Team>();
     }
