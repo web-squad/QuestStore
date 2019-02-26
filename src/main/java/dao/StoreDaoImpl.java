@@ -1,6 +1,6 @@
-package main.java.dao;
+package dao;
+import Model.Item;
 
-import main.java.Model.Item;
 
 public class StoreDaoImpl implements DAOStore {
     public void removeItem() {
@@ -12,7 +12,6 @@ public class StoreDaoImpl implements DAOStore {
     }
 
     public String getBasicItems() {
-        return null;
     }
 
     public String getMagicItems() {

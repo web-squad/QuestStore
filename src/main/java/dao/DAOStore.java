@@ -1,6 +1,6 @@
-package main.java.dao;
+package dao;
 
-import main.java.Model.Item;
+import Model.Item;
 
 public interface DAOStore {
     void removeItem();
