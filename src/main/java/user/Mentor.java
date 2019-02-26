@@ -9,7 +9,7 @@ public class Mentor extends User{
         this.email = email;
     }
 
-    private String getEmail(){
+    public String getEmail(){
         return email;
     }
 }
