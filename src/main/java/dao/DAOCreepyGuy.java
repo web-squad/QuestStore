@@ -4,5 +4,5 @@ import user.CreepyGuy;
 
 public interface DAOCreepyGuy {
 
-    public CreepyGuy getCreepyGuy();
+    CreepyGuy getCreepyGuy(String login);
 }
