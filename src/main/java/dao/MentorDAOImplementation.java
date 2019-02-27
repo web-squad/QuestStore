@@ -1,5 +1,6 @@
 package dao;
 
+import dao.interfaces.MentorDAO;
 import model.user.Mentor;
 
 import java.sql.*;

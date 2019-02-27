@@ -1,4 +1,5 @@
 package dao;
+import dao.interfaces.DAOStore;
 import model.Item;
 
 
@@ -36,6 +37,10 @@ public class StoreDaoImpl implements DAOStore {
     }
 
     public void addMagicItem() {
+
+    }
+
+    public static class UserDaoImpl {
 
     }
 }
