@@ -16,10 +16,20 @@ public class Room {
     private Map<Integer,Team> teams;
 
     public Room(String name, int id) {
-        this.name = name;
         this.id = id;
+        this.name = name;
         codecoolerList = new ArrayList<Codecooler>();
         teams = new HashMap<Integer,Team>();
+    }
+
+    public Room(String name) {
+        this.name = name;
+        codecoolerList = new ArrayList<Codecooler>();
+        teams = new HashMap<Integer,Team>();
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public void setName(String name) {

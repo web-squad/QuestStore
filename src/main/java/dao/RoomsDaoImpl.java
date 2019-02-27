@@ -64,4 +64,19 @@ public class RoomsDaoImpl implements DAORooms {
         }
         return null;
     }
+
+    public void addRoom(String name) {
+        try {
+            connection = connectionPool.takeOut();
+            pst = connection.prepareStatement("INSERT INTO rooms (name)" +
+                    " VALUES (?)");
+            pst.setString(1, name);
+            pst.executeUpdate();
+            connection.commit();
+        } catch (Exception e) {
+            System.err.println( e.getClass().getName()+": "+ e.getMessage() );
+        } finally {
+            connectionPool.takeIn(connection);
+        }
+    }
 }

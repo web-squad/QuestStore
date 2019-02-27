@@ -1,6 +1,10 @@
 package model.user;
 
-public class Codecooler {
+import model.Item;
+
+import java.util.List;
+
+public class Codecooler extends User {
 
     private int id;
     private String login;
@@ -8,10 +12,11 @@ public class Codecooler {
     private String userType;
     private String name;
     private String surname;
-    //private List<Item> itemList;
+    private List<Item> itemsList;
     private int earnings;
 
     public Codecooler(int id, String login, String password, String userType, String name, String surname) {
+        super(id, login, password, userType, name, surname);
         this.id = id;
         this.login = login;
         this.password = password;
@@ -21,14 +26,14 @@ public class Codecooler {
         this.earnings = 0;
     }
 
-    //
-//    public List<Item> getItems() {
-//        return itemsList;
-//    }
 
-//    public void addItem(Item item) {
-//        itemsList.add(item);
-//    }
+    public List<Item> getItems() {
+        return itemsList;
+    }
+
+    public void addItem(Item item) {
+        itemsList.add(item);
+    }
 
     public void addEarnings(int cc) {
         earnings += cc;
