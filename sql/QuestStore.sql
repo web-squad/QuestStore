@@ -1,6 +1,6 @@
 CREATE TABLE "codecooler" (
   "id" SERIAL,
-  "classid" INTEGER,
+  "roomid" INTEGER,
   "teamid" INTEGER,
   "userid" INTEGER,
   "earnings" INTEGER,
@@ -10,7 +10,7 @@ CREATE TABLE "codecooler" (
 CREATE TABLE "mentor" (
   "id" SERIAL,
   "email" TEXT,
-  "classid" INTEGER,
+  "roomid" INTEGER,
   "userid" INTEGER,
   PRIMARY KEY ("id")
 );
