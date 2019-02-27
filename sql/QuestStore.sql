@@ -19,7 +19,7 @@ CREATE TABLE "user" (
   "id" INTEGER,
   "login" TEXT,
   "password" TEXT,
-  "userType" TEXT,
+  "usertype" TEXT,
   "name" TEXT,
   "surname" TEXT,
   PRIMARY KEY ("id")
@@ -41,7 +41,7 @@ CREATE TABLE "item" (
   "id" INTEGER,
   "name" TEXT,
   "description" TEXT,
-  "itemType" TEXT,
+  "itemtype" TEXT,
   "price" REAL,
   PRIMARY KEY ("id")
 );
