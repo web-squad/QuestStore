@@ -1,5 +1,7 @@
 package dao;
 
+import dao.connectionPool.JDBCConnectionPool;
+import dao.interfaces.DAORooms;
 import model.Room;
 
 import java.sql.Connection;
@@ -20,6 +22,7 @@ public class RoomsDaoImpl implements DAORooms {
         try {
             connection = connectionPool.takeOut();
             connection.setAutoCommit(false);
+
             pst = connection.prepareStatement("SELECT * FROM room WHERE id = ?");
             pst.setInt(1, id);
 
@@ -31,11 +34,13 @@ public class RoomsDaoImpl implements DAORooms {
             }
             connection.commit();
         } catch (Exception e) {
-            System.err.println( e.getClass().getName()+": "+ e.getMessage() );
-        } try {
-            connectionPool.takeIn(connection);
-        } catch (Exception e){
-            System.err.println( e.getClass().getName()+": "+ e.getMessage() );
+            System.err.println(e.getClass().getName() + ": " + e.getMessage());
+        } finally {
+            try {
+                connectionPool.takeIn(connection);
+            } catch (Exception e){
+                System.err.println( e.getClass().getName()+": "+ e.getMessage() );
+            }
         }
         return null;
     }

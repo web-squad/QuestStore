@@ -1,4 +1,4 @@
-package dao;
+package dao.connectionPool;
 
 import java.util.Enumeration;
 import java.util.Hashtable;

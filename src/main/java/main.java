@@ -1,13 +1,12 @@
 import dao.RoomsDaoImpl;
-import dao.DAORooms;
-import dao.JDBCConnectionPool;
+import dao.interfaces.DAORooms;
+import dao.connectionPool.JDBCConnectionPool;
 import model.Room;
 
 public class main {
     public static void main(String[] args) {
 
-        JDBCConnectionPool pool = new JDBCConnectionPool(
-                "org.postgresql.Driver", "jdbc:postgresql://localhost:5432/QuestStore",
+        JDBCConnectionPool pool = new JDBCConnectionPool("jdbc:postgresql://localhost:5432/QuestStore",
                 "admin", "123");
 
         DAORooms roomsDao = new RoomsDaoImpl(pool);

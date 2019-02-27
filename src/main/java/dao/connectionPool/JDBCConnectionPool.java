@@ -1,4 +1,4 @@
-package dao;
+package dao.connectionPool;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -9,15 +9,9 @@ public class JDBCConnectionPool extends ObjectPool<Connection> {
     private String usr;
     private String pwd;
 
-    public JDBCConnectionPool(String driver, String dsn, String usr, String pwd)
+    public JDBCConnectionPool(String dsn, String usr, String pwd)
     {
         super();
-        try {
-            Class.forName(driver).newInstance();
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
         this.dsn = dsn;
         this.usr = usr;
         this.pwd = pwd;
