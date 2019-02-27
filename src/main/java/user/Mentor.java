@@ -12,4 +12,9 @@ public class Mentor extends User{
     public String getEmail(){
         return email;
     }
+
+    public String toString(){
+        return null;
+    }
+
 }
