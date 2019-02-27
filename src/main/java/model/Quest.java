@@ -4,7 +4,13 @@ public class Quest {
 
     private String name;
     private String description;
-    private int earnings;
+    private int coins;
+
+    public Quest(String name, String description, int coins) {
+        this.name = name;
+        this.description = description;
+        this.coins = coins;
+    }
 
 
     public String getName() {
@@ -15,15 +21,15 @@ public class Quest {
         return description;
     }
 
-    public int getEarnings() {
-        return earnings;
+    public int getCoins() {
+        return coins;
     }
 
-    public void setEarnings(int earnings) {
-        this.earnings = earnings;
+    public void setEarnings(int coins) {
+        this.coins = coins;
     }
 
     public String toString() {
-        return "Name: " + getName() + "\nDescription: " + getDescription() + "\nEarnings: " + getEarnings();
+        return "Name: " + getName() + "\nDescription: " + getDescription() + "\nCoins: " + getCoins();
     }
 }

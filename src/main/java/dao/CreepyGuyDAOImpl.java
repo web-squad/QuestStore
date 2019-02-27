@@ -6,7 +6,9 @@ import java.sql.*;
 
 public class CreepyGuyDAOImpl implements DAOCreepyGuy {
 
-//    private Connection conn = null;
+    //    This class should be removed!
+
+    //    private Connection conn = null;
 //    private PreparedStatement preStatement;
     private JDBCConnectionPool connectionPool;
     private Connection connection = null;

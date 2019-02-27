@@ -2,11 +2,13 @@ package dao;
 
 import model.Quest;
 
+import java.util.List;
+
 public interface DAOQuests {
 
-    Quest getBasicQuest();
-    Quest getExtraQuest();
-    //    Quest getQuest();
+    List<Quest> getBasicQuests();
+    List<Quest> getExtraQuests();
+    //    Quest getQuests();
     void addQuest();
     void addBasicQuest();
     void addExtraQuest();
