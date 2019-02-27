@@ -22,10 +22,8 @@ public class StoreDaoImpl implements DAOStore {
     public void removeItem(Item item) {
         try {
             openDatabaseConnection();
-            pst = connection.prepareStatement("DELETE FROM item WHERE name LIKE ? and description LIKE ? AND itemtype LIKE ?;");
-            pst.setString(1, item.getName());
-            pst.setString(2, item.getDescription());
-            pst.setString(3, item.getItemType());
+            pst = connection.prepareStatement("DELETE FROM item WHERE id = ?;");
+            pst.setInt(1, item.getId());
             pst.executeUpdate();
         } catch (SQLException e) {
             System.err.println(e.getClass().getName() + ": " + e.getMessage());
