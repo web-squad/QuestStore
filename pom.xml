@@ -7,7 +7,7 @@
     <groupId>groupId</groupId>
     <artifactId>QuestStore</artifactId>
     <version>1.0-SNAPSHOT</version>
-
+    
     <properties>
         <maven.compiler.source>1.6</maven.compiler.source>
         <maven.compiler.target>1.6</maven.compiler.target>
@@ -20,7 +20,4 @@
             <version>42.1.4</version>
         </dependency>
     </dependencies>
-
-
-    
 </project>

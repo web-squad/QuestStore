@@ -3,25 +3,25 @@ package dao;
 import java.util.Enumeration;
 import java.util.Hashtable;
 
-abstract class ObjectPool<T> {
-    long deadTime;
+public abstract class ObjectPool<T> {
+    private long deadTime;
 
-    Hashtable<T, Long> lock, unlock;
+    private Hashtable<T, Long> lock, unlock;
 
-    ObjectPool()
+    public ObjectPool()
     {
         deadTime = 50000; // 50 seconds 
         lock = new Hashtable<T, Long>();
         unlock = new Hashtable<T, Long>();
     }
 
-    abstract T create();
+    public abstract T create();
 
-    abstract boolean validate(T o);
+    public abstract boolean validate(T o);
 
-    abstract void dead(T o);
+    public abstract void dead(T o);
 
-    synchronized T takeOut()
+    public synchronized T takeOut()
     {
         long now = System.currentTimeMillis();
         T t;
@@ -55,7 +55,7 @@ abstract class ObjectPool<T> {
         lock.put(t, now);
         return (t);
     }
-    synchronized void takeIn(T t)
+    public synchronized void takeIn(T t)
     {
         lock.remove(t);
         unlock.put(t, System.currentTimeMillis());
