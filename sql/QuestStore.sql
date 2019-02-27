@@ -1,4 +1,4 @@
-CREATE TABLE "Codecooler" (
+CREATE TABLE "codecooler" (
   "id" INTEGER,
   "classid" INTEGER,
   "teamid" INTEGER,
@@ -7,7 +7,7 @@ CREATE TABLE "Codecooler" (
   PRIMARY KEY ("id")
 );
 
-CREATE TABLE "Mentor" (
+CREATE TABLE "mentor" (
   "id" INTEGER,
   "email" TEXT,
   "classid" INTEGER,
@@ -15,7 +15,7 @@ CREATE TABLE "Mentor" (
   PRIMARY KEY ("id")
 );
 
-CREATE TABLE "User" (
+CREATE TABLE "user" (
   "id" INTEGER,
   "login" TEXT,
   "password" TEXT,
@@ -25,34 +25,35 @@ CREATE TABLE "User" (
   PRIMARY KEY ("id")
 );
 
-CREATE TABLE "Class" (
+CREATE TABLE "room" (
   "id" INTEGER,
   "name" TEXT,
   PRIMARY KEY ("id")
 );
 
-CREATE TABLE "Team" (
+CREATE TABLE "team" (
   "id" INTEGER,
   "name" TEXT,
   PRIMARY KEY ("id")
 );
 
-CREATE TABLE "Item" (
+CREATE TABLE "item" (
   "id" INTEGER,
   "name" TEXT,
   "description" TEXT,
+  "itemType" TEXT,
   "price" REAL,
   PRIMARY KEY ("id")
 );
 
-CREATE TABLE "Quest" (
+CREATE TABLE "quest" (
   "id" INTEGER,
   "name" TEXT,
   "description" TEXT,
   PRIMARY KEY ("id")
 );
 
-CREATE TABLE "Completed_quests" (
+CREATE TABLE "completed_quests" (
   "id" INTEGER,
   "codecoolerid" INTEGER,
   "questid" INTEGER,
@@ -60,7 +61,7 @@ CREATE TABLE "Completed_quests" (
   PRIMARY KEY ("id")
 );
 
-CREATE TABLE "Bought_items" (
+CREATE TABLE "bought_items" (
   "id" INTEGER,
   "coodecoolerid" INTEGER,
   "itemid" INTEGER,

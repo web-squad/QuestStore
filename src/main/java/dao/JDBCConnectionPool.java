@@ -9,7 +9,7 @@ public class JDBCConnectionPool extends ObjectPool<Connection> {
     private String usr;
     private String pwd;
 
-    JDBCConnectionPool(String driver, String dsn, String usr, String pwd)
+    public JDBCConnectionPool(String driver, String dsn, String usr, String pwd)
     {
         super();
         try {
@@ -23,7 +23,7 @@ public class JDBCConnectionPool extends ObjectPool<Connection> {
         this.pwd = pwd;
     }
 
-    Connection create()
+    public Connection create()
     {
         try {
             return (DriverManager.getConnection(dsn, usr, pwd));
@@ -34,20 +34,20 @@ public class JDBCConnectionPool extends ObjectPool<Connection> {
         }
     }
 
-    void dead(Connection o)
+    public void dead(Connection o)
     {
         try {
-            ((Connection)o).close();
+            o.close();
         }
         catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    boolean validate(Connection o)
+    public boolean validate(Connection o)
     {
         try {
-            return (!((Connection)o).isClosed());
+            return (!o.isClosed());
         }
         catch (SQLException e) {
             e.printStackTrace();
