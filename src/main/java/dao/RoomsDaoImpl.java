@@ -3,7 +3,6 @@ package dao;
 import dao.connectionPool.JDBCConnectionPool;
 import dao.interfaces.DAORooms;
 import model.Room;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -63,20 +62,5 @@ public class RoomsDaoImpl implements DAORooms {
             connectionPool.takeIn(connection);
         }
         return null;
-    }
-
-    public void addRoom(String name) {
-        try {
-            connection = connectionPool.takeOut();
-            pst = connection.prepareStatement("INSERT INTO rooms (name)" +
-                    " VALUES (?)");
-            pst.setString(1, name);
-            pst.executeUpdate();
-            connection.commit();
-        } catch (Exception e) {
-            System.err.println( e.getClass().getName()+": "+ e.getMessage() );
-        } finally {
-            connectionPool.takeIn(connection);
-        }
     }
 }
