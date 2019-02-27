@@ -9,8 +9,8 @@ public interface DAOStore {
     List<Item> getItems();
     List<Item> getBasicItems();
     List<Item> getMagicItems();
-    Item getItem(String name);
-    void updateItem(String name);
+    Item getItemById(int id);
+    void updateItem(Item item);
     void addItem(Item item);
     void addBasicItem();
     void addMagicItem();
