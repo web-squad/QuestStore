@@ -14,4 +14,5 @@ public interface DAOStore {
     void addItem(Item item);
     void addBasicItem();
     void addMagicItem();
+    List<Item> getCodecoolerItems();
 }

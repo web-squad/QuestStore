@@ -157,6 +157,10 @@ public class StoreDaoImpl implements DAOStore {
         }
     }
 
+    public List<Item> getCodecoolerItems() {
+        return null;
+    }
+
 
     public void addBasicItem() {
         throw new UnsupportedOperationException("this method is not implemented, and probably will never be :-) ");
