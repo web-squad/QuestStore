@@ -22,14 +22,18 @@ public class StoreDaoImpl implements DAOStore {
     public void removeItem(Item item) {
         try {
             openDatabaseConnection();
-            pst = connection.prepareStatement("DELETE FROM item WHERE id = ?;");
-            pst.setInt(1, item.getId());
-            pst.executeUpdate();
+            deleteItemFromDatabase(item);
         } catch (SQLException e) {
             System.err.println(e.getClass().getName() + ": " + e.getMessage());
         } finally {
             closeDatabaseConnection();
         }
+    }
+
+    private void deleteItemFromDatabase(Item item) throws SQLException {
+        pst = connection.prepareStatement("DELETE FROM item WHERE id = ?;");
+        pst.setInt(1, item.getId());
+        pst.executeUpdate();
     }
 
     private void openDatabaseConnection() {
@@ -40,10 +44,7 @@ public class StoreDaoImpl implements DAOStore {
     public List<Item> getItems() {
         try {
             openDatabaseConnection();
-            pst = connection.prepareStatement("SELECT * FROM item ;");
-            ResultSet recordFromDatabase = pst.executeQuery();
-            List items = createListOfItems(recordFromDatabase);
-            return items;
+            return getListOfItemsFromDatabase("SELECT * FROM item;");
         } catch (SQLException e) {
             System.err.println(e.getClass().getName() + ": " + e.getMessage());
         } finally {
@@ -52,13 +53,16 @@ public class StoreDaoImpl implements DAOStore {
         }
     }
 
+    private List<Item> getListOfItemsFromDatabase(String sqlStatement) throws SQLException {
+        pst = connection.prepareStatement(sqlStatement);
+        ResultSet recordFromDatabase = pst.executeQuery();
+        return createListOfItems(recordFromDatabase);
+    }
+
     public List<Item> getBasicItems() {
         try {
             openDatabaseConnection();
-            pst = connection.prepareStatement("SELECT * FROM item WHERE itemtype LIKE 'basic';");
-            ResultSet recordFromDatabase = pst.executeQuery();
-            List items = createListOfItems(recordFromDatabase);
-            return items;
+            return getListOfItemsFromDatabase("SELECT * FROM item WHERE itemtype LIKE 'basic';");
         } catch (SQLException e) {
             System.err.println(e.getClass().getName() + ": " + e.getMessage());
         } finally {
@@ -75,7 +79,7 @@ public class StoreDaoImpl implements DAOStore {
         }
     }
 
-    private List createListOfItems(ResultSet recordFromDatabase) throws SQLException {
+    private List<Item> createListOfItems(ResultSet recordFromDatabase) throws SQLException {
         List items = new ArrayList<Item>();
         while (recordFromDatabase.next()) {
             int id = recordFromDatabase.getInt("id");
@@ -93,10 +97,7 @@ public class StoreDaoImpl implements DAOStore {
     public List<Item> getMagicItems() {
         try {
             openDatabaseConnection();
-            pst = connection.prepareStatement("SELECT * FROM item WHERE itemtype LIKE 'magic';");
-            ResultSet recordFromDatabase = pst.executeQuery();
-            List items = createListOfItems(recordFromDatabase);
-            return items;
+            return getListOfItemsFromDatabase("SELECT * FROM item WHERE itemtype LIKE 'magic';");
         } catch (SQLException e) {
             System.err.println(e.getClass().getName() + ": " + e.getMessage());
         } finally {
@@ -109,17 +110,7 @@ public class StoreDaoImpl implements DAOStore {
     public Item getItemById(int id) {
         try {
             openDatabaseConnection();
-            pst = connection.prepareStatement("SELECT * FROM item WHERE id LIKE ?;");
-            pst.setInt(1, id);
-            ResultSet recordFromDatabase = pst.executeQuery();
-            if (recordFromDatabase.next()) {
-                String name = recordFromDatabase.getString("name");
-                String description = recordFromDatabase.getString("description");
-                int price = recordFromDatabase.getInt("price");
-                String itemtype = recordFromDatabase.getString("itemtype");
-                Item item = new Item(id, name, description, price, itemtype);
-                return item;
-            }
+            return getItemFromDatabase(id);
         } catch (SQLException e) {
             System.err.println(e.getClass().getName() + ": " + e.getMessage());
         } finally {
@@ -128,17 +119,24 @@ public class StoreDaoImpl implements DAOStore {
         }
     }
 
+    private Item getItemFromDatabase(int id) throws SQLException {
+        pst = connection.prepareStatement("SELECT * FROM item WHERE id LIKE ?;");
+        pst.setInt(1, id);
+        ResultSet recordFromDatabase = pst.executeQuery();
+        if (recordFromDatabase.next()) {
+            String name = recordFromDatabase.getString("name");
+            String description = recordFromDatabase.getString("description");
+            int price = recordFromDatabase.getInt("price");
+            String itemtype = recordFromDatabase.getString("itemtype");
+            return new Item(id, name, description, price, itemtype);
+        }
+        return null;
+    }
+
 
     public void updateItem(Item item) {
         try {
-            int id = item.getId();
-            openDatabaseConnection();
-            pst = connection.prepareStatement("UPDATE item SET name=?, description=?, price=?, itemtype=? WHERE id='"+id+"'");
-            pst.setString(1, item.getName());
-            pst.setString(2, item.getDescription());
-            pst.setInt(3, item.getPrice());
-            pst.setString(4, item.getItemType());
-            pst.executeUpdate();
+            updateItemInDatabase(item);
         } catch (SQLException e) {
             System.err.println(e.getClass().getName() + ": " + e.getMessage());
         } finally {
@@ -146,17 +144,22 @@ public class StoreDaoImpl implements DAOStore {
         }
     }
 
+    private void updateItemInDatabase(Item item) throws SQLException {
+        int id = item.getId();
+        openDatabaseConnection();
+        pst = connection.prepareStatement("UPDATE item SET name=?, description=?, price=?, itemtype=? WHERE id='"+id+"'");
+        pst.setString(1, item.getName());
+        pst.setString(2, item.getDescription());
+        pst.setInt(3, item.getPrice());
+        pst.setString(4, item.getItemType());
+        pst.executeUpdate();
+    }
 
 
     public void addItem(Item item) {
         try {
             openDatabaseConnection();
-            pst = connection.prepareStatement("INSERT INTO item (name, description, price, itemtype) VALUES (?, ?, ?, ?);");
-            pst.setString(1, item.getName());
-            pst.setString(2, item.getDescription());
-            pst.setInt(3, item.getPrice());
-            pst.setString(4, item.getItemType());
-            pst.executeUpdate();
+            addItemToDatabase(item);
         } catch (SQLException e) {
             System.err.println(e.getClass().getName() + ": " + e.getMessage());
         } finally {
@@ -164,10 +167,18 @@ public class StoreDaoImpl implements DAOStore {
         }
     }
 
-    public List<Item> getCodecoolerItems() {
-        return null;
+    private void addItemToDatabase(Item item) throws SQLException {
+        pst = connection.prepareStatement("INSERT INTO item (name, description, price, itemtype) VALUES (?, ?, ?, ?);");
+        pst.setString(1, item.getName());
+        pst.setString(2, item.getDescription());
+        pst.setInt(3, item.getPrice());
+        pst.setString(4, item.getItemType());
+        pst.executeUpdate();
     }
 
+    public List<Item> getCodecoolerItems() {
+        throw new UnsupportedOperationException("method not implemented yet");
+    }
 
     public void addBasicItem() {
         throw new UnsupportedOperationException("this method is not implemented, and probably will never be :-) ");

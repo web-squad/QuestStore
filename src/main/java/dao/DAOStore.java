@@ -7,7 +7,7 @@ import java.util.List;
 public interface DAOStore {
     void removeItem(Item item);
     List<Item> getItems();
-    List<Item> getBasicItems();
+    List getBasicItems();
     List<Item> getMagicItems();
     Item getItemById(int id);
     void updateItem(Item item);
