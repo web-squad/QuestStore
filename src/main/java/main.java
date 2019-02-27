@@ -1,6 +1,5 @@
-import dao.RoomsDaoImpl;
-import dao.DAORooms;
-import dao.JDBCConnectionPool;
+import dao.*;
+import model.Mentor;
 import model.Room;
 
 public class main {
@@ -10,8 +9,16 @@ public class main {
                 "org.postgresql.Driver", "jdbc:postgresql://localhost:5432/QuestStore",
                 "admin", "123");
 
-        DAORooms roomsDao = new RoomsDaoImpl(pool);
-        Room cl = roomsDao.getRoomById(1);
-        System.out.println(cl.getName());
+//        DAORooms roomsDao = new RoomsDaoImpl(pool);
+//        Room cl = roomsDao.getRoomById(1);
+//        System.out.println(cl.getName());
+
+//        MentorDAO mentorDao = new MentorDAOImplementation(pool);
+//        Mentor mentor = mentorDao.getMentorByLogin("kondzio");
+//        System.out.println(mentor);
+
+        MentorDAO mentorDao = new MentorDAOImplementation(pool);
+        Mentor mentor = new Mentor(2, "kamilus", "5555", "mentor", "Kamil", "Anno", "kamil@gmail.com");
+        mentorDao.addNewMentor(mentor);
     }
 }

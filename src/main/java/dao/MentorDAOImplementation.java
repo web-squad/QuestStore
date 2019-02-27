@@ -23,7 +23,7 @@ public class MentorDAOImplementation implements MentorDAO {
         try{
             connection = connectionPool.takeOut();
             connection.setAutoCommit(false);
-            sqlStatement = connection.prepareStatement("SELECT * FROM User u INNER JOIN Mentor m ON u.id=m.userid;");
+            sqlStatement = connection.prepareStatement("SELECT * FROM Users u INNER JOIN Mentor m ON u.id=m.userid;");
             connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/QuestStore", "admin", "123");
             ResultSet recordsFromDB = sqlStatement.executeQuery();
 
@@ -39,8 +39,8 @@ public class MentorDAOImplementation implements MentorDAO {
                 mentors.add(new Mentor(mentorId, login, password, userType, name, surname, email));
             }
             connection.commit();
-        } catch (Exception e) {
-            System.err.println( e.getClass().getName()+": "+ e.getMessage() );
+        } catch (SQLException sqlError) {
+            System.err.println( sqlError.getClass().getName()+": "+ sqlError.getMessage() );
         } try {
             connectionPool.takeIn(connection);
         } catch (Exception e){
@@ -53,7 +53,7 @@ public class MentorDAOImplementation implements MentorDAO {
         try {
             connection = connectionPool.takeOut();
             connection.setAutoCommit(false);
-            sqlStatement = connection.prepareStatement("SELECT * FROM public.\"user\" u INNER JOIN mentor m ON u.id = m.userid WHERE u.login LIKE ?;");
+            sqlStatement = connection.prepareStatement("SELECT * FROM users u INNER JOIN mentor m ON u.id = m.userid WHERE u.login LIKE ?;");
             sqlStatement.setString(1,login);
             ResultSet recordFromDB = sqlStatement.executeQuery();
 
@@ -73,8 +73,8 @@ public class MentorDAOImplementation implements MentorDAO {
             connection.commit();
             return null;
 
-        } catch (Exception e) {
-            System.err.println( e.getClass().getName()+": "+ e.getMessage() );
+        } catch (SQLException sqlError) {
+            System.err.println( sqlError.getClass().getName()+": "+ sqlError.getMessage() );
         } try {
             connectionPool.takeIn(connection);
         } catch (Exception e){
@@ -85,6 +85,7 @@ public class MentorDAOImplementation implements MentorDAO {
 
 
     public void addNewMentor(Mentor mentor) {
+        int id = mentor.getId();
         String login = mentor.getLogin();
         String password = mentor.getPassword();
         String userType = mentor.getUserType();
@@ -95,24 +96,47 @@ public class MentorDAOImplementation implements MentorDAO {
         try {
             connection = connectionPool.takeOut();
             connection.setAutoCommit(false);
-            sqlStatement = connection.prepareStatement("INSERT INTO User (login, password, userType, name, surname, email) VALUES (?, ?, ?, ?, ?, ?)");
+            sqlStatement = connection.prepareStatement("INSERT INTO users (id, login, password, userType, name, surname) VALUES (?, ?, ?, ?, ?, ?)");
 
-            sqlStatement.setString(1, login);
-            sqlStatement.setString(2, password);
-            sqlStatement.setString(3, userType);
-            sqlStatement.setString(4, name);
-            sqlStatement.setString(4, surname);
-            sqlStatement.setString(5, email);
+            sqlStatement.setInt(1, id);
+            sqlStatement.setString(2, login);
+            sqlStatement.setString(3, password);
+            sqlStatement.setString(4, userType);
+            sqlStatement.setString(5, name);
+            sqlStatement.setString(6, surname);
+
+            sqlStatement.executeUpdate();
+
+            sqlStatement = connection.prepareStatement("INSERT INTO mentor (id, email, classid, userid) VALUES (?, ?, ?, ?)");
+            sqlStatement.setInt(1, id);
+            sqlStatement.setString(2, email);
+            sqlStatement.setInt(3, 0);
+            sqlStatement.setInt(4, id);
 
             sqlStatement.executeUpdate();
             System.out.println("Mentor " + name + " addes succesfully!");
             connection.commit();
-        } catch (Exception e) {
-            System.err.println( e.getClass().getName()+": "+ e.getMessage() );
+        } catch (SQLException sqlError) {
+            System.err.println( sqlError.getClass().getName()+": "+ sqlError.getMessage() );
         } try {
             connectionPool.takeIn(connection);
         } catch (Exception e){
             System.err.println( e.getClass().getName()+": "+ e.getMessage() );
+        }
+    }
+
+    public void updateMentorData(String dataToChange, String changedData, String login){
+        try{
+            connection = connectionPool.takeOut();
+            connection.setAutoCommit(false);
+            sqlStatement = connection.prepareStatement("UPDATE users SET ? = ? WHERE login LIKE ?");
+
+            sqlStatement.setString(1, dataToChange);
+            sqlStatement.setString(2, changedData);
+            sqlStatement.setString(3, login);
+
+        } catch (SQLException sqlError){
+            System.err.println(sqlError.getClass().getName() + ": " + sqlError.getMessage());
         }
     }
 
