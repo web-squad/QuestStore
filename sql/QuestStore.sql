@@ -15,7 +15,7 @@ CREATE TABLE "mentor" (
   PRIMARY KEY ("id")
 );
 
-CREATE TABLE "user" (
+CREATE TABLE "users" (
   "id" INTEGER,
   "login" TEXT,
   "password" TEXT,
