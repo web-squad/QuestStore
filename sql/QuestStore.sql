@@ -25,7 +25,7 @@ CREATE TABLE "user" (
   PRIMARY KEY ("id")
 );
 
-CREATE TABLE "class" (
+CREATE TABLE "room" (
   "id" INTEGER,
   "name" TEXT,
   PRIMARY KEY ("id")
