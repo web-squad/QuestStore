@@ -127,30 +127,6 @@ public class UserDaoImpl implements UserDAO {
         return null;
     }
 
-    public Codecooler getCodecoolerById(int id) {
-        try {
-            connection = connectionPool.takeOut();
-            pst = connection.prepareStatement("SELECT * FROM users WHERE  id = ?");
-            pst.setInt(1, id);
-            ResultSet recordFromDatabase = pst.executeQuery();
-            if (recordFromDatabase.next()) {
-                String login = recordFromDatabase.getString("login");
-                String password = recordFromDatabase.getString("password");
-                String name = recordFromDatabase.getString("name");
-                String surname = recordFromDatabase.getString("surname");
-                return new Codecooler(id,login,password,"codecooler",name, surname);
-            }
-            connection.commit();
-        } catch(SQLException se) {
-            se.printStackTrace();
-        } catch(Exception e) {
-            e.printStackTrace();
-        } finally {
-            connectionPool.takeIn(connection);
-        }
-        return null;
-    }
-
     public Mentor getMentorById(int id) {
         try {
             connection = connectionPool.takeOut();

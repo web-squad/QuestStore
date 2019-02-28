@@ -14,8 +14,6 @@ public interface UserDAO {
 
     Mentor getMentorByLoginAndPassword(String login, String password);
 
-    Codecooler getCodecoolerById(int id);
-
     Mentor getMentorById(int id);
 
     void addUser(User user);
