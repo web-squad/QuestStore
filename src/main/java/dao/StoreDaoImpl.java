@@ -201,4 +201,23 @@ public class StoreDaoImpl implements DAOStore {
         }
         return null;
     }
+
+
+    public void handleBuyingItem(Codecooler codecooler, Item item) {
+        try {
+            openDatabaseConnection();
+            addBought_ItemToDatabase(codecooler, item);
+        } catch (SQLException e) {
+            System.err.println(e.getClass().getName() + ": " + e.getMessage());
+        } finally {
+            closeDatabaseConnection();
+        }
+    }
+
+    private void addBought_ItemToDatabase(Codecooler codecooler, Item item) throws SQLException {
+        pst = connection.prepareStatement("INSERT INTO bought_items (userid, itemid) VALUES (?, ?)");
+        pst.setInt(1, codecooler.getId());
+        pst.setInt(2, item.getId());
+        pst.executeUpdate();
+    }
 }

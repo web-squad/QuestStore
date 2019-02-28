@@ -14,4 +14,5 @@ public interface DAOStore {
     void updateItem(Item item);
     void addItem(Item item);
     List<Item> getCodecoolerItems(Codecooler codecooler);
+    void handleBuyingItem(Codecooler codecooler, Item item);
 }
