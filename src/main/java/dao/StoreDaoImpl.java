@@ -1,4 +1,5 @@
 package dao;
+import dao.connectionPool.JDBCConnectionPool;
 import dao.interfaces.DAOStore;
 import model.Item;
 
