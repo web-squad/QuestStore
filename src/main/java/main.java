@@ -1,8 +1,9 @@
+import dao.*;
 import dao.RoomsDaoImpl;
 import dao.connectionPool.JDBCConnectionPool;
-import dao.*;
 import dao.interfaces.DAOQuests;
-import dao.interfaces.RoomsDAO;
+import dao.interfaces.*;
+import model.Mentor;
 import model.Quest;
 import model.Room;
 import model.user.Codecooler;
@@ -27,6 +28,40 @@ public class main {
 //        Room cl = roomsDao.getRoomById(1);
 //        System.out.println(cl.getName());
 
+//        MentorDAO mentorDao = new MentorDAOImplementation(pool);
+//        Mentor mentor = mentorDao.getMentorByLogin("kondzio");
+//        System.out.println(mentor);
+
+        MentorDAO mentorDao = new MentorDAOImplementation(pool);
+        Mentor mentor = new Mentor(2, "aegaaeg", "555345", "mentor", "Ada", "Kol", "qwfqf@gmail.com");
+        mentorDao.addNewMentor(mentor);
+
+//        MentorDAO mentorDao = new MentorDAOImplementation(pool);
+//        mentorDao.updateMentorData("login", "kamilus", "kamalanitus");
+//        DAOQuests questsDao = new QuestsDaoImpl(pool);
+//        List<Quest> basicQuests = new ArrayList<Quest>();
+//        basicQuests = questsDao.getBasicQuests();
+
+
+//        MentorDAO mentorDao = new MentorDAOImplementation(pool);
+//        Mentor mentor = mentorDao.getMentorByLogin("kondzio");
+//        System.out.println(mentor);
+
+//        MentorDAO mentorDao = new MentorDAOImplementation(pool);
+//        Mentor mentor = new Mentor(2, "kamilus", "5555", "mentor", "Kamil", "Anno", "kamil@gmail.com");
+//        mentorDao.addNewMentor(mentor);
+
+//         MentorDAO mentorDao = new MentorDAOImplementation(pool);
+//         mentorDao.updateMentorData("name", "Adam", "kondzio");
+
+        DAOQuests questsDao = new QuestsDaoImpl(pool);
+        List<Quest> basicQuests = new ArrayList<Quest>();
+        basicQuests = questsDao.getBasicQuests();
+
+        for (Quest bQuest: basicQuests) {
+            System.out.println(bQuest.toString());
+            System.out.println();
+        }
 //        DAOQuests questsDao = new QuestsDaoImpl(pool);
 //        List<Quest> basicQuests = new ArrayList<Quest>();
 //        basicQuests = questsDao.getBasicQuests();
@@ -35,6 +70,7 @@ public class main {
 //            System.out.println(bQuest.toString());
 //            System.out.println();
 //        }
+        
         UserDaoImpl userDao = new UserDaoImpl(pool);
         Codecooler codecooler = new Codecooler("user20", "123", "codecooler", "Gi", "Kowalska");
         userDao.addUser(codecooler);
