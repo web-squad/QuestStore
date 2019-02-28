@@ -97,7 +97,7 @@ public class MentorDAOImplementation implements MentorDAO {
             sqlStatement = connection.prepareStatement("INSERT INTO mentor (email, roomid, userid) VALUES (?, ?, ?)");
             sqlStatement.setString(1, email);
             sqlStatement.setInt(2, 0);
-            sqlStatement.setInt(3, );
+            sqlStatement.setInt(3, 2 );
 
             sqlStatement.executeUpdate();
             System.out.println("Mentor " + name + " addes succesfully!");

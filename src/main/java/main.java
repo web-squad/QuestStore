@@ -3,9 +3,9 @@ import dao.RoomsDaoImpl;
 import dao.connectionPool.JDBCConnectionPool;
 import dao.interfaces.DAOQuests;
 import dao.interfaces.*;
+import model.Mentor;
 import model.Quest;
 import model.Room;
-import model.user.Mentor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,6 +37,22 @@ public class main {
 
 //        MentorDAO mentorDao = new MentorDAOImplementation(pool);
 //        mentorDao.updateMentorData("login", "kamilus", "kamalanitus");
+//        DAOQuests questsDao = new QuestsDaoImpl(pool);
+//        List<Quest> basicQuests = new ArrayList<Quest>();
+//        basicQuests = questsDao.getBasicQuests();
+
+
+//        MentorDAO mentorDao = new MentorDAOImplementation(pool);
+//        Mentor mentor = mentorDao.getMentorByLogin("kondzio");
+//        System.out.println(mentor);
+
+//        MentorDAO mentorDao = new MentorDAOImplementation(pool);
+//        Mentor mentor = new Mentor(2, "kamilus", "5555", "mentor", "Kamil", "Anno", "kamil@gmail.com");
+//        mentorDao.addNewMentor(mentor);
+
+//         MentorDAO mentorDao = new MentorDAOImplementation(pool);
+//         mentorDao.updateMentorData("name", "Adam", "kondzio");
+
         DAOQuests questsDao = new QuestsDaoImpl(pool);
         List<Quest> basicQuests = new ArrayList<Quest>();
         basicQuests = questsDao.getBasicQuests();
