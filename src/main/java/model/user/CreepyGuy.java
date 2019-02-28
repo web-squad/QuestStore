@@ -1,4 +1,4 @@
-package user;
+package model.user;
 
 public class CreepyGuy extends User {
     public CreepyGuy(int id, String login, String password, String userType, String name, String surname) {

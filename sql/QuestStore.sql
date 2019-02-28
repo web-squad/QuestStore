@@ -1,6 +1,6 @@
 CREATE TABLE "codecooler" (
-  "id" INTEGER,
-  "classid" INTEGER,
+  "id" SERIAL,
+  "roomid" INTEGER,
   "teamid" INTEGER,
   "userid" INTEGER,
   "earnings" INTEGER,
@@ -8,53 +8,55 @@ CREATE TABLE "codecooler" (
 );
 
 CREATE TABLE "mentor" (
-  "id" INTEGER,
+  "id" SERIAL,
   "email" TEXT,
-  "classid" INTEGER,
-  "usrlogin" TEXT,
+  "roomid" INTEGER,
+  "userid" INTEGER,
   PRIMARY KEY ("id")
 );
 
-CREATE TABLE "user" (
-  "id" INTEGER,
+CREATE TABLE "users" (
+  "id" SERIAL,
   "login" TEXT,
   "password" TEXT,
-  "userType" TEXT,
+  "usertype" TEXT,
   "name" TEXT,
   "surname" TEXT,
   PRIMARY KEY ("id")
 );
 
-CREATE TABLE "class" (
-  "id" INTEGER,
+CREATE TABLE "room" (
+  "id" SERIAL,
   "name" TEXT,
   PRIMARY KEY ("id")
 );
 
 CREATE TABLE "team" (
-  "id" INTEGER,
+  "id" SERIAL,
   "name" TEXT,
   PRIMARY KEY ("id")
 );
 
 CREATE TABLE "item" (
-  "id" INTEGER,
+  "id" SERIAL,
   "name" TEXT,
   "description" TEXT,
-  "itemType" TEXT,
+  "itemtype" TEXT,
   "price" REAL,
   PRIMARY KEY ("id")
 );
 
 CREATE TABLE "quest" (
-  "id" INTEGER,
+  "id" SERIAL,
   "name" TEXT,
   "description" TEXT,
+  "coins" INTEGER,
+  "quest_type" TEXT,
   PRIMARY KEY ("id")
 );
 
 CREATE TABLE "completed_quests" (
-  "id" INTEGER,
+  "id" SERIAL,
   "codecoolerid" INTEGER,
   "questid" INTEGER,
   "date" DATE,
@@ -62,8 +64,8 @@ CREATE TABLE "completed_quests" (
 );
 
 CREATE TABLE "bought_items" (
-  "id" INTEGER,
-  "coodecoolerid" INTEGER,
+  "id" SERIAL,
+  "codecoolerid" INTEGER,
   "itemid" INTEGER,
   PRIMARY KEY ("id")
 );

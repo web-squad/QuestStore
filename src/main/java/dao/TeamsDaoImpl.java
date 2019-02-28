@@ -1,36 +1,37 @@
 package dao;
 
 import dao.connectionPool.JDBCConnectionPool;
-import dao.interfaces.RoomsDAO;
-import model.Room;
+import dao.interfaces.TeamsDAO;
+import model.Team;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class RoomsDaoImpl implements RoomsDAO {
+public class TeamsDaoImpl implements TeamsDAO {
 
     private JDBCConnectionPool connectionPool;
     private Connection connection = null;
     private PreparedStatement pst = null;
 
-    public RoomsDaoImpl(JDBCConnectionPool connectionPool) {
+    public TeamsDaoImpl(JDBCConnectionPool connectionPool) {
         this.connectionPool = connectionPool;
     }
 
-    public Room getRoomById(int id) {
+    public Team getTeamById(int id) {
         try {
             connection = connectionPool.takeOut();
             connection.setAutoCommit(false);
 
-            pst = connection.prepareStatement("SELECT * FROM room WHERE id = ?");
+            pst = connection.prepareStatement("SELECT * FROM team WHERE id = ?");
             pst.setInt(1, id);
 
             ResultSet recordFromDatabase = pst.executeQuery();
             if (recordFromDatabase.next()) {
 
                 String name = recordFromDatabase.getString("name");
-                return new Room(name, id);
+                return new Team(id, name);
             }
             connection.commit();
         } catch(SQLException se) {
@@ -43,20 +44,20 @@ public class RoomsDaoImpl implements RoomsDAO {
         return null;
     }
 
-    public Room getRoomByName(String name) {
+    public Team getTeamByName(String name) {
         try {
             connection = connectionPool.takeOut();
-            pst = connection.prepareStatement("SELECT * FROM room WHERE name = ?");
+            pst = connection.prepareStatement("SELECT * FROM team WHERE name = ?");
             pst.setString(1, name);
 
             ResultSet recordFromDatabase = pst.executeQuery();
             if (recordFromDatabase.next()) {
                 int id = recordFromDatabase.getInt("id");
-                return new Room(name, id);
+                return new Team(id, name);
             }
             connection.commit();
         } catch(SQLException se) {
-            se.printStackTrace();
+                se.printStackTrace();
         } catch(Exception e) {
             e.printStackTrace();
         } finally {
@@ -65,12 +66,12 @@ public class RoomsDaoImpl implements RoomsDAO {
         return null;
     }
 
-    public void addRoom(Room room) {
+    public void addTeam(Team team) {
         try {
             connection = connectionPool.takeOut();
-            int id = room.getId();
-            String name = room.getName();
-            pst = connection.prepareStatement("INSERT INTO room VALUES(?, ?)");
+            int id = team.getId();
+            String name = team.getName();
+            pst = connection.prepareStatement("INSERT INTO team VALUES(?, ?)");
             pst.setInt(1, id);
             pst.setString(2, name);
             pst.executeUpdate();
@@ -84,12 +85,12 @@ public class RoomsDaoImpl implements RoomsDAO {
         }
     }
 
-    public void updateRoom(Room room) {
+    public void updateTeam(Team team) {
         try {
             connection = connectionPool.takeOut();
-            int id = room.getId();
-            String name = room.getName();
-            pst = connection.prepareStatement("UPDATE room SET id = ?, name = ?");
+            int id = team.getId();
+            String name = team.getName();
+            pst = connection.prepareStatement("UPDATE team SET id = ?, name = ?");
             pst.setInt(1, id);
             pst.setString(2, name);
             pst.executeUpdate();

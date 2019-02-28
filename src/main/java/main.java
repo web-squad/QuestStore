@@ -1,13 +1,27 @@
 import dao.*;
-import model.Mentor;
+import dao.RoomsDaoImpl;
+import dao.connectionPool.JDBCConnectionPool;
+import dao.interfaces.DAOQuests;
+import dao.interfaces.*;
+import model.Quest;
 import model.Room;
+import model.user.Mentor;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class main {
     public static void main(String[] args) {
 
-        JDBCConnectionPool pool = new JDBCConnectionPool(
-                "org.postgresql.Driver", "jdbc:postgresql://localhost:5432/QuestStore",
+        JDBCConnectionPool pool = new JDBCConnectionPool("jdbc:postgresql://localhost:5432/QuestStore",
                 "admin", "123");
+
+        RoomsDAO roomsDao = new RoomsDaoImpl(pool);
+        Room cl = roomsDao.getRoomById(1);
+        System.out.println(cl.getName());
+
+        Room cl2 = roomsDao.getRoomByName("java");
+        System.out.println(cl2.getId());
 
 //        DAORooms roomsDao = new RoomsDaoImpl(pool);
 //        Room cl = roomsDao.getRoomById(1);
@@ -23,5 +37,13 @@ public class main {
 
 //        MentorDAO mentorDao = new MentorDAOImplementation(pool);
 //        mentorDao.updateMentorData("login", "kamilus", "kamalanitus");
+        DAOQuests questsDao = new QuestsDaoImpl(pool);
+        List<Quest> basicQuests = new ArrayList<Quest>();
+        basicQuests = questsDao.getBasicQuests();
+
+        for (Quest bQuest: basicQuests) {
+            System.out.println(bQuest.toString());
+            System.out.println();
+        }
     }
 }

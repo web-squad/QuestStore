@@ -1,7 +1,8 @@
 package dao;
 
-import model.Mentor;
-
+import dao.connectionPool.JDBCConnectionPool;
+import dao.interfaces.MentorDAO;
+import model.user.Mentor;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -44,7 +45,7 @@ public class MentorDAOImplementation implements MentorDAO {
         } try {
             connectionPool.takeIn(connection);
         } catch (Exception e){
-            System.err.println( e.getClass().getName()+": "+ e.getMessage() );
+            System.err.println( e.getClass().getName()+": "+ e.getMessage());
         }
         return mentors;
     }
@@ -110,55 +111,6 @@ public class MentorDAOImplementation implements MentorDAO {
         }
     }
 
-//    public void updateMentorData(String dataToChange, String changedData, String login){
-//        try{
-//            connection = connectionPool.takeOut();
-//            connection.setAutoCommit(false);
-//            if (dataToChange == "name" || dataToChange == "surname" || dataToChange == "password" || dataToChange == "usertype") {
-//                sqlStatement = connection.prepareStatement("UPDATE users SET " + dataToChange + "=? WHERE login LIKE ?;");
-//
-//                sqlStatement.setString(1, changedData);
-//                sqlStatement.setString(2, login);
-//
-//                sqlStatement.executeUpdate();
-//                connection.commit();
-//            }
-//
-//            else if (dataToChange == "email") {
-//                sqlStatement = connection.prepareStatement("UPDATE mentor SET " + dataToChange + " = ? WHERE usrlogin LIKE ?;");
-//
-//                sqlStatement.setString(1, changedData);
-//                sqlStatement.setString(2, login);
-//
-//                sqlStatement.executeUpdate();
-//                connection.commit();
-//            } else if (dataToChange == "login"){
-//                sqlStatement = connection.prepareStatement("UPDATE users SET " + dataToChange + " = ? WHERE login LIKE ?");
-//
-//                sqlStatement.setString(1, changedData);
-//                sqlStatement.setString(2, login);
-//                sqlStatement.executeUpdate();
-//
-//                sqlStatement = connection.prepareStatement("UPDATE mentor SET usrlogin = ? WHERE usrlogin LIKE ?");
-//                sqlStatement.setString(1,changedData);
-//                sqlStatement.setString(2,login);
-//                sqlStatement.executeUpdate();
-//
-//                connection.commit();
-//
-//            }
-//            else{
-//                System.out.println("You want to change data that doesn't exist");
-//            }
-//            System.out.println("PASSED");
-//        } catch (SQLException sqlError){
-//            System.err.println(sqlError.getClass().getName() + ": " + sqlError.getMessage());
-//        } try {
-//            connectionPool.takeIn(connection);
-//        } catch (Exception e){
-//            System.err.println( e.getClass().getName()+": "+ e.getMessage() );
-//        }
-//    }
 
     public void updateMentorData (String dataToChange, String changedData, String login){
         try{

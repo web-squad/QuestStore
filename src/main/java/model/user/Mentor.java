@@ -1,8 +1,9 @@
-package model;
+package model.user;
 
-import model.user.User;
+import model.Room;
 
-public class Mentor extends User {
+public class Mentor extends User{
+    private Room mentorClass;
     private String email;
 
     public Mentor(int id, String login, String password, String userType, String name, String surname, String email){
@@ -18,13 +19,7 @@ public class Mentor extends User {
         return email;
     }
 
-    public String toString(){
-        String mentorInfo = "Login: " + this.getLogin() + "\nPassword: " + this.getPassword() + "\nUser type: " + this.getUserType() + "\nName: " + this.getName() + "\nSurname: " + this.getSurname() + "\nEmail: " + this.getEmail();
-        return mentorInfo;
-    }
-
-    public void setEmail(String email){
+    public void setEmail(String email) {
         this.email = email;
     }
-
 }

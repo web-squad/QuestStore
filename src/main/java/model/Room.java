@@ -1,5 +1,8 @@
 package model;
 
+import model.user.Codecooler;
+import model.user.Mentor;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -13,10 +16,28 @@ public class Room {
     private Map<Integer,Team> teams;
 
     public Room(String name, int id) {
-        this.name = name;
         this.id = id;
+        this.name = name;
         codecoolerList = new ArrayList<Codecooler>();
         teams = new HashMap<Integer,Team>();
+    }
+
+    public Room(String name) {
+        this.name = name;
+        codecoolerList = new ArrayList<Codecooler>();
+        teams = new HashMap<Integer,Team>();
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setTeams(Map<Integer, Team> teams) {
+        this.teams = teams;
+    }
+
+    public void setCodecoolerList(List<Codecooler> codecoolerList) {
+        this.codecoolerList = codecoolerList;
     }
 
     public void setName(String name) {
@@ -25,6 +46,10 @@ public class Room {
 
     public String getName() {
         return name;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public void setMentor(Mentor mentor) {
@@ -42,14 +67,6 @@ public class Room {
     public void addCodecooler(Codecooler codecooler) {
         codecoolerList.add(codecooler);
     }
-
-//    public Codecooler getCodecoolerById(int id) {
-//        for(Codecooler codecooler : codecoolerList) {
-//            if(codecooler.getId() == id) {
-//                return codecooler;
-//            }
-//        }
-//    }
 
     public Map<Integer, Team> getTeams() {
         return teams;

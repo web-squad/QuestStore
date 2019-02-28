@@ -1,5 +1,7 @@
 package model;
 
+import model.user.Codecooler;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,15 +35,19 @@ public class Team {
         codecoolerList.add(codecooler);
     }
 
-//    public Codecooler getCodecoolerById(Codecooler codecooler) {
-//        for (Codecooler c : codecoolerList) {
-//            if (c.getId() == codecooler.getId()) {
-//                return c;
-//            }
-//        }
-//    }
-
     public int getNumOfCodecoolers() {
         return  codecoolerList.size();
+    }
+
+    public void save() {
+
+    }
+
+    public void update() {
+
+    }
+
+    public void delete() {
+
     }
 }
