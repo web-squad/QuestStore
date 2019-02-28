@@ -10,7 +10,6 @@ public interface DAOQuests {
     List<Quest> getExtraQuests();
     //    Quest getQuests();
     void addQuest(Quest quest);
-    void addBasicQuest(Quest quest);
-    void addExtraQuest(Quest quest);
     void updateQuest(Quest quest);
+    void getCodecoolerQuests();
 }

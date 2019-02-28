@@ -41,6 +41,6 @@ public class Quest {
     }
 
     public String toString() {
-        return "id: "+ getId()+ "Name: " + getName() + "\nDescription: " + getDescription() + "\nCoins: " + getCoins() + "\nQuest type: " + getQuestType();
+        return "id: "+ getId()+ "\nName: " + getName() + "\nDescription: " + getDescription() + "\nCoins: " + getCoins() + "\nQuest type: " + getQuestType();
     }
 }
