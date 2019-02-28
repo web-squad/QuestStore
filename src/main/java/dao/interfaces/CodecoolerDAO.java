@@ -11,7 +11,7 @@ public interface CodecoolerDAO {
 
     List<Codecooler> getCodecoolersByRoomId(int roomid);
 
-    Codecooler getCodecoolerByUserId(int codecoolerId);
+    Codecooler getCodecoolerById(int id);
 
     void addCodecooler(Codecooler codecooler);
 
