@@ -14,13 +14,11 @@ public interface UserDAO {
 
     Mentor getMentorByLoginAndPassword(String login, String password);
 
-    Codecooler getCodecoolerByUserId(int userId);
+    Codecooler getCodecoolerById(int id);
 
-    Mentor getMentorByUserId(int userId);
+    Mentor getMentorById(int id);
 
     void addUser(User user);
-
-    void setUserId(User user);
 
     void updateUser(User user);
 
