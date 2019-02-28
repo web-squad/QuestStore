@@ -17,11 +17,11 @@ public class main {
 //        Mentor mentor = mentorDao.getMentorByLogin("kondzio");
 //        System.out.println(mentor);
 
-//        MentorDAO mentorDao = new MentorDAOImplementation(pool);
-//        Mentor mentor = new Mentor(2, "kamilus", "5555", "mentor", "Kamil", "Anno", "kamil@gmail.com");
-//        mentorDao.addNewMentor(mentor);
-
         MentorDAO mentorDao = new MentorDAOImplementation(pool);
-        mentorDao.updateMentorData("name", "Adam", "kondzio");
+        Mentor mentor = new Mentor(2, "aegaaeg", "555345", "mentor", "Ada", "Kol", "qwfqf@gmail.com");
+        mentorDao.addNewMentor(mentor);
+
+//        MentorDAO mentorDao = new MentorDAOImplementation(pool);
+//        mentorDao.updateMentorData("login", "kamilus", "kamalanitus");
     }
 }

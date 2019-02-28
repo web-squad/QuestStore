@@ -11,7 +11,7 @@ CREATE TABLE "mentor" (
   "id" INTEGER,
   "email" TEXT,
   "classid" INTEGER,
-  "userid" INTEGER,
+  "usrlogin" TEXT,
   PRIMARY KEY ("id")
 );
 
