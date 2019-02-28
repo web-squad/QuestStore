@@ -180,28 +180,15 @@ public class StoreDaoImpl implements DAOStore {
     }
 
 
-    public List<Item> getCodecoolerItems(Codecooler codecooler) { //to pozmieniac bo nie dziala jeszcze
-        try {
-            openDatabaseConnection();
-            System.out.println("test  codecoolerid=" + codecooler.getCodecoolerId());
-            getListOfItemsFromDatabase("SELECT * FROM bought_items WHERE codecoolerid = "+codecooler.getCodecoolerId()+";");
-            //createListOfItems()
-        } catch (SQLException e) {
-            System.err.println(e.getClass().getName() + ": " + e.getMessage());
-        } finally {
-            closeDatabaseConnection();
-        }
-        //codecooler.getId()
-                // get items from bought_items table where codecoolerid = codecooler.getId()
+    public List<Item> getCodecoolerItems(Codecooler codecooler) { //to zadziala jak bedzie metoda codecooler.getUserId
+//        try {
+//            openDatabaseConnection();
+//            getListOfItemsFromDatabase("SELECT * FROM bought_items WHERE userid = "+codecooler.getUserId()+";");
+//        } catch (SQLException e) {
+//            System.err.println(e.getClass().getName() + ": " + e.getMessage());
+//        } finally {
+//            closeDatabaseConnection();
+//        }
         return null;
     }
-
-    public void addBasicItem() {
-        throw new UnsupportedOperationException("this method is not implemented, and probably will never be :-) ");
-    }
-
-    public void addMagicItem() {
-        throw new UnsupportedOperationException("this method is not implemented, and probably will never be :-) ");
-    }
-
 }
