@@ -1,28 +1,31 @@
 package dao;
 
+import dao.connectionPool.JDBCConnectionPool;
 import dao.interfaces.MentorDAO;
 import model.user.Mentor;
-
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 
 public class MentorDAOImplementation implements MentorDAO {
-    private Connection c = null;
+
+    private JDBCConnectionPool connectionPool;
+    private Connection connection = null;
     private PreparedStatement sqlStatement = null;
-    private Statement stmt = null;
+
+    public MentorDAOImplementation(JDBCConnectionPool connectionPool){
+        this.connectionPool = connectionPool;
+    }
 
     public List<Mentor> getListOfMentors() {
         List<Mentor> mentors = new ArrayList<Mentor>();
 
-        Connection c = null;
         try{
-            c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/QuestStore", "admin", "123");
-//            sqlStatement = c.prepareStatement("SELECT * FROM User where userType LIKE 'mentor' ORDER BY id");
-//            ResultSet recordsFromDB = sqlStatement.executeQuery();
-
-            sqlStatement = c.prepareStatement("SELECT * FROM User u INNER JOIN Mentor m ON u.id=m.userid;");
+            connection = connectionPool.takeOut();
+            connection.setAutoCommit(false);
+            sqlStatement = connection.prepareStatement("SELECT * FROM User u INNER JOIN Mentor m ON u.id=m.userid;");
+            connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/QuestStore", "admin", "123");
             ResultSet recordsFromDB = sqlStatement.executeQuery();
 
             while(recordsFromDB.next()){
@@ -36,26 +39,22 @@ public class MentorDAOImplementation implements MentorDAO {
 
                 mentors.add(new Mentor(mentorId, login, password, userType, name, surname, email));
             }
-
-        } catch (SQLException sqlError){
-            sqlError.printStackTrace();
-            System.err.println(sqlError.getClass().getName() + ": " + sqlError.getMessage());
-            System.exit(0);
-        } finally {
-            try {
-                sqlStatement.close();
-                c.close();
-            } catch (SQLException e) {
-                System.out.println("Unable to close connection!");
-            }
+            connection.commit();
+        } catch (Exception e) {
+            System.err.println( e.getClass().getName()+": "+ e.getMessage() );
+        } try {
+            connectionPool.takeIn(connection);
+        } catch (Exception e){
+            System.err.println( e.getClass().getName()+": "+ e.getMessage() );
         }
         return mentors;
     }
 
-    public Mentor getMentor(String login) {
+    public Mentor getMentorByLogin(String login) {
         try {
-            c = DriverManager.getConnection("jdbc:postgresql://locahost:5432/QuestStore", "admin", "123");
-            sqlStatement = c.prepareStatement("SELECT * FROM User u INNER JOIN Menor m ON u,id=m.userid WHERE login LIKE ?");
+            connection = connectionPool.takeOut();
+            connection.setAutoCommit(false);
+            sqlStatement = connection.prepareStatement("SELECT * FROM public.\"user\" u INNER JOIN mentor m ON u.id = m.userid WHERE u.login LIKE ?;");
             sqlStatement.setString(1,login);
             ResultSet recordFromDB = sqlStatement.executeQuery();
 
@@ -67,23 +66,20 @@ public class MentorDAOImplementation implements MentorDAO {
                 String name = recordFromDB.getString("name");
                 String surname = recordFromDB.getString("surname");
                 String email = recordFromDB.getString("email");
-                return new Mentor(id, login, password, userType, name, surname, email);
+                return new Mentor(id, login2, password, userType, name, surname, email);
             }
             else {
                 System.out.println("Wrong login!");
             }
+            connection.commit();
             return null;
 
-        } catch (SQLException sqlError){
-            sqlError.printStackTrace();
-            System.err.println(sqlError.getClass().getName() + ": " + sqlError.getMessage());
-        } finally {
-            try{
-                sqlStatement.close();
-                c.close();
-            } catch (SQLException e) {
-                System.out.println("Unable to close connection!");
-            }
+        } catch (Exception e) {
+            System.err.println( e.getClass().getName()+": "+ e.getMessage() );
+        } try {
+            connectionPool.takeIn(connection);
+        } catch (Exception e){
+            System.err.println( e.getClass().getName()+": "+ e.getMessage() );
         }
         return null;
     }
@@ -98,8 +94,9 @@ public class MentorDAOImplementation implements MentorDAO {
         String email = mentor.getEmail();
 
         try {
-            c = DriverManager.getConnection("jdbc:postgresql://locahost:5432/QuestStore", "admin", "123");
-            sqlStatement = c.prepareStatement("INSERT INTO User (login, password, userType, name, surname, email) VALUES (?, ?, ?, ?, ?, ?)");
+            connection = connectionPool.takeOut();
+            connection.setAutoCommit(false);
+            sqlStatement = connection.prepareStatement("INSERT INTO User (login, password, userType, name, surname, email) VALUES (?, ?, ?, ?, ?, ?)");
 
             sqlStatement.setString(1, login);
             sqlStatement.setString(2, password);
@@ -110,16 +107,13 @@ public class MentorDAOImplementation implements MentorDAO {
 
             sqlStatement.executeUpdate();
             System.out.println("Mentor " + name + " addes succesfully!");
-        } catch (SQLException sqlError){
-            System.err.println(sqlError.getClass().getName() + ": " + sqlError.getMessage());
-            System.exit(0);
-        } finally {
-            try{
-                sqlStatement.close();
-                c.close();
-            } catch (SQLException closeError){
-                System.out.println("Unable to close connection!");
-            }
+            connection.commit();
+        } catch (Exception e) {
+            System.err.println( e.getClass().getName()+": "+ e.getMessage() );
+        } try {
+            connectionPool.takeIn(connection);
+        } catch (Exception e){
+            System.err.println( e.getClass().getName()+": "+ e.getMessage() );
         }
     }
 

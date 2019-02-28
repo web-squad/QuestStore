@@ -1,6 +1,13 @@
 import dao.RoomsDaoImpl;
 import dao.connectionPool.JDBCConnectionPool;
+import dao.*;
+import dao.interfaces.DAOQuests;
+import dao.interfaces.RoomsDAO;
+import model.Quest;
 import model.Room;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class main {
     public static void main(String[] args) {
@@ -14,5 +21,18 @@ public class main {
 
         Room cl2 = roomsDao.getRoomByName("java");
         System.out.println(cl2.getId());
+
+//        DAORooms roomsDao = new RoomsDaoImpl(pool);
+//        Room cl = roomsDao.getRoomById(1);
+//        System.out.println(cl.getName());
+
+        DAOQuests questsDao = new QuestsDaoImpl(pool);
+        List<Quest> basicQuests = new ArrayList<Quest>();
+        basicQuests = questsDao.getBasicQuests();
+
+        for (Quest bQuest: basicQuests) {
+            System.out.println(bQuest.toString());
+            System.out.println();
+        }
     }
 }
