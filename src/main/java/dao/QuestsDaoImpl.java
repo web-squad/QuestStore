@@ -134,7 +134,25 @@ public class QuestsDaoImpl implements DAOQuests {
     }
 
     public void updateQuest(Quest quest) {
+        try {
+            openDataBaseConnection();
+            updateQuestInDataBase(quest);
+        } catch (SQLException e) {
+            System.err.println(e.getClass().getName() + ": " + e.getMessage());
+        } finally {
+            closeDataBaseConnection();
+        }
+    }
 
+    private void updateQuestInDataBase(Quest quest) throws SQLException {
+        preStatement = connection.prepareStatement("UPDATE quest SET name = ?, description = ?, coins=?, quest_type=? WHERE id=?");
+        preStatement.setString(1, quest.getName());
+        preStatement.setString(2, quest.getDescription());
+        preStatement.setInt(3, quest.getCoins());
+        preStatement.setString(4, quest.getQuestType());
+        preStatement.setInt(5, quest.getId());
+        preStatement.executeUpdate();
+        connection.commit();
     }
 
     public void getCodecoolerQuests() {
