@@ -1,20 +1,26 @@
 package dao.interfaces;
 
 import model.user.Codecooler;
+import model.user.CreepyGuy;
 import model.user.Mentor;
+import model.user.User;
 
 public interface UserDAO {
     String getUserType(String login, String password);
 
-    Codecooler getCodecoolerByUserId(int userId);
+    CreepyGuy getCreepyGuyByLoginAndPassword(String login, String password);
 
-    Mentor getMentorByUserId(int userId);
+    Codecooler getCodecoolerByLoginAndPassword(String login, String password);
 
-    void addCodecooler(Codecooler codecooler);
+    Mentor getMentorByLoginAndPassword(String login, String password);
 
-    void setId(Codecooler codecooler);
+    Codecooler getCodecoolerById(int id);
 
-    void updateCodecooler(Codecooler codecooler);
+    Mentor getMentorById(int id);
 
-    void deleteCodecooler(Codecooler codecooler);
+    void addUser(User user);
+
+    void updateUser(User user);
+
+    void deleteUser(User user);
 }
