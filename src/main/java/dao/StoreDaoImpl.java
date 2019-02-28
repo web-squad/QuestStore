@@ -1,6 +1,8 @@
 package dao;
+import dao.connectionPool.JDBCConnectionPool;
 import dao.interfaces.DAOStore;
 import model.Item;
+import model.user.Codecooler;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -50,8 +52,8 @@ public class StoreDaoImpl implements DAOStore {
             System.err.println(e.getClass().getName() + ": " + e.getMessage());
         } finally {
             closeDatabaseConnection();
-            return null;
         }
+        return null;
     }
 
     private List<Item> getListOfItemsFromDatabase(String sqlStatement) throws SQLException {
@@ -68,8 +70,8 @@ public class StoreDaoImpl implements DAOStore {
             System.err.println(e.getClass().getName() + ": " + e.getMessage());
         } finally {
             closeDatabaseConnection();
-            return null;
         }
+        return null;
     }
 
     private void closeDatabaseConnection() {
@@ -103,8 +105,8 @@ public class StoreDaoImpl implements DAOStore {
             System.err.println(e.getClass().getName() + ": " + e.getMessage());
         } finally {
             closeDatabaseConnection();
-            return null;
         }
+        return null;
     }
 
 
@@ -116,12 +118,12 @@ public class StoreDaoImpl implements DAOStore {
             System.err.println(e.getClass().getName() + ": " + e.getMessage());
         } finally {
             closeDatabaseConnection();
-            return null;
         }
+        return null;
     }
 
     private Item getItemFromDatabase(int id) throws SQLException {
-        pst = connection.prepareStatement("SELECT * FROM item WHERE id LIKE ?;");
+        pst = connection.prepareStatement("SELECT * FROM item WHERE id = ?;");
         pst.setInt(1, id);
         ResultSet recordFromDatabase = pst.executeQuery();
         if (recordFromDatabase.next()) {
@@ -177,8 +179,21 @@ public class StoreDaoImpl implements DAOStore {
         pst.executeUpdate();
     }
 
-    public List<Item> getCodecoolerItems() {
-        throw new UnsupportedOperationException("method not implemented yet");
+
+    public List<Item> getCodecoolerItems(Codecooler codecooler) { //to pozmieniac bo nie dziala jeszcze
+        try {
+            openDatabaseConnection();
+            System.out.println("test  codecoolerid=" + codecooler.getCodecoolerId());
+            getListOfItemsFromDatabase("SELECT * FROM bought_items WHERE codecoolerid = "+codecooler.getCodecoolerId()+";");
+            //createListOfItems()
+        } catch (SQLException e) {
+            System.err.println(e.getClass().getName() + ": " + e.getMessage());
+        } finally {
+            closeDatabaseConnection();
+        }
+        //codecooler.getId()
+                // get items from bought_items table where codecoolerid = codecooler.getId()
+        return null;
     }
 
     public void addBasicItem() {
@@ -189,7 +204,4 @@ public class StoreDaoImpl implements DAOStore {
         throw new UnsupportedOperationException("this method is not implemented, and probably will never be :-) ");
     }
 
-    public static class UserDaoImpl {
-
-    }
 }
