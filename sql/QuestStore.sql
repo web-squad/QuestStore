@@ -63,7 +63,7 @@ CREATE TABLE "completed_quests" (
 
 CREATE TABLE "bought_items" (
   "id" SERIAL,
-  "coodecoolerid" INTEGER,
+  "codecoolerid" INTEGER,
   "itemid" INTEGER,
   PRIMARY KEY ("id")
 );
