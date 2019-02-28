@@ -9,8 +9,8 @@ public interface DAOQuests {
     List<Quest> getBasicQuests();
     List<Quest> getExtraQuests();
     //    Quest getQuests();
-    void addQuest();
-    void addBasicQuest();
-    void addExtraQuest();
-    void updateQuest();
+    void addQuest(Quest quest);
+    void addBasicQuest(Quest quest);
+    void addExtraQuest(Quest quest);
+    void updateQuest(Quest quest);
 }

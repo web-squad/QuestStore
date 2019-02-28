@@ -4,8 +4,10 @@ import model.Room;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class main {
+
     public static void main(String[] args) {
 
         JDBCConnectionPool pool = new JDBCConnectionPool(
@@ -24,5 +26,29 @@ public class main {
             System.out.println(bQuest.toString());
             System.out.println();
         }
+
+        System.out.println("Please enter ${bold}name${normal} of quest:");
+        String questName = main.getUserInput();
+        System.out.println("${bold}Quest description");
+        String questDesc = getUserInput();
+        System.out.println("${bold}coins");
+        int questCoins = getUserInt();
+
+        Quest quest1 = new Quest(questName, questDesc, questCoins);
+
+        questsDao.addQuest(quest1);
+
+    }
+
+    static String getUserInput() {
+        Scanner sc = new Scanner(System.in);
+        String userInput = sc.nextLine();
+        return userInput;
+    }
+
+    static int getUserInt() {
+        Scanner sc = new Scanner(System.in);
+        int userInt = sc.nextInt();
+        return userInt;
     }
 }

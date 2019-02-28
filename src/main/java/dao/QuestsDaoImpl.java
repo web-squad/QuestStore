@@ -51,19 +51,44 @@ public class QuestsDaoImpl implements DAOQuests {
         return null;
     }
 
-    public void addQuest() {
+    public void addQuest(Quest quest) {
+
+        String name = quest.getName();
+        String description = quest.getDescription();
+        int coins = quest.getCoins();
+
+        try{
+            connection = connectionPool.takeOut();
+            connection.setAutoCommit(false);
+            sqlStatement = connection.prepareStatement("INSERT INTO quest (name, description, coins) VALUES (?, ?, ?);");
+
+            sqlStatement.setString(1, name);
+            sqlStatement.setString(2, description);
+            sqlStatement.setInt(3, coins);
+
+            sqlStatement.executeUpdate();
+            System.out.println("Quest " + name + "added succesfully ");
+            connection.commit();
+        } catch (SQLException e) {
+            System.err.println(e.getClass().getName() + ": " + e.getMessage());
+        }
+        try {
+            connectionPool.takeIn(connection);
+        } catch (Exception e) {
+            System.err.println(e.getClass().getName() + ": " + e.getMessage());
+        }
 
     }
 
-    public void addBasicQuest() {
+    public void addBasicQuest(Quest quest) {
 
     }
 
-    public void addExtraQuest() {
+    public void addExtraQuest(Quest quest) {
 
     }
 
-    public void updateQuest() {
+    public void updateQuest(Quest quest) {
 
     }
 }
