@@ -39,15 +39,4 @@ public class Team {
         return  codecoolerList.size();
     }
 
-    public void save() {
-
-    }
-
-    public void update() {
-
-    }
-
-    public void delete() {
-
-    }
 }

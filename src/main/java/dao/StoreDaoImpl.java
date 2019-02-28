@@ -183,8 +183,8 @@ public class StoreDaoImpl implements DAOStore {
     public List<Item> getCodecoolerItems(Codecooler codecooler) { //to pozmieniac bo nie dziala jeszcze
         try {
             openDatabaseConnection();
-            System.out.println("test  codecoolerid=" + codecooler.getCodecoolerId());
-            getListOfItemsFromDatabase("SELECT * FROM bought_items WHERE codecoolerid = "+codecooler.getCodecoolerId()+";");
+            System.out.println("test  codecoolerid=" + codecooler.getId());
+            getListOfItemsFromDatabase("SELECT * FROM bought_items WHERE codecoolerid = "+codecooler.getId()+";");
             //createListOfItems()
         } catch (SQLException e) {
             System.err.println(e.getClass().getName() + ": " + e.getMessage());

@@ -71,17 +71,4 @@ public class Codecooler extends User {
         this.teamId = teamId;
     }
 
-//    public void save() {
-//        userdao.addCodecooler(this)
-//        userdao.setId(this)
-//        codecolerdao.addCodecooler(this)
-//    }
-
-    public void update() {
-
-    }
-
-    public void delete() {
-
-    }
 }
