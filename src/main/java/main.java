@@ -35,9 +35,9 @@ public class main {
 //            System.out.println(bQuest.toString());
 //            System.out.println();
 //        }
-        UserDaoImpl userDao = new UserDaoImpl(pool);
-        Codecooler codecooler = new Codecooler("user20", "123", "codecooler", "Gi", "Kowalska");
-        userDao.addUser(codecooler);
+//        UserDaoImpl userDao = new UserDaoImpl(pool);
+//        Codecooler codecooler = new Codecooler("user20", "123", "codecooler", "Gi", "Kowalska");
+//        userDao.addUser(codecooler);
 //        Codecooler codecooler = userDao.getCodecoolerByUserId(2);
 //        System.out.println(codecooler.getName());
     }
