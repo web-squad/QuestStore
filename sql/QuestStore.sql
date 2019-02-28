@@ -50,6 +50,8 @@ CREATE TABLE "quest" (
   "id" SERIAL,
   "name" TEXT,
   "description" TEXT,
+  "coins" INTEGER,
+  "quest_type" TEXT,
   PRIMARY KEY ("id")
 );
 
