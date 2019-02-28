@@ -9,11 +9,11 @@ public abstract class User {
     private String surname;
 
 
-    public User(int id, String login, String password, String userType, String name, String surname) {
+    public User(int id, String login, String password, String usertype, String name, String surname) {
         this.id = id;
         this.login = login;
         this.password = password;
-        this.userType = userType;
+        this.userType = usertype;
         this.name = name;
         this.surname = surname;
     }

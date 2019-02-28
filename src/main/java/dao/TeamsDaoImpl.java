@@ -69,11 +69,9 @@ public class TeamsDaoImpl implements TeamsDAO {
     public void addTeam(Team team) {
         try {
             connection = connectionPool.takeOut();
-            int id = team.getId();
             String name = team.getName();
-            pst = connection.prepareStatement("INSERT INTO team VALUES(?, ?)");
-            pst.setInt(1, id);
-            pst.setString(2, name);
+            pst = connection.prepareStatement("INSERT INTO team (name) VALUES(?)");
+            pst.setString(1, name);
             pst.executeUpdate();
             connection.commit();
         } catch(SQLException se) {
@@ -85,14 +83,14 @@ public class TeamsDaoImpl implements TeamsDAO {
         }
     }
 
-    public void updateTeam(Team team) {
+    public void updateTeam(Team t) {
         try {
             connection = connectionPool.takeOut();
-            int id = team.getId();
-            String name = team.getName();
-            pst = connection.prepareStatement("UPDATE team SET id = ?, name = ?");
+            String name = t.getName();
+            int id = t.getId();
+            pst = connection.prepareStatement("UPDATE team SET name = ? WHERE team.id = ?");
+            pst.setString(1, name);
             pst.setInt(1, id);
-            pst.setString(2, name);
             pst.executeUpdate();
             connection.commit();
         } catch(SQLException se) {
