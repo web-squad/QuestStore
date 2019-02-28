@@ -1,6 +1,6 @@
-package dao;
+package dao.interfaces;
 
-import user.CreepyGuy;
+import model.user.CreepyGuy;
 
 public interface DAOCreepyGuy {
 

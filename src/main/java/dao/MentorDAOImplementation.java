@@ -1,7 +1,8 @@
 package dao;
 
-import model.Mentor;
-
+import dao.connectionPool.JDBCConnectionPool;
+import dao.interfaces.MentorDAO;
+import model.user.Mentor;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;

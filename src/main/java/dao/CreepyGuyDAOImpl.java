@@ -1,6 +1,7 @@
 package dao;
 
-import user.CreepyGuy;
+import dao.interfaces.DAOCreepyGuy;
+import model.user.CreepyGuy;
 
 import java.sql.*;
 

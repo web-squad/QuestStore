@@ -1,6 +1,5 @@
-package dao;
-
-import model.Mentor;
+package dao.interfaces;
+import model.user.Mentor;
 
 import java.util.List;
 

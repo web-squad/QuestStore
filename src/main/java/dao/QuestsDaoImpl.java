@@ -1,5 +1,7 @@
 package dao;
 
+import dao.connectionPool.JDBCConnectionPool;
+import dao.interfaces.DAOQuests;
 import model.Quest;
 
 import java.sql.*;
