@@ -45,7 +45,7 @@ public class main {
 
         Quest quest1 = new Quest(4,"Quest 4", "desc 44", 444, "extra");
 
-        questsDao.addQuest(quest1);
+//        questsDao.addQuest(quest1);
 
         List<Quest> extraQuests = new ArrayList<Quest>();
         extraQuests = questsDao.getExtraQuests();
@@ -54,6 +54,13 @@ public class main {
             System.out.println(eQuest.toString());
             System.out.println();
         }
+//        Quest quest2 = new Quest(8, "Quest 8", "desc 88", 888, "extra");
+//        questsDao.updateQuest(quest2);
+
+        int userId = 1;
+        int questId = 3;
+
+        questsDao.addCompleteQuest(userId,questId);
     }
 
     static String getUserInput() {

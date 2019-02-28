@@ -3,6 +3,7 @@ package dao;
 import dao.connectionPool.JDBCConnectionPool;
 import dao.interfaces.DAOQuests;
 import model.Quest;
+import model.user.Codecooler;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -22,7 +23,7 @@ public class QuestsDaoImpl implements DAOQuests {
 
         try {
             openDataBaseConnection();
-            connection.commit();
+//            connection.commit();
             return getBasicQuestsSQL("SELECT * FROM quest " +
                     "WHERE quest_type LIKE 'basic';");
         } catch (SQLException e) {
@@ -67,7 +68,7 @@ public class QuestsDaoImpl implements DAOQuests {
 
         try {
             openDataBaseConnection();
-            connection.commit();
+//            connection.commit();
             return getExtraQuestsSQL("SELECT * FROM quest " +
                     "WHERE quest_type LIKE 'extra';");
         } catch (SQLException e) {
@@ -75,7 +76,6 @@ public class QuestsDaoImpl implements DAOQuests {
         } finally {
             closeDataBaseConnection();
         }
-
         return null;
     }
 
@@ -134,10 +134,64 @@ public class QuestsDaoImpl implements DAOQuests {
     }
 
     public void updateQuest(Quest quest) {
-
+        try{
+            updateQuestInDB(quest);
+            connection.commit();
+        } catch (SQLException e) {
+            System.err.println(e.getClass().getName() + ": " + e.getMessage());
+        } finally {
+            closeDataBaseConnection();
+        }
     }
 
-    public void getCodecoolerQuests() {
+    private void updateQuestInDB(Quest quest) throws SQLException {
+        int id = quest.getId();
+        openDataBaseConnection();
+        preStatement = connection.prepareStatement("UPDATE quest SET name=?, description=?, coins=?, quest_type=?");
+        preStatement.setString(1, quest.getName());
+        preStatement.setString(2, quest.getDescription());
+        preStatement.setInt(3, quest.getCoins());
+        preStatement.setString(4, quest.getQuestType());
+        preStatement.executeUpdate();
+    }
 
+    public List<Quest> getCodecoolerQuests(Codecooler codecooler) {
+        try {
+            openDataBaseConnection();
+            System.out.println("Codecooler id :" + codecooler.getId());
+            return getBasicQuestsSQL(""); // missing SQL query, work in progress...
+
+        } catch (SQLException e) {
+            System.err.println(e.getClass().getName() + ": " + e.getMessage());
+        } finally {
+            closeDataBaseConnection();
+        }
+
+        return null;
+    }
+
+    public void addCompleteQuest(int userId, int questId) {
+        try {
+            openDataBaseConnection();
+            addCompleteQuestToDB(userId,questId);
+            connection.commit();
+        } catch (SQLException e) {
+            System.err.println(e.getClass().getName() + ": " + e.getMessage());
+        } finally {
+            closeDataBaseConnection();
+        }
+    }
+
+    private void addCompleteQuestToDB(int userId, int questId) throws SQLException {
+        preStatement = connection.prepareStatement("INSERT INTO public.completed_quests(" +
+                "            userid, questid, date)" +
+                "    VALUES (?, ?, current_timestamp);");
+
+        preStatement.setInt(1, userId);
+        preStatement.setInt(2, questId);
+
+        preStatement.executeUpdate();
+
+        System.out.println("Complete quest successfully");
     }
 }
