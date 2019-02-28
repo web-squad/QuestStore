@@ -52,12 +52,12 @@ CREATE TABLE "quest" (
 );
 
 CREATE TABLE "completed_quests" (
-  "codecoolerid" INTEGER,
+  "userid" INTEGER,
   "questid" INTEGER,
   "date" DATE
 );
 
 CREATE TABLE "bought_items" (
-  "codecoolerid" INTEGER,
+  "userid" INTEGER,
   "itemid" INTEGER
 );
