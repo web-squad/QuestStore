@@ -10,7 +10,7 @@ CREATE TABLE "codecooler" (
 CREATE TABLE "mentor" (
   "email" TEXT,
   "roomid" INTEGER,
-  "userid" INTEGER,
+  "userid" INTEGER
 );
 
 CREATE TABLE "users" (
@@ -56,10 +56,10 @@ CREATE TABLE "quest" (
 CREATE TABLE "completed_quests" (
   "codecoolerid" INTEGER,
   "questid" INTEGER,
-  "date" DATE,
+  "date" DATE
 );
 
 CREATE TABLE "bought_items" (
   "codecoolerid" INTEGER,
-  "itemid" INTEGER,
+  "itemid" INTEGER
 );
