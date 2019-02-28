@@ -1,13 +1,14 @@
 package dao;
 
 import dao.connectionPool.JDBCConnectionPool;
-import dao.interfaces.DAORooms;
+import dao.interfaces.RoomsDAO;
 import model.Room;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
-public class RoomsDaoImpl implements DAORooms {
+public class RoomsDaoImpl implements RoomsDAO {
 
     private JDBCConnectionPool connectionPool;
     private Connection connection = null;
@@ -32,14 +33,12 @@ public class RoomsDaoImpl implements DAORooms {
                 return new Room(name, id);
             }
             connection.commit();
-        } catch (Exception e) {
-            System.err.println(e.getClass().getName() + ": " + e.getMessage());
+        } catch(SQLException se) {
+            se.printStackTrace();
+        } catch(Exception e) {
+            e.printStackTrace();
         } finally {
-            try {
-                connectionPool.takeIn(connection);
-            } catch (Exception e){
-                System.err.println( e.getClass().getName()+": "+ e.getMessage() );
-            }
+            connectionPool.takeIn(connection);
         }
         return null;
     }
@@ -56,11 +55,51 @@ public class RoomsDaoImpl implements DAORooms {
                 return new Room(name, id);
             }
             connection.commit();
-        } catch (Exception e) {
-            System.err.println( e.getClass().getName()+": "+ e.getMessage() );
+        } catch(SQLException se) {
+            se.printStackTrace();
+        } catch(Exception e) {
+            e.printStackTrace();
         } finally {
             connectionPool.takeIn(connection);
         }
         return null;
+    }
+
+    public void addRoom(Room room) {
+        try {
+            connection = connectionPool.takeOut();
+            int id = room.getId();
+            String name = room.getName();
+            pst = connection.prepareStatement("INSERT INTO room VALUES(?, ?)");
+            pst.setInt(1, id);
+            pst.setString(2, name);
+            pst.executeUpdate();
+            connection.commit();
+        } catch(SQLException se) {
+            se.printStackTrace();
+        } catch(Exception e) {
+            e.printStackTrace();
+        } finally {
+            connectionPool.takeIn(connection);
+        }
+    }
+
+    public void updateRoom(Room room) {
+        try {
+            connection = connectionPool.takeOut();
+            int id = room.getId();
+            String name = room.getName();
+            pst = connection.prepareStatement("UPDATE room SET id = ?, name = ?");
+            pst.setInt(1, id);
+            pst.setString(2, name);
+            pst.executeUpdate();
+            connection.commit();
+        } catch(SQLException se) {
+            se.printStackTrace();
+        } catch(Exception e) {
+            e.printStackTrace();
+        } finally {
+            connectionPool.takeIn(connection);
+        }
     }
 }
