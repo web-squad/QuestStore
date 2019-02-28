@@ -90,12 +90,22 @@ public class StoreDaoImpl implements DAOStore {
             String description = recordFromDatabase.getString("description");
             int price = recordFromDatabase.getInt("price");
             String itemType = recordFromDatabase.getString("itemtype");
-            System.out.println(name);
             Item item = new Item(id, name, description, price, itemType);
             items.add(item);
         }
         return items;
     }
+
+//    private List<Item> createListOfBought_Items(ResultSet recordFromDatabase) throws SQLException {
+//        List items = new ArrayList<Item>();
+//        while (recordFromDatabase.next()) {
+//            int userid =
+//            System.out.println(name);
+//            Item item = new Item(id, name, description, price, itemType);
+//            items.add(item);
+//        }
+//        return items;
+//    }
 
     public List<Item> getMagicItems() {
         try {
@@ -180,15 +190,15 @@ public class StoreDaoImpl implements DAOStore {
     }
 
 
-    public List<Item> getCodecoolerItems(Codecooler codecooler) { //to zadziala jak bedzie metoda codecooler.getUserId
-//        try {
-//            openDatabaseConnection();
-//            getListOfItemsFromDatabase("SELECT * FROM bought_items WHERE userid = "+codecooler.getUserId()+";");
-//        } catch (SQLException e) {
-//            System.err.println(e.getClass().getName() + ": " + e.getMessage());
-//        } finally {
-//            closeDatabaseConnection();
-//        }
+    public List<Item> getCodecoolerItems(Codecooler codecooler) {
+        try {
+            openDatabaseConnection();
+            return getListOfItemsFromDatabase("SELECT item.* FROM item LEFT JOIN bought_items ON item.id = bought_items.itemid WHERE userid = "+codecooler.getId()+";");
+        } catch (SQLException e) {
+            System.err.println(e.getClass().getName() + ": " + e.getMessage());
+        } finally {
+            closeDatabaseConnection();
+        }
         return null;
     }
 }
