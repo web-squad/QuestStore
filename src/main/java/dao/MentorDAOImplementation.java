@@ -129,14 +129,20 @@ public class MentorDAOImplementation implements MentorDAO {
         try{
             connection = connectionPool.takeOut();
             connection.setAutoCommit(false);
-            sqlStatement = connection.prepareStatement("UPDATE users SET ? = ? WHERE login LIKE ?");
+            sqlStatement = connection.prepareStatement("UPDATE users SET " + dataToChange + "=? WHERE login LIKE ?;");
 
-            sqlStatement.setString(1, dataToChange);
-            sqlStatement.setString(2, changedData);
-            sqlStatement.setString(3, login);
+            sqlStatement.setString(1, changedData);
+            sqlStatement.setString(2, login);
+
+            sqlStatement.executeUpdate();
+            connection.commit();
 
         } catch (SQLException sqlError){
             System.err.println(sqlError.getClass().getName() + ": " + sqlError.getMessage());
+        } try {
+            connectionPool.takeIn(connection);
+        } catch (Exception e){
+            System.err.println( e.getClass().getName()+": "+ e.getMessage() );
         }
     }
 
