@@ -7,28 +7,25 @@ import java.util.List;
 public class Codecooler extends User {
 
     private int id;
-    private String login;
-    private String password;
-    private String userType;
-    private String name;
-    private String surname;
     private List<Item> itemsList;
     private int earnings;
+    private int roomId;
+    private int teamId;
+    private int codecoolerId;
 
     public Codecooler(int id, String login, String password, String userType, String name, String surname) {
         super(id, login, password, userType, name, surname);
         this.id = id;
-        this.login = login;
-        this.password = password;
-        this.userType = userType;
-        this.name = name;
-        this.surname = surname;
         this.earnings = 0;
+        this.roomId = 0;
+        this.teamId = 0;
     }
 
-
-    public List<Item> getItems() {
-        return itemsList;
+    public Codecooler(String login, String password, String userType, String name, String surname) {
+        super(login, password, userType, name, surname);
+        this.earnings = 0;
+        this.roomId = 0;
+        this.teamId = 0;
     }
 
     public void addItem(Item item) {
@@ -39,27 +36,61 @@ public class Codecooler extends User {
         earnings += cc;
     }
 
+    public List<Item> getItems() {
+        return itemsList;
+    }
+
+    public List<Item> getItemsList() {
+        return itemsList;
+    }
+
     public int getEarnings() {
         return earnings;
     }
 
-    public int getId() {
-        return id;
+    public int getRoomId() {
+        return roomId;
     }
 
-    public String getLogin() {
-        return login;
+    public int getTeamId() {
+        return teamId;
     }
 
-    public String getPassword() {
-        return password;
+    public int getCodecoolerId() {
+        return codecoolerId;
     }
 
-    public String getUserType() {
-        return userType;
+    public void setItemsList(List<Item> itemsList) {
+        this.itemsList = itemsList;
     }
 
-    public String getName() {
-        return name;
+    public void setEarnings(int earnings) {
+        this.earnings = earnings;
+    }
+
+    public void setRoomId(int roomId) {
+        this.roomId = roomId;
+    }
+
+    public void setTeamId(int teamId) {
+        this.teamId = teamId;
+    }
+
+    public void setCodecoolerId(int codecoolerId) {
+        this.codecoolerId = codecoolerId;
+    }
+
+//    public void save() {
+//        userdao.addCodecooler(this)
+//        userdao.setId(this)
+//        codecolerdao.addCodecooler(this)
+//    }
+
+    public void update() {
+
+    }
+
+    public void delete() {
+
     }
 }
