@@ -32,6 +32,14 @@ public class Room {
         this.id = id;
     }
 
+    public void setTeams(Map<Integer, Team> teams) {
+        this.teams = teams;
+    }
+
+    public void setCodecoolerList(List<Codecooler> codecoolerList) {
+        this.codecoolerList = codecoolerList;
+    }
+
     public void setName(String name) {
         this.name = name;
     }
@@ -59,14 +67,6 @@ public class Room {
     public void addCodecooler(Codecooler codecooler) {
         codecoolerList.add(codecooler);
     }
-
-//    public Codecooler getCodecoolerById(int id) {
-//        for(Codecooler codecooler : codecoolerList) {
-//            if(codecooler.getId() == id) {
-//                return codecooler;
-//            }
-//        }
-//    }
 
     public Map<Integer, Team> getTeams() {
         return teams;
