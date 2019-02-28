@@ -96,16 +96,6 @@ public class StoreDaoImpl implements DAOStore {
         return items;
     }
 
-//    private List<Item> createListOfBought_Items(ResultSet recordFromDatabase) throws SQLException {
-//        List items = new ArrayList<Item>();
-//        while (recordFromDatabase.next()) {
-//            int userid =
-//            System.out.println(name);
-//            Item item = new Item(id, name, description, price, itemType);
-//            items.add(item);
-//        }
-//        return items;
-//    }
 
     public List<Item> getMagicItems() {
         try {
