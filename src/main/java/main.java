@@ -1,4 +1,3 @@
-import com.sun.org.apache.xml.internal.resolver.readers.ExtendedXMLCatalogReader;
 import dao.RoomsDaoImpl;
 import dao.connectionPool.JDBCConnectionPool;
 import dao.*;
