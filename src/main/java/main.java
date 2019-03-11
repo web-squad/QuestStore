@@ -61,6 +61,15 @@ public class main {
         int questId = 3;
 
         questsDao.addCompleteQuest(userId,questId);
+
+        Codecooler student1 = new Codecooler(1,"jan123","123","student","jan","kowalski");
+
+        List<Quest> cQuests = new ArrayList<Quest>();
+        cQuests = questsDao.getCodecoolerQuests(student1);
+
+        for (Quest cQuest: cQuests) {
+            System.out.println(cQuest.getId()+" | "+cQuest.getName()+" | "+ cQuest.getQuestType()+" | "+cQuest.getCoins());
+        }
     }
 
     static String getUserInput() {

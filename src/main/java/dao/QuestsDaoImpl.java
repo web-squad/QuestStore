@@ -159,7 +159,7 @@ public class QuestsDaoImpl implements DAOQuests {
         try {
             openDataBaseConnection();
             System.out.println("Codecooler id :" + codecooler.getId());
-            return getBasicQuestsSQL(""); // missing SQL query, work in progress...
+            return getBasicQuestsSQL("SELECT id, name, coins, quest_type, questid, date FROM public.completed_quests INNER JOIN quest ON completed_quests.questid = quest.id;");
 
         } catch (SQLException e) {
             System.err.println(e.getClass().getName() + ": " + e.getMessage());
@@ -183,9 +183,7 @@ public class QuestsDaoImpl implements DAOQuests {
     }
 
     private void addCompleteQuestToDB(int userId, int questId) throws SQLException {
-        preStatement = connection.prepareStatement("INSERT INTO public.completed_quests(" +
-                "            userid, questid, date)" +
-                "    VALUES (?, ?, current_timestamp);");
+        preStatement = connection.prepareStatement("INSERT INTO public.completed_quests(userid, questid, date) VALUES (?, ?, current_timestamp);");
 
         preStatement.setInt(1, userId);
         preStatement.setInt(2, questId);
