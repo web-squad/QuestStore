@@ -180,7 +180,7 @@ public class StoreDaoImpl implements DAOStore {
     }
 
 
-    public List<Item> getCodecoolerItems(Codecooler codecooler) { //to pozmieniac bo nie dziala jeszcze
+    public List<Item> getCodecoolerItems(Codecooler codecooler) {
         try {
             openDatabaseConnection();
             System.out.println("test  codecoolerid=" + codecooler.getId());
