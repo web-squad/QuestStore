@@ -6,7 +6,11 @@ import model.user.Mentor;
 import model.user.User;
 
 public interface UserDAO {
-    String getUserType(String login, String password);
+    String getUserType(int id);
+
+    boolean isLoginSuccessful(String login, String password);
+
+    int getUserId(String login, String password);
 
     CreepyGuy getCreepyGuyByLoginAndPassword(String login, String password);
 
