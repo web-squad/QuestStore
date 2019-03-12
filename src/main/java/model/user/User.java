@@ -26,6 +26,8 @@ public abstract class User {
         this.surname = surname;
     }
 
+    public User() {}
+
     public int getId() {
         return id;
     }
