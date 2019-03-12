@@ -61,3 +61,10 @@ CREATE TABLE "bought_items" (
   "userid" INTEGER,
   "itemid" INTEGER
 );
+
+CREATE TABLE "session" (
+  "id" SERIAL,
+  "userid" TEXT,
+  "sessionid" TEXT,
+  PRIMARY KEY ("id")
+);
