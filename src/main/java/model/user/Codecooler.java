@@ -27,6 +27,8 @@ public class Codecooler extends User {
         this.teamId = 0;
     }
 
+    public Codecooler() {}
+
     public void addItem(Item item) {
         itemsList.add(item);
     }
@@ -70,5 +72,7 @@ public class Codecooler extends User {
     public void setTeamId(int teamId) {
         this.teamId = teamId;
     }
+
+
 
 }
