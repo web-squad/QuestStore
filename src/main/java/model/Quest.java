@@ -1,4 +1,5 @@
 package model;
+import java.sql.Date;
 
 public class Quest {
 
@@ -7,13 +8,15 @@ public class Quest {
     private String description;
     private int coins;
     private String questType;
+    private Date date;
 
-    public Quest(int id, String name, String description, int coins, String questType) {
+    public Quest(int id, String name, String description, int coins, String questType, Date date) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.coins = coins;
         this.questType = questType;
+        this.date = date;
     }
 
     public int getId() {
@@ -40,7 +43,11 @@ public class Quest {
         this.coins = coins;
     }
 
-    public String toString() {
-        return "id: "+ getId()+ "\nName: " + getName() + "\nDescription: " + getDescription() + "\nCoins: " + getCoins() + "\nQuest type: " + getQuestType();
+    public String getDateString() {
+        return date.toString();
+    }
+
+    public Date getDate() {
+        return date;
     }
 }

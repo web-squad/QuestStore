@@ -1,18 +1,22 @@
 package model;
 
+import java.sql.Date;
+
 public class Item {
     private int id;
     private String name;
     private String description;
     private int price;
     private String itemType;
+    private Date date;
 
-    public Item(int id, String name, String description, int price, String itemType) {
+    public Item(int id, String name, String description, int price, String itemType, Date date) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.price = price;
         this.itemType = itemType;
+        this.date = date;
     }
     public int getId() {
         return this.id;
@@ -38,7 +42,11 @@ public class Item {
 
     }
 
-    public String itemToString() {
-        return this.description;
+    public String getDateString() {
+        return date.toString();
+    }
+
+    public Date getDate() {
+        return date;
     }
 }
