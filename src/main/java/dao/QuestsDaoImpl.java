@@ -3,9 +3,11 @@ package dao;
 import dao.connectionPool.JDBCConnectionPool;
 import dao.interfaces.DAOQuests;
 import model.Quest;
+import model.user.Codecooler;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.sql.Date;
 import java.util.List;
 
 public class QuestsDaoImpl implements DAOQuests {
@@ -57,8 +59,8 @@ public class QuestsDaoImpl implements DAOQuests {
             String description = recordsFromDB.getString("description");
             int coins = recordsFromDB.getInt("coins");
             String quest_type = recordsFromDB.getString("quest_type");
-
-            basicQuests.add(new Quest(id, name, description, coins, quest_type));
+            Date date = recordsFromDB.getDate("date");
+            basicQuests.add(new Quest(id, name, description, coins, quest_type, date));
         }
         return basicQuests;
     }
@@ -101,8 +103,8 @@ public class QuestsDaoImpl implements DAOQuests {
             String description = recordsFromDB.getString("description");
             int coins = recordsFromDB.getInt("coins");
             String quest_type = recordsFromDB.getString("quest_type");
-
-            extraQuests.add(new Quest(id, name, description, coins, quest_type));
+            Date date = recordsFromDB.getDate("date");
+            extraQuests.add(new Quest(id, name, description, coins, quest_type, date));
         }
         return extraQuests;
     }
@@ -122,12 +124,13 @@ public class QuestsDaoImpl implements DAOQuests {
     }
 
     private void addQuestToDB(Quest quest) throws SQLException {
-        preStatement = connection.prepareStatement("INSERT INTO quest (name, description, coins, quest_type) VALUES (?, ?, ?, ?);");
+        preStatement = connection.prepareStatement("INSERT INTO quest (name, description, coins, quest_type, date) VALUES (?, ?, ?, ?, ?);");
 
         preStatement.setString(1, quest.getName());
         preStatement.setString(2, quest.getDescription());
         preStatement.setInt(3, quest.getCoins());
         preStatement.setString(4, quest.getQuestType());
+        preStatement.setDate(5, quest.getDate());
 
         preStatement.executeUpdate();
         System.out.println("Quest " + quest.getName() + " added succesfully ");
@@ -145,17 +148,68 @@ public class QuestsDaoImpl implements DAOQuests {
     }
 
     private void updateQuestInDataBase(Quest quest) throws SQLException {
-        preStatement = connection.prepareStatement("UPDATE quest SET name = ?, description = ?, coins=?, quest_type=? WHERE id=?");
+        preStatement = connection.prepareStatement("UPDATE quest SET name = ?, description = ?, coins=?, quest_type=?, date=? WHERE id=?");
         preStatement.setString(1, quest.getName());
         preStatement.setString(2, quest.getDescription());
         preStatement.setInt(3, quest.getCoins());
         preStatement.setString(4, quest.getQuestType());
         preStatement.setInt(5, quest.getId());
+        preStatement.setDate(5, quest.getDate());
         preStatement.executeUpdate();
         connection.commit();
     }
 
-    public void getCodecoolerQuests() {
-
+    public List<Quest> getCodecoolerQuests(Codecooler codecooler) {
+        try {
+            openDatabaseConnection();
+            return getListOfQuestsFromDatabase("SELECT quest.*, completed_quests.date FROM quest LEFT JOIN completed_quests ON quest.id = completed_quests.questid WHERE userid = "+codecooler.getId()+";");
+        } catch (SQLException e) {
+            System.err.println(e.getClass().getName() + ": " + e.getMessage());
+        } finally {
+            closeDatabaseConnection();
+        }
+        return null;
     }
+
+    private void openDatabaseConnection() {
+        connection = connectionPool.takeOut();
+    }
+
+    private void closeDatabaseConnection() {
+        try {
+            connectionPool.takeIn(connection);
+        } catch (Exception e) {
+            System.err.println(e.getClass().getName() + ": " + e.getMessage());
+        }
+    }
+
+    private List<Quest> getListOfQuestsFromDatabase(String sqlStatement) throws SQLException {
+        preStatement = connection.prepareStatement(sqlStatement);
+        ResultSet recordFromDatabase = preStatement.executeQuery();
+        return createListOfItems(recordFromDatabase);
+    }
+
+    private List<Quest> createListOfItems(ResultSet recordFromDatabase) throws SQLException {
+        List items = new ArrayList<Quest>();
+        while (recordFromDatabase.next()) {
+            int id = recordFromDatabase.getInt("id");
+            String name = recordFromDatabase.getString("name");
+            String description = recordFromDatabase.getString("description");
+            int price = recordFromDatabase.getInt("price");
+            String itemType = recordFromDatabase.getString("itemtype");
+            Date date = recordFromDatabase.getDate("date");
+            Quest item = new Quest(id, name, description, price, itemType, date);
+            items.add(item);
+        }
+        return items;
+    }
+
+    private void addCompletedQuestToDatabase(Codecooler codecooler, Quest quest) throws SQLException {
+        preStatement = connection.prepareStatement("INSERT INTO completed_quests (userid, itemid, date) VALUES (?, ?, ?)");
+        preStatement.setInt(1, codecooler.getId());
+        preStatement.setInt(2, quest.getId());
+        preStatement.setDate(3, quest.getDate());
+        preStatement.executeUpdate();
+    }
+
 }
