@@ -121,7 +121,7 @@ public class CodecoolerController implements HttpHandler {
         int roomid = codecooler.getRoomId();
         Room room = roomsDAO.getRoomById(roomid);
         Mentor mentor = mentorDAO.getMentorByRoomId(roomid);
-        List<Quest> questList = daoQuests.getCodecoolerItems(codecooler);
+        List<Quest> questList = daoQuests.getCodecoolerQuests(codecooler);
         List<Item> itemList = daoStore.getCodecoolerItems(codecooler);
         JtwigTemplate template = JtwigTemplate.classpathTemplate("templates/codecooler.twig");
         JtwigModel model = JtwigModel.newModel();

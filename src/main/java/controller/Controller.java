@@ -80,7 +80,7 @@ public class Controller implements HttpHandler {
     }
 
     private void redirect(HttpExchange httpExchange, String userType, int id) throws IOException {
-        httpExchange.getResponseHeaders().set("Location", "/queststore/" + userType + "/" + id);
+        httpExchange.getResponseHeaders().set("Location", "/queststore/" + userType + "/" );//+ id);
         httpExchange.sendResponseHeaders(302,0);
     }
 

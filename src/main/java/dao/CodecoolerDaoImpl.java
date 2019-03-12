@@ -150,6 +150,7 @@ public class CodecoolerDaoImpl implements CodecoolerDAO {
                 codecooler.setRoomId(roomId);
                 codecooler.setTeamId(teamId);
                 codecooler.setEarnings(earnings);
+                return codecooler;
             }
             connection.commit();
         } catch(SQLException se) {
