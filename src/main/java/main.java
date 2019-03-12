@@ -1,44 +1,27 @@
-import dao.RoomsDaoImpl;
+import com.sun.net.httpserver.HttpServer;
+import controller.Controller;
 import dao.connectionPool.JDBCConnectionPool;
-import dao.*;
-import dao.interfaces.DAOQuests;
-import dao.interfaces.RoomsDAO;
-import model.Quest;
-import model.Room;
-import model.user.Codecooler;
 
-import java.util.ArrayList;
-import java.util.List;
+
+import java.net.InetSocketAddress;
+
 
 public class main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
 
         JDBCConnectionPool pool = new JDBCConnectionPool("jdbc:postgresql://localhost:5432/QuestStore",
                 "admin", "123");
 
-//        RoomsDAO roomsDao = new RoomsDaoImpl(pool);
-//        Room cl = roomsDao.getRoomById(1);
-//        System.out.println(cl.getName());
-//
-//        Room cl2 = roomsDao.getRoomByName("java");
-//        System.out.println(cl2.getId());
+        HttpServer server = HttpServer.create(new InetSocketAddress(7000), 0);
 
-//        DAORooms roomsDao = new RoomsDaoImpl(pool);
-//        Room cl = roomsDao.getRoomById(1);
-//        System.out.println(cl.getName());
+        // set routes
+        server.createContext("/queststore/login", new Controller(pool));
+        server.createContext("/queststore/codecooler/", new CodecoolerController(pool));
+        //server.createContext("/queststore/mentor/", new MentorController(pool));
 
-//        DAOQuests questsDao = new QuestsDaoImpl(pool);
-//        List<Quest> basicQuests = new ArrayList<Quest>();
-//        basicQuests = questsDao.getBasicQuests();
-//
-//        for (Quest bQuest: basicQuests) {
-//            System.out.println(bQuest.toString());
-//            System.out.println();
-//        }
-        UserDaoImpl userDao = new UserDaoImpl(pool);
-        Codecooler codecooler = new Codecooler("user20", "123", "codecooler", "Gi", "Kowalska");
-        userDao.addUser(codecooler);
-//        Codecooler codecooler = userDao.getCodecoolerByUserId(2);
-//        System.out.println(codecooler.getName());
+        server.setExecutor(null); // creates a default executor
+
+        // start listening
+        server.start();
     }
 }
