@@ -21,7 +21,7 @@
             <div class="dropdown">
                 <button class="dropbtn">Student</button>
                 <div class="dropdown-content">
-                    <a href="addNewStudent.html">Add Student</a>
+                    <a href="/queststore/mentor/addNewStudent/{{ mentor.getId() }}">Add Student</a>
                 </div>
             </div>
             <div class="dropdown">
@@ -54,6 +54,14 @@
 <div id="contener">
     <div id="heading">
         <h1>Welcome mentor on our Quest Store</h1>
+    </div>
+    <div id="profile-content">
+        <div id="profile">
+            <p>
+                <span class="info-type">Your name:</span>
+                <span class="profile-info">{{mentor.getName()}}</span>
+            </p>
+        </div>
     </div>
     <div id="content" style="overflow-x:auto;">
         <table>
