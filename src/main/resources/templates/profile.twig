@@ -18,7 +18,7 @@
         </div>
 
         <div id="main-nav">
-            <a class="active" href="studentProfile.html">My Profile</a>
+            <a class="active" href="/queststore/codecooler/profile">My Profile</a>
             <a href="experience.html">Experience</a>
             <a href="wallet.html">Wallet</a>
             <a href="store.html">Store</a>
@@ -72,6 +72,8 @@
                 </tr>
             </table>
         </div>
+
+
         <p class="info-type">My items:</p>
         <div id="student-items" style="overflow-x:auto;">
             <table>
@@ -80,9 +82,10 @@
                     <th class="table-title">Description</th>
                     <th class="table-title">Quantity</th>
                 </tr>
+                {% for  item in itemList %}
                 <tr>
-                    <td>Item</td>
-                    <td>Combat training</td>
+                    <td>item.getName()</td>
+                    <td>item.getDescription()</td>
                     <td>1</td>
                 </tr>
                 <tr>
@@ -113,6 +116,13 @@
             </table>
         </div>
     </div>
+    {% for  entry in entryList %}
+    <div class="entry">
+        <p><small>Name:</small> {{ entry.getName()}}</p>
+        <p><small>Message:</small> {{ entry.getMessage()}}</p>
+        <p><small>Date:</small> {{ entry.getDate()}}</p>
+    </div>
+    {% endfor %}
 
 </div>
 
