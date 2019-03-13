@@ -5,6 +5,7 @@ import com.sun.net.httpserver.HttpHandler;
 import dao.*;
 import dao.connectionPool.JDBCConnectionPool;
 import dao.interfaces.*;
+import helpers.MimeTypeResolver;
 import helpers.cookie.CookieHelper;
 import model.Item;
 import model.Quest;
@@ -16,6 +17,8 @@ import org.jtwig.JtwigTemplate;
 
 import java.io.*;
 import java.net.HttpCookie;
+import java.net.URI;
+import java.net.URL;
 import java.net.URLDecoder;
 import java.util.*;
 
@@ -30,6 +33,7 @@ public class CodecoolerController implements HttpHandler {
     private MentorDAO mentorDAO;
     private DAOStore daoStore;
     private DAOQuests daoQuests;
+    private Optional<HttpCookie> cookie;
 
     public CodecoolerController(JDBCConnectionPool connectionPool) {
         this.connectionPool = connectionPool;
@@ -44,20 +48,36 @@ public class CodecoolerController implements HttpHandler {
 
     @Override
     public void handle(HttpExchange httpExchange) throws IOException {
-        Optional<HttpCookie> cookie = getCookieBySessionCookieName(httpExchange);
-        String method = httpExchange.getRequestMethod();
+        this.cookie = getCookieBySessionCookieName(httpExchange);
 
-        if (method.equals("GET")) {
-            if (cookie.isPresent()) {
-                String sessionid = getSessionIdFromCookie(cookie);
-                if (loginDAO.isActiveSession(sessionid)) {
-                    int id = loginDAO.getUserId(sessionid);
-                    Codecooler codecooler = codecoolerDAO.getCodecoolerById(id);
-                    String response = generateResponse(codecooler);
-                    sendResponse(httpExchange, response);
+        URI uri = httpExchange.getRequestURI();
+        System.out.println("looking for: " + uri.getPath());
+        String path = uri.getPath();
+
+        if (path.equals("/queststore/codecooler/css/style.css")) {
+            System.out.println("css");
+            handleFile(httpExchange, path);
+        } else {
+            String[] pathParts = path.split("/");
+            String urlEnding = pathParts[pathParts.length - 1];
+            int index = getIdFromURL(httpExchange, urlEnding);
+
+            if (path.equals("/queststore/codecooler/" + index)) {
+                displayProfile(httpExchange);
+//        } else if (path.equals("/queststore/codecooler/experience") ) {
+//
+//        }  else if (path.equals("/queststore/codecooler/wallet") ) {
+//
+//        }  else if (path.equals("/queststore/codecooler/store") ) {
+//
+//        }  else if (path.equals("/queststore/login") ) {
+            } else {
+                    goToLogin(httpExchange);
                 }
             }
-        }
+
+
+
 
 //        if (method.equals("POST")) {
 //            String formData = getFormData(httpExchange);
@@ -75,7 +95,33 @@ public class CodecoolerController implements HttpHandler {
 //                redirect(httpExchange, userType, id);
 //            }
 //        }
+        }
 
+    private int getIdFromURL(HttpExchange httpExchange, String urlEnding) throws IOException {
+        try {
+            return Integer.parseInt(urlEnding);
+        } catch(NumberFormatException e){
+            goToLogin(httpExchange);
+        }
+        return 0;
+    }
+
+    private void goToLogin(HttpExchange httpExchange) throws IOException {
+        System.out.println("location change");
+        httpExchange.getResponseHeaders().set("Location", "/queststore/login");
+        httpExchange.sendResponseHeaders(302,0);
+    }
+
+    private void displayProfile(HttpExchange httpExchange) throws IOException {
+        if (cookie.isPresent()) {
+            String sessionid = getSessionIdFromCookie(cookie);
+            if (loginDAO.isActiveSession(sessionid)) {
+                int id = loginDAO.getUserId(sessionid);
+                Codecooler codecooler = codecoolerDAO.getCodecoolerById(id);
+                String response = generateResponseProfile(codecooler);
+                sendResponse(httpExchange, response);
+            }
+        }
     }
 
     private Optional<HttpCookie> getCookieBySessionCookieName(HttpExchange httpExchange) {
@@ -117,20 +163,59 @@ public class CodecoolerController implements HttpHandler {
         return UUID.randomUUID().toString();
     }
 
-    private String generateResponse(Codecooler codecooler) {
+    private String generateResponseProfile(Codecooler codecooler) {
         int roomid = codecooler.getRoomId();
         Room room = roomsDAO.getRoomById(roomid);
         Mentor mentor = mentorDAO.getMentorByRoomId(roomid);
-        List<Quest> questList = daoQuests.getCodecoolerItems(codecooler);
-        List<Item> itemList = daoStore.getCodecoolerItems(codecooler);
-        JtwigTemplate template = JtwigTemplate.classpathTemplate("templates/codecooler.twig");
+        List<Quest> questList = daoQuests.getCodecoolerQuestsWithQuantity(codecooler);
+        List<Item> itemList = daoStore.getCodecoolerItemsWithQuantity(codecooler);
+        JtwigTemplate template = JtwigTemplate.classpathTemplate("queststore/codecooler/templates/profile.twig");
         JtwigModel model = JtwigModel.newModel();
         model.with("codecooler", codecooler);
         model.with("room", room);
         model.with("mentor", mentor);
+        model.with("questList", questList);
+        model.with("itemList", itemList);
         String response = template.render(model);
         return response;
     }
+
+    private void handleFile(HttpExchange httpExchange, String path) throws IOException {
+        ClassLoader classLoader = getClass().getClassLoader();
+        URL fileURL = classLoader.getResource(path);
+        if (fileURL == null) {
+            send404(httpExchange);
+        } else {
+            sendFile(httpExchange, fileURL);
+        }
+    }
+
+    private void send404(HttpExchange httpExchange) throws IOException {
+        String response = "404 (Not Found)\n";
+        httpExchange.sendResponseHeaders(404, response.length());
+        OutputStream os = httpExchange.getResponseBody();
+        os.write(response.toString().getBytes());
+        os.close();
+    }
+
+    private void sendFile(HttpExchange httpExchange, URL fileURL) throws IOException {
+        File file = new File(fileURL.getFile());
+        MimeTypeResolver resolver = new MimeTypeResolver(file);
+        String mime = resolver.getMimeType();
+        httpExchange.getResponseHeaders().set("Content-Type", mime);
+        httpExchange.sendResponseHeaders(200, 0);
+        OutputStream os = httpExchange.getResponseBody();
+
+        // send the file
+        FileInputStream fs = new FileInputStream(file);
+        final byte[] buffer = new byte[0x10000];
+        int count = 0;
+        while ((count = fs.read(buffer)) >= 0) {
+            os.write(buffer,0,count);
+        }
+        os.close();
+    }
+
 
     private void sendResponse(HttpExchange httpExchange, String response) throws IOException {
         httpExchange.sendResponseHeaders(200, response.getBytes().length);

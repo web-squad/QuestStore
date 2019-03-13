@@ -186,22 +186,22 @@ public class QuestsDaoImpl implements DAOQuests {
     private List<Quest> getListOfQuestsFromDatabase(String sqlStatement) throws SQLException {
         preStatement = connection.prepareStatement(sqlStatement);
         ResultSet recordFromDatabase = preStatement.executeQuery();
-        return createListOfItems(recordFromDatabase);
+        return createListOfQuests(recordFromDatabase);
     }
 
-    private List<Quest> createListOfItems(ResultSet recordFromDatabase) throws SQLException {
-        List items = new ArrayList<Quest>();
+    private List<Quest> createListOfQuests(ResultSet recordFromDatabase) throws SQLException {
+        List quests = new ArrayList<Quest>();
         while (recordFromDatabase.next()) {
             int id = recordFromDatabase.getInt("id");
             String name = recordFromDatabase.getString("name");
             String description = recordFromDatabase.getString("description");
-            int price = recordFromDatabase.getInt("price");
-            String itemType = recordFromDatabase.getString("itemtype");
+            int price = recordFromDatabase.getInt("coins");
+            String type = recordFromDatabase.getString("quest_type");
             Date date = recordFromDatabase.getDate("date");
-            Quest item = new Quest(id, name, description, price, itemType, date);
-            items.add(item);
+            Quest quest = new Quest(id, name, description, price, type, date);
+            quests.add(quest);
         }
-        return items;
+        return quests;
     }
 
     private void addCompletedQuestToDatabase(Codecooler codecooler, Quest quest) throws SQLException {
@@ -210,6 +210,39 @@ public class QuestsDaoImpl implements DAOQuests {
         preStatement.setInt(2, quest.getId());
         preStatement.setDate(3, quest.getDate());
         preStatement.executeUpdate();
+    }
+
+    public List<Quest> getCodecoolerQuestsWithQuantity(Codecooler codecooler) {
+        try {
+            openDatabaseConnection();
+            return getListOfQuestsFromDatabaseWithQuantity("SELECT quest.*, count(completed_quests.questid) as quantity FROM quest LEFT JOIN completed_quests ON quest.id = completed_quests.questid WHERE userid ="+codecooler.getId()+" group by quest.id");
+        } catch (SQLException e) {
+            System.err.println(e.getClass().getName() + ": " + e.getMessage());
+        } finally {
+            closeDatabaseConnection();
+        }
+        return null;
+    }
+
+    private List<Quest> getListOfQuestsFromDatabaseWithQuantity(String sqlStatement) throws SQLException {
+        preStatement = connection.prepareStatement(sqlStatement);
+        ResultSet recordFromDatabase = preStatement.executeQuery();
+        return createListOfQuestsWithQuantity(recordFromDatabase);
+    }
+
+    private List<Quest> createListOfQuestsWithQuantity(ResultSet recordFromDatabase) throws SQLException {
+        List quests = new ArrayList<Quest>();
+        while (recordFromDatabase.next()) {
+            int id = recordFromDatabase.getInt("id");
+            String name = recordFromDatabase.getString("name");
+            String description = recordFromDatabase.getString("description");
+            int price = recordFromDatabase.getInt("coins");
+            String type = recordFromDatabase.getString("quest_type");
+            Quest quest = new Quest(id, name, description, price, type);
+            quest.setQuantity(recordFromDatabase.getInt("quantity"));
+            quests.add(quest);
+        }
+        return quests;
     }
 
 }

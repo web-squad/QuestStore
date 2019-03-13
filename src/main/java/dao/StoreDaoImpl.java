@@ -212,4 +212,38 @@ public class StoreDaoImpl implements DAOStore {
         pst.setDate(3, item.getDate());
         pst.executeUpdate();
     }
+
+    public List<Item> getCodecoolerItemsWithQuantity(Codecooler codecooler) {
+        try {
+            openDatabaseConnection();
+            return getListOfItemsFromDatabaseWithQuantity("SELECT item.*, count(bought_items.itemid) as quantity FROM item LEFT JOIN bought_items ON item.id = bought_items.itemid WHERE userid ="+codecooler.getId()+" group by item.id");
+        } catch (SQLException e) {
+            System.err.println(e.getClass().getName() + ": " + e.getMessage());
+        } finally {
+            closeDatabaseConnection();
+        }
+        return null;
+    }
+
+    private List<Item> getListOfItemsFromDatabaseWithQuantity(String sqlStatement) throws SQLException {
+        pst = connection.prepareStatement(sqlStatement);
+        ResultSet recordFromDatabase = pst.executeQuery();
+        return createListOfItemsWithQuantity(recordFromDatabase);
+    }
+
+    private List<Item> createListOfItemsWithQuantity(ResultSet recordFromDatabase) throws SQLException {
+        List items = new ArrayList<Item>();
+        while (recordFromDatabase.next()) {
+            int id = recordFromDatabase.getInt("id");
+            String name = recordFromDatabase.getString("name");
+            String description = recordFromDatabase.getString("description");
+            int price = recordFromDatabase.getInt("price");
+            String itemType = recordFromDatabase.getString("itemtype");
+            Item item = new Item(id, name, description, price, itemType);
+            item.setQuantity(recordFromDatabase.getInt("quantity"));
+            items.add(item);
+        }
+        return items;
+    }
+
 }

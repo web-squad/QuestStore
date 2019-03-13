@@ -15,4 +15,5 @@ public interface DAOQuests {
     void addQuest(Quest quest);
     void updateQuest(Quest quest);
     List<Quest> getCodecoolerQuests(Codecooler codecooler);
+    List<Quest> getCodecoolerQuestsWithQuantity(Codecooler codecooler);
 }

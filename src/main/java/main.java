@@ -17,7 +17,7 @@ public class main {
 
         // set routes
         server.createContext("/queststore/login", new Controller(pool));
-        server.createContext("/queststore/codecooler/", new CodecoolerController(pool));
+        server.createContext("/queststore/codecooler", new CodecoolerController(pool));
         //server.createContext("/queststore/mentor/", new MentorController(pool));
 
         server.setExecutor(null); // creates a default executor
