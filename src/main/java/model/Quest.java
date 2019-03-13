@@ -10,6 +10,7 @@ public class Quest {
     private String questType;
     private Date date;
     private int quantity;
+    private int total;
 
     public Quest(int id, String name, String description, int coins, String questType, Date date) {
         this.id = id;
@@ -66,5 +67,13 @@ public class Quest {
 
     public int getQuantity() {
         return quantity;
+    }
+
+    public int getTotal() {
+        return total;
+    }
+
+    public void setTotal(int total) {
+        this.total = total;
     }
 }
