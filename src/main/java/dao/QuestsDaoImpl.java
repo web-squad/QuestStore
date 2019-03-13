@@ -197,8 +197,7 @@ public class QuestsDaoImpl implements DAOQuests {
             String description = recordFromDatabase.getString("description");
             int price = recordFromDatabase.getInt("coins");
             String type = recordFromDatabase.getString("quest_type");
-            Date date = recordFromDatabase.getDate("date");
-            Quest quest = new Quest(id, name, description, price, type, date);
+            Quest quest = new Quest(id, name, description, price, type);
             quests.add(quest);
         }
         return quests;

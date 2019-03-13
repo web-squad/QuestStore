@@ -1,3 +1,10 @@
+CREATE TABLE "session" (
+  "id" SERIAL,
+  "sessionid" TEXT,
+  "userid" INTEGER,
+  PRIMARY KEY ("id")
+);
+
 CREATE TABLE "codecooler" (
   "roomid" INTEGER,
   "teamid" INTEGER,
@@ -52,19 +59,17 @@ CREATE TABLE "quest" (
 );
 
 CREATE TABLE "completed_quests" (
+  "id" SERIAL,
   "userid" INTEGER,
   "questid" INTEGER,
-  "date" DATE
+  "date" DATE,
+  PRIMARY KEY ("id")
 );
 
 CREATE TABLE "bought_items" (
-  "userid" INTEGER,
-  "itemid" INTEGER
-);
-
-CREATE TABLE "session" (
   "id" SERIAL,
-  "userid" TEXT,
-  "sessionid" TEXT,
+  "userid" INTEGER,
+  "itemid" INTEGER,
+  "date" DATE,
   PRIMARY KEY ("id")
 );

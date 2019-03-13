@@ -64,6 +64,8 @@ public class CodecoolerController implements HttpHandler {
 
         } else if (path.equals("/queststore/codecooler/experience/" + index)) {
             displayExperience(httpExchange);
+        } else if (path.equals("/queststore/codecooler/store/" + index)) {
+            displayStore(httpExchange);
         } else {
             goToLogin(httpExchange);
         }
@@ -129,6 +131,19 @@ public class CodecoolerController implements HttpHandler {
             }
         }
     }
+
+    private void displayStore(HttpExchange httpExchange) throws IOException {
+        if (cookie.isPresent()) {
+            String sessionid = getSessionIdFromCookie(cookie);
+            if (loginDAO.isActiveSession(sessionid)) {
+                int id = loginDAO.getUserId(sessionid);
+                Codecooler codecooler = codecoolerDAO.getCodecoolerById(id);
+                String response = generateResponseStore(codecooler);
+                sendResponse(httpExchange, response);
+            }
+        }
+    }
+
 
     private Optional<HttpCookie> getCookieBySessionCookieName(HttpExchange httpExchange) {
         String cookieStr = httpExchange.getRequestHeaders().getFirst("Cookie");
@@ -208,6 +223,19 @@ public class CodecoolerController implements HttpHandler {
         model.with("questExtra", questExtra);
         model.with("quantity", quantity);
         model.with("total", total);
+        String response = template.render(model);
+        return response;
+    }
+
+    private String generateResponseStore(Codecooler codecooler) {
+        List<Item> itemsBasic = daoStore.getBasicItems();
+        List<Item> itemsMagic = daoStore.getMagicItems();
+
+        JtwigTemplate template = JtwigTemplate.classpathTemplate("queststore/templates/store.twig");
+        JtwigModel model = JtwigModel.newModel();
+        model.with("codecooler", codecooler);
+        model.with("itemsBasic", itemsBasic);
+        model.with("itemsMagic", itemsMagic);
         String response = template.render(model);
         return response;
     }
