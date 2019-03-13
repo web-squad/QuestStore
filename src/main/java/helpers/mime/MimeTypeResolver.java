@@ -1,4 +1,4 @@
-package helpers;
+package helpers.mime;
 
 import java.io.File;
 import java.util.regex.Matcher;
@@ -12,7 +12,7 @@ public class MimeTypeResolver {
     }
 
     public String getMimeType() {
-        return MimeTypes.mimeTypeMapping.get(getFileExtension().toLowerCase());
+        return helpers.MimeTypes.mimeTypeMapping.get(getFileExtension().toLowerCase());
     }
 
     public String getFileExtension(){
