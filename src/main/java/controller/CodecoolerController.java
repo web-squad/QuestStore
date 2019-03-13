@@ -62,17 +62,15 @@ public class CodecoolerController implements HttpHandler {
         if (path.equals("/queststore/codecooler/" + index)) {
             displayProfile(httpExchange);
 
-        } else if (path.equals("/queststore/codecooler/experience") ) {
+        } else if (path.equals("/queststore/codecooler/experience/" + index)) {
+            displayExperience(httpExchange);
+        } else if (path.equals("/queststore/codecooler/store/" + index)) {
+            displayStore(httpExchange);
+        } else {
+            goToLogin(httpExchange);
+        }
+    }
 
-//        }  else if (path.equals("/queststore/codecooler/wallet") ) {
-//
-//        }  else if (path.equals("/queststore/codecooler/store") ) {
-//
-//        }  else if (path.equals("/queststore/login") ) {
-            } else {
-                    goToLogin(httpExchange);
-                }
-            }
 
 
 
@@ -121,6 +119,31 @@ public class CodecoolerController implements HttpHandler {
             }
         }
     }
+
+    private void displayExperience(HttpExchange httpExchange) throws IOException {
+        if (cookie.isPresent()) {
+            String sessionid = getSessionIdFromCookie(cookie);
+            if (loginDAO.isActiveSession(sessionid)) {
+                int id = loginDAO.getUserId(sessionid);
+                Codecooler codecooler = codecoolerDAO.getCodecoolerById(id);
+                String response = generateResponseExperience(codecooler);
+                sendResponse(httpExchange, response);
+            }
+        }
+    }
+
+    private void displayStore(HttpExchange httpExchange) throws IOException {
+        if (cookie.isPresent()) {
+            String sessionid = getSessionIdFromCookie(cookie);
+            if (loginDAO.isActiveSession(sessionid)) {
+                int id = loginDAO.getUserId(sessionid);
+                Codecooler codecooler = codecoolerDAO.getCodecoolerById(id);
+                String response = generateResponseStore(codecooler);
+                sendResponse(httpExchange, response);
+            }
+        }
+    }
+
 
     private Optional<HttpCookie> getCookieBySessionCookieName(HttpExchange httpExchange) {
         String cookieStr = httpExchange.getRequestHeaders().getFirst("Cookie");
@@ -178,42 +201,44 @@ public class CodecoolerController implements HttpHandler {
         return response;
     }
 
-    private void handleFile(HttpExchange httpExchange, String path) throws IOException {
-        ClassLoader classLoader = getClass().getClassLoader();
-        URL fileURL = classLoader.getResource("." + path);
-        if (fileURL == null) {
-            send404(httpExchange);
-        } else {
-            sendFile(httpExchange, fileURL);
+    private String generateResponseExperience(Codecooler codecooler) {
+        List<Quest> questList = daoQuests.getCodecoolerQuestsWithQuantity(codecooler);
+        List<Quest> questsBasic = new ArrayList<>();
+        List<Quest> questExtra = new ArrayList<>();
+        int quantity = 0;
+        int total = 0;
+        for(Quest quest : questList) {
+            if(quest.getQuestType().equals("basic")) {
+                questsBasic.add(quest);
+            } else {
+                questExtra.add(quest);
+            }
+            quantity += quest.getQuantity();
+            total += quest.getTotal();
         }
+        JtwigTemplate template = JtwigTemplate.classpathTemplate("queststore/templates/experience.twig");
+        JtwigModel model = JtwigModel.newModel();
+        model.with("codecooler", codecooler);
+        model.with("questsBasic", questsBasic);
+        model.with("questExtra", questExtra);
+        model.with("quantity", quantity);
+        model.with("total", total);
+        String response = template.render(model);
+        return response;
     }
 
-    private void send404(HttpExchange httpExchange) throws IOException {
-        String response = "404 (Not Found)\n";
-        httpExchange.sendResponseHeaders(404, response.length());
-        OutputStream os = httpExchange.getResponseBody();
-        os.write(response.toString().getBytes());
-        os.close();
+    private String generateResponseStore(Codecooler codecooler) {
+        List<Item> itemsBasic = daoStore.getBasicItems();
+        List<Item> itemsMagic = daoStore.getMagicItems();
+
+        JtwigTemplate template = JtwigTemplate.classpathTemplate("queststore/templates/store.twig");
+        JtwigModel model = JtwigModel.newModel();
+        model.with("codecooler", codecooler);
+        model.with("itemsBasic", itemsBasic);
+        model.with("itemsMagic", itemsMagic);
+        String response = template.render(model);
+        return response;
     }
-
-    private void sendFile(HttpExchange httpExchange, URL fileURL) throws IOException {
-        File file = new File(fileURL.getFile());
-        MimeTypeResolver resolver = new MimeTypeResolver(file);
-        String mime = resolver.getMimeType();
-        httpExchange.getResponseHeaders().set("Content-Type", mime);
-        httpExchange.sendResponseHeaders(200, 0);
-        OutputStream os = httpExchange.getResponseBody();
-
-        // send the file
-        FileInputStream fs = new FileInputStream(file);
-        final byte[] buffer = new byte[0x10000];
-        int count = 0;
-        while ((count = fs.read(buffer)) >= 0) {
-            os.write(buffer,0,count);
-        }
-        os.close();
-    }
-
 
     private void sendResponse(HttpExchange httpExchange, String response) throws IOException {
         httpExchange.sendResponseHeaders(200, response.getBytes().length);

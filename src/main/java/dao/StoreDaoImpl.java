@@ -87,8 +87,7 @@ public class StoreDaoImpl implements DAOStore {
             String description = recordFromDatabase.getString("description");
             int price = recordFromDatabase.getInt("price");
             String itemType = recordFromDatabase.getString("itemtype");
-            Date date = recordFromDatabase.getDate("date");
-            Item item = new Item(id, name, description, price, itemType, date);
+            Item item = new Item(id, name, description, price, itemType);
             items.add(item);
         }
         return items;
@@ -98,7 +97,7 @@ public class StoreDaoImpl implements DAOStore {
     public List<Item> getMagicItems() {
         try {
             openDatabaseConnection();
-            return getListOfItemsFromDatabase("SELECT * FROM item WHERE itemtype LIKE 'magic';");
+            return getListOfItemsFromDatabase("SELECT * FROM item WHERE itemtype LIKE 'extra';");
         } catch (SQLException e) {
             System.err.println(e.getClass().getName() + ": " + e.getMessage());
         } finally {
@@ -129,8 +128,7 @@ public class StoreDaoImpl implements DAOStore {
             String description = recordFromDatabase.getString("description");
             int price = recordFromDatabase.getInt("price");
             String itemtype = recordFromDatabase.getString("itemtype");
-            Date date = recordFromDatabase.getDate("date");
-            return new Item(id, name, description, price, itemtype, date);
+            return new Item(id, name, description, price, itemtype);
         }
         return null;
     }
@@ -149,12 +147,11 @@ public class StoreDaoImpl implements DAOStore {
     private void updateItemInDatabase(Item item) throws SQLException {
         int id = item.getId();
         openDatabaseConnection();
-        pst = connection.prepareStatement("UPDATE item SET name=?, description=?, price=?, itemtype=?, date=? WHERE id='"+id+"'");
+        pst = connection.prepareStatement("UPDATE item SET name=?, description=?, price=?, itemtype=? WHERE id='"+id+"'");
         pst.setString(1, item.getName());
         pst.setString(2, item.getDescription());
         pst.setInt(3, item.getPrice());
         pst.setString(4, item.getItemType());
-        pst.setDate(5, item.getDate());
         pst.executeUpdate();
     }
 
@@ -171,12 +168,11 @@ public class StoreDaoImpl implements DAOStore {
     }
 
     private void addItemToDatabase(Item item) throws SQLException {
-        pst = connection.prepareStatement("INSERT INTO item (name, description, price, itemtype, date) VALUES (?, ?, ?, ?, ?);");
+        pst = connection.prepareStatement("INSERT INTO item (name, description, price, itemtype) VALUES (?, ?, ?, ?);");
         pst.setString(1, item.getName());
         pst.setString(2, item.getDescription());
         pst.setInt(3, item.getPrice());
         pst.setString(4, item.getItemType());
-        pst.setDate(5, item.getDate());
         pst.executeUpdate();
     }
 
