@@ -108,7 +108,7 @@ public class Controller implements HttpHandler {
     }
 
     private String generateResponse() {
-        JtwigTemplate template = JtwigTemplate.classpathTemplate("queststore/codecooler/templates/login.twig");
+        JtwigTemplate template = JtwigTemplate.classpathTemplate("queststore/templates/login.twig");
         JtwigModel model = JtwigModel.newModel();
         String response = template.render(model);
         return response;

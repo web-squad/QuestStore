@@ -55,16 +55,13 @@ public class CodecoolerController implements HttpHandler {
         System.out.println("looking for: " + uri.getPath());
         String path = uri.getPath();
 
-        if (path.matches("(.*\\.(js|css|jpg|png)($|\\?)).*")) {
-            System.out.println("css");
-            handleFile(httpExchange, path);
-        } else {
-            String[] pathParts = path.split("/");
-            String urlEnding = pathParts[pathParts.length - 1];
-            int index = getIdFromURL(httpExchange, urlEnding);
+        String[] pathParts = path.split("/");
+        String urlEnding = pathParts[pathParts.length - 1];
+        int index = getIdFromURL(httpExchange, urlEnding);
 
-            if (path.equals("/queststore/codecooler/" + index)) {
-                displayProfile(httpExchange);
+        if (path.equals("/queststore/codecooler/" + index)) {
+            displayProfile(httpExchange);
+
         } else if (path.equals("/queststore/codecooler/experience") ) {
 
 //        }  else if (path.equals("/queststore/codecooler/wallet") ) {
@@ -96,7 +93,7 @@ public class CodecoolerController implements HttpHandler {
 //                redirect(httpExchange, userType, id);
 //            }
 //        }
-        }
+
 
     private int getIdFromURL(HttpExchange httpExchange, String urlEnding) throws IOException {
         try {
@@ -170,7 +167,7 @@ public class CodecoolerController implements HttpHandler {
         Mentor mentor = mentorDAO.getMentorByRoomId(roomid);
         List<Quest> questList = daoQuests.getCodecoolerQuestsWithQuantity(codecooler);
         List<Item> itemList = daoStore.getCodecoolerItemsWithQuantity(codecooler);
-        JtwigTemplate template = JtwigTemplate.classpathTemplate("queststore/codecooler/templates/profile.twig");
+        JtwigTemplate template = JtwigTemplate.classpathTemplate("queststore/templates/profile.twig");
         JtwigModel model = JtwigModel.newModel();
         model.with("codecooler", codecooler);
         model.with("room", room);
