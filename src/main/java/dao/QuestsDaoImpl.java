@@ -215,7 +215,7 @@ public class QuestsDaoImpl implements DAOQuests {
     public List<Quest> getCodecoolerQuestsWithQuantity(Codecooler codecooler) {
         try {
             openDatabaseConnection();
-            return getListOfQuestsFromDatabaseWithQuantity("SELECT quest.*, count(completed_quests.questid) as quantity FROM quest LEFT JOIN completed_quests ON quest.id = completed_quests.questid WHERE userid ="+codecooler.getId()+" group by quest.id");
+            return getListOfQuestsFromDatabaseWithQuantity("SELECT quest.*, count(completed_quests.questid) as quantity, count(completed_quests.questid)*coins as total FROM quest LEFT JOIN completed_quests ON quest.id = completed_quests.questid WHERE userid ="+codecooler.getId()+" group by quest.id");
         } catch (SQLException e) {
             System.err.println(e.getClass().getName() + ": " + e.getMessage());
         } finally {
@@ -240,6 +240,7 @@ public class QuestsDaoImpl implements DAOQuests {
             String type = recordFromDatabase.getString("quest_type");
             Quest quest = new Quest(id, name, description, price, type);
             quest.setQuantity(recordFromDatabase.getInt("quantity"));
+            quest.setTotal(recordFromDatabase.getInt("total"));
             quests.add(quest);
         }
         return quests;
