@@ -64,8 +64,8 @@ public class CodecoolerController implements HttpHandler {
 
             if (path.equals("/queststore/codecooler/" + index)) {
                 displayProfile(httpExchange);
-//        } else if (path.equals("/queststore/codecooler/experience") ) {
-//
+        } else if (path.equals("/queststore/codecooler/experience") ) {
+
 //        }  else if (path.equals("/queststore/codecooler/wallet") ) {
 //
 //        }  else if (path.equals("/queststore/codecooler/store") ) {
