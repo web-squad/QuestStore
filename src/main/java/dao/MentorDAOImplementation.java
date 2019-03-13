@@ -151,4 +151,36 @@ public class MentorDAOImplementation implements MentorDAO {
         return null;
     }
 
+    public Mentor getMentorById(int id) {
+        try {
+            connection = connectionPool.takeOut();
+            //connection.setAutoCommit(false);
+            sqlStatement = connection.prepareStatement("SELECT users.*, mentor.email FROM users LEFT JOIN mentor ON users.id = mentor.userid WHERE mentor.userid = ?;");
+            sqlStatement.setInt(1, id);
+            ResultSet recordFromDB = sqlStatement.executeQuery();
+
+            if(recordFromDB.next()){
+                id = recordFromDB.getInt("id");
+                String login = recordFromDB.getString("login");
+                String password = recordFromDB.getString("password");
+                String userType = recordFromDB.getString("userType");
+                String name = recordFromDB.getString("name");
+                String surname = recordFromDB.getString("surname");
+                String email = recordFromDB.getString("email");
+                return new Mentor(id, login, password, userType, name, surname, email);
+            }
+//            else {
+//                System.out.println("Wrong login!");
+//            }
+            //connection.commit();
+            return null;
+        } catch (Exception e) {
+            System.err.println( e.getClass().getName()+": "+ e.getMessage() );
+        } try {
+            connectionPool.takeIn(connection);
+        } catch (Exception e){
+            System.err.println( e.getClass().getName()+": "+ e.getMessage() );
+        }
+        return null;
+    }
 }

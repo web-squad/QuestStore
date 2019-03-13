@@ -16,14 +16,9 @@ import dao.connectionPool.JDBCConnectionPool;
 
 
 import dao.*;
-import dao.connectionPool.JDBCConnectionPool;
 import dao.interfaces.*;
 import helpers.mime.MimeTypeResolver;
 import helpers.cookie.CookieHelper;
-import model.Item;
-import model.Quest;
-import model.Room;
-import model.user.Codecooler;
 import model.user.Mentor;
 import org.jtwig.JtwigModel;
 import org.jtwig.JtwigTemplate;
@@ -45,10 +40,10 @@ public class MentorController implements HttpHandler {
     public MentorController(JDBCConnectionPool connectionPool) {
         this.connectionPool = connectionPool;
         this.loginDAO = new LoginDAOImpl(connectionPool);
-//        this.userDAO = new UserDaoImpl(connectionPool);
+        this.userDAO = new UserDaoImpl(connectionPool);
 //        this.codecoolerDAO = new CodecoolerDaoImpl(connectionPool);
 //        this.roomsDAO = new RoomsDaoImpl(connectionPool);
-//        this.mentorDAO = new MentorDAOImplementation(connectionPool);
+        this.mentorDAO = new MentorDAOImplementation(connectionPool);
 //        this.daoStore = new StoreDaoImpl(connectionPool);
 //        this.daoQuests = new QuestsDaoImpl(connectionPool);
     }
@@ -61,17 +56,14 @@ public class MentorController implements HttpHandler {
         System.out.println("looking for: " + uri.getPath());
         String path = uri.getPath();
 
-//        if (path.matches("(.*\\.(js|css|jpg|png)($|\\?)).*")) {
-//            System.out.println("css");
-//            handleFile(httpExchange, path);
-
             String[] pathParts = path.split("/");
             String urlEnding = pathParts[pathParts.length - 1];
             int index = getIdFromURL(httpExchange, urlEnding);
 
             if (path.equals("/queststore/mentor/" + index)) {
                 displayProfile(httpExchange);
-            //} else if (path.equals("/queststore/codecooler/experience") ) {
+            } else if (path.equals("/queststore/mentor/addNewStudent/" + index) ) {
+                displayAddNewStudentPage(httpExchange);
 
 //        }  else if (path.equals("/queststore/codecooler/wallet") ) {
 //
@@ -89,15 +81,15 @@ public class MentorController implements HttpHandler {
         List<HttpCookie> cookies = cookieHelper.parseCookies(cookieStr);
         return cookieHelper.findCookieByName(SESSION_COOKIE_NAME, cookies);
     }
-    private void handleFile(HttpExchange httpExchange, String path) throws IOException {
-        ClassLoader classLoader = getClass().getClassLoader();
-        URL fileURL = classLoader.getResource("." + path);
-        if (fileURL == null) {
-            send404(httpExchange);
-        } else {
-            sendFile(httpExchange, fileURL);
-        }
-    }
+//    private void handleFile(HttpExchange httpExchange, String path) throws IOException {
+//        ClassLoader classLoader = getClass().getClassLoader();
+//        URL fileURL = classLoader.getResource("." + path);
+//        if (fileURL == null) {
+//            send404(httpExchange);
+//        } else {
+//            sendFile(httpExchange, fileURL);
+//        }
+//    }
 
     private void send404(HttpExchange httpExchange) throws IOException {
         String response = "404 (Not Found)\n";
@@ -145,36 +137,50 @@ public class MentorController implements HttpHandler {
             String sessionid = getSessionIdFromCookie(cookie);
             if (loginDAO.isActiveSession(sessionid)) {
                 int id = loginDAO.getUserId(sessionid);
-                //Mentor mentor = mentorDAO.getMentorByLogin();
-                //tymczasowo:
-                Mentor mentor = new Mentor(3, "mentor123", "password123", "mentor", "mentorName", "mentorSurname", "mentor@m.m");
+                Mentor mentor = mentorDAO.getMentorById(id);
                 String response = generateResponseProfile(mentor);
                 sendResponse(httpExchange, response);
             }
         }
     }
 
+    private String generateResponseProfile(Mentor mentor) {
+        mentor = userDAO.getMentorById(mentor.getId());
+        JtwigTemplate template = JtwigTemplate.classpathTemplate("queststore/templates/mentorprofile.twig");
+        JtwigModel model = JtwigModel.newModel();
+        model.with("mentor", mentor);
+        String response = template.render(model);
+        return response;
+    }
+
+    private void displayAddNewStudentPage(HttpExchange httpExchange) throws IOException {
+        if (cookie.isPresent()) {
+            String sessionid = getSessionIdFromCookie(cookie);
+            if (loginDAO.isActiveSession(sessionid)) {
+                int id = loginDAO.getUserId(sessionid);
+                Mentor mentor = mentorDAO.getMentorById(id);
+                String response = generateResponseAddNewStudent(mentor);
+                sendResponse(httpExchange, response);
+            }
+        }
+    }
+
+    private String generateResponseAddNewStudent(Mentor mentor) throws IOException {
+        JtwigTemplate template = JtwigTemplate.classpathTemplate("queststore/templates/addNewStudent.twig");
+        JtwigModel model = JtwigModel.newModel();
+        model.with("id", mentorDAO.getMentorById(mentor.getId()));
+        String response = template.render(model);
+        return response;
+    }
+
+
+
     private String getSessionIdFromCookie(Optional<HttpCookie> cookie) {
         String cookieValue = cookie.get().getValue();
         return cookieValue.substring(1, cookieValue.length()-1);
     }
 
-    private String generateResponseProfile(Mentor mentor) {
-//        int roomid = codecooler.getRoomId();
-//        Room room = roomsDAO.getRoomById(roomid);
-//        Mentor mentor = mentorDAO.getMentorByRoomId(roomid);
-//        List<Quest> questList = daoQuests.getCodecoolerQuestsWithQuantity(codecooler);
-//        List<Item> itemList = daoStore.getCodecoolerItemsWithQuantity(codecooler);
-        JtwigTemplate template = JtwigTemplate.classpathTemplate("queststore/templates/mentorprofile.twig");
-        JtwigModel model = JtwigModel.newModel();
-//        model.with("codecooler", codecooler);
-//        model.with("room", room);
-//        model.with("mentor", mentor);
-//        model.with("questList", questList);
-//        model.with("itemList", itemList);
-        String response = template.render(model);
-        return response;
-    }
+
 
     private void sendResponse(HttpExchange httpExchange, String response) throws IOException {
         httpExchange.sendResponseHeaders(200, response.getBytes().length);
