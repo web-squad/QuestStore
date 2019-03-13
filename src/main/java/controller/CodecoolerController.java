@@ -54,7 +54,7 @@ public class CodecoolerController implements HttpHandler {
         System.out.println("looking for: " + uri.getPath());
         String path = uri.getPath();
 
-        if (path.equals("/queststore/codecooler/css/style.css")) {
+        if (path.matches("(.*\\.(js|css|jpg|png)($|\\?)).*")) {
             System.out.println("css");
             handleFile(httpExchange, path);
         } else {
@@ -182,7 +182,7 @@ public class CodecoolerController implements HttpHandler {
 
     private void handleFile(HttpExchange httpExchange, String path) throws IOException {
         ClassLoader classLoader = getClass().getClassLoader();
-        URL fileURL = classLoader.getResource(path);
+        URL fileURL = classLoader.getResource("." + path);
         if (fileURL == null) {
             send404(httpExchange);
         } else {
