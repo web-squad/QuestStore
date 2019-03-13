@@ -66,6 +66,11 @@ public class CodecoolerController implements HttpHandler {
             displayExperience(httpExchange);
         } else if (path.equals("/queststore/codecooler/store/" + index)) {
             displayStore(httpExchange);
+        } else if (path.equals("/queststore/codecooler/logout/" + index)) {
+            System.out.println("logout");
+            String sessionid = getSessionIdFromCookie(cookie);
+            loginDAO.removeSessionid(sessionid);
+            goToLogin(httpExchange);
         } else {
             goToLogin(httpExchange);
         }
