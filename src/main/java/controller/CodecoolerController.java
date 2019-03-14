@@ -125,14 +125,14 @@ public class CodecoolerController implements HttpHandler {
     private String generateResponseProfile() {
         int roomid = codecooler.getRoomId();
         Room room = roomsDAO.getRoomById(roomid);
-        Mentor mentor = mentorDAO.getMentorByRoomId(roomid);
+        List<Mentor> mentors = mentorDAO.getMentorsByRoomId(roomid);
         List<Quest> questList = daoQuests.getCodecoolerQuestsWithQuantity(codecooler);
         List<Item> itemList = daoStore.getCodecoolerItemsWithQuantity(codecooler);
         JtwigTemplate template = JtwigTemplate.classpathTemplate("queststore/templates/profile.twig");
         JtwigModel model = JtwigModel.newModel();
         model.with("codecooler", codecooler);
         model.with("room", room);
-        model.with("mentor", mentor);
+        model.with("mentors", mentors);
         model.with("questList", questList);
         model.with("itemList", itemList);
         return template.render(model);

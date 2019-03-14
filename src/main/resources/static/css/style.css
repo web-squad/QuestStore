@@ -125,6 +125,7 @@ th, td {
 .info-type {
     font-size: 1em;
     text-transform: uppercase;
+    font-weight: bold;
 }
 .profile-info {
     padding: 3%;

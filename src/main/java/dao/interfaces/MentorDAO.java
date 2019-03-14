@@ -10,4 +10,5 @@ public interface MentorDAO {
     Mentor getMentorById(int id);
     void addNewMentor(Mentor mentor);
     Mentor getMentorByRoomId(int roomid);
+    List<Mentor> getMentorsByRoomId(int roomid);
 }

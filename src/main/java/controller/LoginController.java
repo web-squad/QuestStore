@@ -35,7 +35,6 @@ public class LoginController implements HttpHandler {
         String method = httpExchange.getRequestMethod();
 
         if (method.equals("GET")) {
-            System.out.println("get");
             if (cookie.isPresent()) {
                 String sessionid = getSessionIdFromCookie(cookie);
                 if (loginDAO.isActiveSession(sessionid)) {
@@ -47,14 +46,12 @@ public class LoginController implements HttpHandler {
         }
 
         if (method.equals("POST")) {
-            System.out.println("post");
             String formData = getFormData(httpExchange);
             Map inputs = parseFormData(formData);
             String username = inputs.get("username").toString();
             String password = inputs.get("password").toString();
 
             if (userDAO.isLoginSuccessful(username, password)) {
-                System.out.println("is succesful");
                 String sessionId = generateSessionId();
                 cookie = Optional.of(new HttpCookie(SESSION_COOKIE_NAME, sessionId));
                 httpExchange.getResponseHeaders().add("Set-Cookie", cookie.get().toString());
