@@ -14,7 +14,7 @@
 <header>
     <div class="header">
         <div id="logo">
-            <a href="../../static/img"><img src="/../../static/img/logo6.png" alt="logo"></a>
+            <a href="/queststore/mentor/"><img src="/../../static/img/logo6.png" alt="logo"></a>
         </div>
 
         <div id="main-nav">
@@ -44,7 +44,7 @@
             </div>
             <div class="dropdown">
                 <button class="dropbtn">
-                    <a href="login.html">Logout</a>
+                    <a href="/queststore/mentor/logout/{{ mentor.getId() }}">Logout</a>
                 </button>
             </div>
         </div>
@@ -58,7 +58,7 @@
     <div id="profile-content">
         <div id="profile">
             <p>
-                <span class="info-type">Your name:</span>
+                <span class="info-type">Logged in as: </span>
                 <span class="profile-info">{{mentor.getName()}}</span>
             </p>
         </div>
