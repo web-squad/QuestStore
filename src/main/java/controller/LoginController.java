@@ -16,14 +16,14 @@ import java.net.HttpCookie;
 import java.net.URLDecoder;
 import java.util.*;
 
-public class Controller implements HttpHandler {
+public class LoginController implements HttpHandler {
     private static final String SESSION_COOKIE_NAME = "sessionId";
     private CookieHelper cookieHelper = new CookieHelper();
     private JDBCConnectionPool connectionPool;
     private LoginDAO loginDAO;
     private UserDAO userDAO;
 
-    public Controller(JDBCConnectionPool connectionPool) {
+    public LoginController(JDBCConnectionPool connectionPool) {
         this.connectionPool = connectionPool;
         this.loginDAO = new LoginDAOImpl(connectionPool);
         this.userDAO = new UserDaoImpl(connectionPool);
