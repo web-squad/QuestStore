@@ -2,12 +2,11 @@
 <html>
 
 <head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Add new student</title>
+    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" media="screen" href="../../static/css/style.css" />
-    <script src="js/addNewStudent.js"></script>
+    <title>Add new student</title>
+    <link rel="stylesheet" href="../../../static/css/style.css">
+
 </head>
 
 <body>
@@ -15,17 +14,17 @@
 <header>
     <div class="header">
         <div id="logo">
-            <a href="mentorsite.html"><img src="../../static/img/logo6.png" alt="logo"></a>
+            <a href="../../../static/img"><img src="../../../static/img/logo6.png" alt="logo"></a>
         </div>
 
-        <div class="navbar">
-            <a href="mentorsite.html"></i>Back to main site</a>
-        </div>
+        <!--<div class="navbar">-->
+            <!--<a href="mentorsite.html">Back to main site</a>-->
+        <!--</div>-->
     </div>
 </header>
 
 <div class="container">
-    <form name="inputs" onchange="validateForm()" onSubmit="return DoOnSubmit();">
+    <form method="POST" name="inputs">
         <div class="row">
             <div class="col-25">
                 <label for="name">Student's name</label>
@@ -52,22 +51,6 @@
         </div>
         <div class="row">
             <div class="col-25">
-                <label for="birthDate">Student's birth date</label>
-            </div>
-            <div class="col-75">
-                <input type="text" id="birthDate" name="birthDate" placeholder="Student birth date">
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-25">
-                <label for="studyBegan">Student's date</label>
-            </div>
-            <div class="col-75">
-                <input type="text" id="studyBegan" name="studyBegan" placeholder="start learning">
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-25">
                 <label for="country">Country</label>
             </div>
             <div class="col-75">
@@ -88,7 +71,7 @@
             </div>
             <div class="col-75">
                 <textarea id="mail" name="mail" placeholder="Student mail.."></textarea>
-                <input id="btSubmit" type="submit" value="Add Student" disabled />
+                <input type="submit" id="btSubmit" value="Add Student">
             </div>
         </div>
     </form>
@@ -100,7 +83,7 @@
             <p>© Quest Store 2019</p>
         </div>
         <div id="footer-logo">
-            <img src="../img/whitering60.png">
+            <img src="../../../static/img/whitering60.png">
         </div>
         <div class="footer-el">
             <p>Created by:</p>

@@ -13,7 +13,11 @@ public interface CodecoolerDAO {
 
     Codecooler getCodecoolerById(int id);
 
+    int getCodecoolerIdByLoginPasswordNameSurname(Codecooler codecooler);
+
     void addCodecooler(Codecooler codecooler);
+
+    void addCodecoolerToUsersTable(Codecooler codecooler);
 
     void updateCodecooler(Codecooler codecooler);
 

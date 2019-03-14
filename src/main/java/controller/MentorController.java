@@ -3,14 +3,14 @@ package controller;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.OutputStream;
+import java.io.*;
 import java.net.HttpCookie;
 import java.net.URI;
 import java.net.URL;
+import java.net.URLDecoder;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import dao.connectionPool.JDBCConnectionPool;
 
@@ -19,7 +19,9 @@ import dao.*;
 import dao.interfaces.*;
 import helpers.mime.MimeTypeResolver;
 import helpers.cookie.CookieHelper;
+import model.user.Codecooler;
 import model.user.Mentor;
+import model.user.User;
 import org.jtwig.JtwigModel;
 import org.jtwig.JtwigTemplate;
 
@@ -41,38 +43,53 @@ public class MentorController implements HttpHandler {
         this.connectionPool = connectionPool;
         this.loginDAO = new LoginDAOImpl(connectionPool);
         this.userDAO = new UserDaoImpl(connectionPool);
-//        this.codecoolerDAO = new CodecoolerDaoImpl(connectionPool);
-//        this.roomsDAO = new RoomsDaoImpl(connectionPool);
+        this.codecoolerDAO = new CodecoolerDaoImpl(connectionPool);
+        this.roomsDAO = new RoomsDaoImpl(connectionPool);
         this.mentorDAO = new MentorDAOImplementation(connectionPool);
-//        this.daoStore = new StoreDaoImpl(connectionPool);
-//        this.daoQuests = new QuestsDaoImpl(connectionPool);
+        this.daoStore = new StoreDaoImpl(connectionPool);
+        this.daoQuests = new QuestsDaoImpl(connectionPool);
     }
 
     @Override
     public void handle(HttpExchange httpExchange) throws IOException {
         this.cookie = getCookieBySessionCookieName(httpExchange);
-
+        String response = "";
+        String method = httpExchange.getRequestMethod();
+//        if (method.equals("POST")) {
+//            System.out.println("post nowego studenta");
+//            InputStreamReader isr = new InputStreamReader(httpExchange.getRequestBody(), "utf-8");
+//            BufferedReader br = new BufferedReader(isr);
+//            String formData = br.readLine();
+//
+//            System.out.println(formData);
+//            //Map inputs = parseFormData(formData);
+//            displayProfile(httpExchange);
+//
+//
+//        }
         URI uri = httpExchange.getRequestURI();
         System.out.println("looking for: " + uri.getPath());
         String path = uri.getPath();
 
-            String[] pathParts = path.split("/");
-            String urlEnding = pathParts[pathParts.length - 1];
-            int index = getIdFromURL(httpExchange, urlEnding);
+        String[] pathParts = path.split("/");
+        String urlEnding = pathParts[pathParts.length - 1];
+        int index = getIdFromURL(httpExchange, urlEnding);
 
-            if (path.equals("/queststore/mentor/" + index)) {
-                displayProfile(httpExchange);
-            } else if (path.equals("/queststore/mentor/addNewStudent/" + index) ) {
-                displayAddNewStudentPage(httpExchange);
+        if (path.equals("/queststore/mentor/" + index)) {
+            displayProfile(httpExchange);
+        } else if (path.equals("/queststore/mentor/addNewStudent/" + index) ) {
+            displayAddNewStudentPage(httpExchange);
 
 //        }  else if (path.equals("/queststore/codecooler/wallet") ) {
 //
 //        }  else if (path.equals("/queststore/codecooler/store") ) {
 //
 //        }  else if (path.equals("/queststore/login") ) {
-            } else {
-                goToLogin(httpExchange);
-            }
+        } else {
+            goToLogin(httpExchange);
+        }
+
+
 
     }
 
@@ -149,6 +166,7 @@ public class MentorController implements HttpHandler {
         JtwigTemplate template = JtwigTemplate.classpathTemplate("queststore/templates/mentorprofile.twig");
         JtwigModel model = JtwigModel.newModel();
         model.with("mentor", mentor);
+        model.with("codecoolers", codecoolerDAO.getAllCodecoolers());
         String response = template.render(model);
         return response;
     }
@@ -159,16 +177,55 @@ public class MentorController implements HttpHandler {
             if (loginDAO.isActiveSession(sessionid)) {
                 int id = loginDAO.getUserId(sessionid);
                 Mentor mentor = mentorDAO.getMentorById(id);
-                String response = generateResponseAddNewStudent(mentor);
-                sendResponse(httpExchange, response);
+                String method = httpExchange.getRequestMethod();
+
+                if (method.equals("POST")) {
+                    InputStreamReader isr = new InputStreamReader(httpExchange.getRequestBody(), "utf-8");
+                    BufferedReader br = new BufferedReader(isr);
+                    String formData = br.readLine();
+                    Map inputs = parseFormData(formData);
+                    String login = "login";
+                    String password = "password";
+                    String userType = "codecooler";
+                    String name = inputs.get("firstname").toString();
+                    String surname = inputs.get("lastname").toString();
+                    Codecooler codecooler = new Codecooler(666, login, password, userType, name, surname);
+                    codecoolerDAO.addCodecoolerToUsersTable(codecooler);
+                    int idFromUsers = codecoolerDAO.getCodecoolerIdByLoginPasswordNameSurname(codecooler);
+                    codecooler = new Codecooler(idFromUsers, login, password, userType, name, surname);
+                    codecoolerDAO.addCodecooler(codecooler);
+                    System.out.println("Codecooler added to table users and table codecooler");
+
+                    System.out.println("location change");
+                    httpExchange.getResponseHeaders().set("Location", "/queststore/login");
+                    httpExchange.sendResponseHeaders(302,0);
+                }
+                if (method.equals("GET")) {
+                    String response = generateResponseAddNewStudent(mentor);
+                    sendResponse(httpExchange, response);
+                }
             }
         }
+    }
+
+    private static Map<String, String> parseFormData(String formData) throws UnsupportedEncodingException {
+        Map<String, String> map = new HashMap<>();
+        String[] pairs = formData.split("&");
+        for (String pair : pairs) {
+            String[] keyValue = pair.split("=");
+            // We have to decode the value because it's urlencoded. see: https://en.wikipedia.org/wiki/POST_(HTTP)#Use_for_submitting_web_forms
+            String value = new URLDecoder().decode(keyValue[1], "UTF-8");
+            map.put(keyValue[0], value);
+            System.out.println("mapkey:"+keyValue[0] + "value:"+value);
+
+        }
+        return map;
     }
 
     private String generateResponseAddNewStudent(Mentor mentor) throws IOException {
         JtwigTemplate template = JtwigTemplate.classpathTemplate("queststore/templates/addNewStudent.twig");
         JtwigModel model = JtwigModel.newModel();
-        model.with("id", mentorDAO.getMentorById(mentor.getId()));
+//        model.with("id", mentorDAO.getMentorById(mentor.getId()));
         String response = template.render(model);
         return response;
     }
