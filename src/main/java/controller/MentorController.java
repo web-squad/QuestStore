@@ -79,12 +79,10 @@ public class MentorController implements HttpHandler {
             displayProfile(httpExchange);
         } else if (path.equals("/queststore/mentor/addNewStudent/" + index) ) {
             displayAddNewStudentPage(httpExchange);
-
-//        }  else if (path.equals("/queststore/codecooler/wallet") ) {
-//
-//        }  else if (path.equals("/queststore/codecooler/store") ) {
-//
-//        }  else if (path.equals("/queststore/login") ) {
+        }  else if (path.equals("/queststore/mentor/logout/" + index)) {
+            String sessionid = getSessionIdFromCookie(cookie);
+            loginDAO.removeSessionid(sessionid);
+            goToLogin(httpExchange);
         } else {
             goToLogin(httpExchange);
         }
