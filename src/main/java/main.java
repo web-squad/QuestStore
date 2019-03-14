@@ -20,6 +20,7 @@ public class main {
         server.createContext("/queststore/login", new Controller(pool));
         server.createContext("/queststore/codecooler", new CodecoolerController(pool));
         server.createContext("/queststore/mentor", new MentorController(pool));
+        server.createContext("/queststore/addNewStudent", new MentorController(pool));
         server.createContext("/static", new Static());
         //server.createContext("/static/img", new Static());
 
