@@ -11,6 +11,7 @@ import helpers.mime.MimeTypeResolver;
 import model.Item;
 import model.Quest;
 import model.Room;
+import model.Subject;
 import model.user.Codecooler;
 import model.user.Mentor;
 import org.jtwig.JtwigModel;
@@ -21,6 +22,8 @@ import java.net.HttpCookie;
 import java.net.URI;
 import java.net.URL;
 import java.net.URLDecoder;
+import java.time.LocalDate;
+import java.sql.Date;
 import java.util.*;
 
 public class CodecoolerController implements HttpHandler {
@@ -34,6 +37,7 @@ public class CodecoolerController implements HttpHandler {
     private MentorDAO mentorDAO;
     private DAOStore daoStore;
     private DAOQuests daoQuests;
+    private SubjectDAO subjectDAO;
     private Optional<HttpCookie> cookie;
 
     public CodecoolerController(JDBCConnectionPool connectionPool) {
@@ -44,6 +48,7 @@ public class CodecoolerController implements HttpHandler {
         this.roomsDAO = new RoomsDaoImpl(connectionPool);
         this.mentorDAO = new MentorDAOImplementation(connectionPool);
         this.daoStore = new StoreDaoImpl(connectionPool);
+        this.subjectDAO = new SubjectDaoImpl(connectionPool);
         this.daoQuests = new QuestsDaoImpl(connectionPool);
     }
 
@@ -66,6 +71,8 @@ public class CodecoolerController implements HttpHandler {
             displayExperience(httpExchange);
         } else if (path.equals("/queststore/codecooler/store/" + index)) {
             displayStore(httpExchange);
+        } else if (path.equals("/queststore/codecooler/wallet/" + index)) {
+            displayWallet(httpExchange);
         } else if (path.equals("/queststore/codecooler/logout/" + index)) {
             System.out.println("logout");
             String sessionid = getSessionIdFromCookie(cookie);
@@ -75,7 +82,6 @@ public class CodecoolerController implements HttpHandler {
             goToLogin(httpExchange);
         }
     }
-
 
 
 
@@ -137,12 +143,40 @@ public class CodecoolerController implements HttpHandler {
         }
     }
 
-    private void displayStore(HttpExchange httpExchange) throws IOException {
+    private void displayWallet(HttpExchange httpExchange) throws IOException {
         if (cookie.isPresent()) {
             String sessionid = getSessionIdFromCookie(cookie);
             if (loginDAO.isActiveSession(sessionid)) {
                 int id = loginDAO.getUserId(sessionid);
                 Codecooler codecooler = codecoolerDAO.getCodecoolerById(id);
+                String response = generateResponseWallet(codecooler);
+                sendResponse(httpExchange, response);
+            }
+        }
+    }
+
+    private void displayStore(HttpExchange httpExchange) throws IOException {
+        String method = httpExchange.getRequestMethod();
+        if (cookie.isPresent()) {
+            String sessionid = getSessionIdFromCookie(cookie);
+            if (loginDAO.isActiveSession(sessionid)) {
+                int id = loginDAO.getUserId(sessionid);
+                Codecooler codecooler = codecoolerDAO.getCodecoolerById(id);
+                if (method.equals("POST")) {
+                    String formData = getFormData(httpExchange);
+                    List<Integer> ids = parseFormDataStore(formData);
+                    List<Item> itemsToBuy = new ArrayList<>();
+                    for(int i : ids) {
+                        Item item = daoStore.getItemById(i);
+                        LocalDate locald = LocalDate.now();
+                        Date date = Date.valueOf(locald);
+                        item.setDate(date);
+                        itemsToBuy.add(item);
+                    }
+                    for(Item item : itemsToBuy) {
+                        daoStore.handleBuyingItem(codecooler, item);
+                    }
+                }
                 String response = generateResponseStore(codecooler);
                 sendResponse(httpExchange, response);
             }
@@ -184,6 +218,18 @@ public class CodecoolerController implements HttpHandler {
         }
         return map;
     }
+
+    private List<Integer> parseFormDataStore(String formData) throws UnsupportedEncodingException {
+        //1=on  &2=on
+        List<Integer> decodedIds = new ArrayList<>();
+        String[] notdecodedIds = formData.split("&");
+        for (String id : notdecodedIds) {
+            String[] notdecodedParts = id.split("=");
+            decodedIds.add(Integer.valueOf(notdecodedParts[0]));
+        }
+        return decodedIds;
+    }
+
 
     private String generateSessionId() {
         return UUID.randomUUID().toString();
@@ -228,6 +274,23 @@ public class CodecoolerController implements HttpHandler {
         model.with("questExtra", questExtra);
         model.with("quantity", quantity);
         model.with("total", total);
+        String response = template.render(model);
+        return response;
+    }
+
+    private String generateResponseWallet(Codecooler codecooler) {
+        int id = codecooler.getId();
+        List<Subject> items = subjectDAO.getSubjectsItems(id);
+        List<Subject> quests = subjectDAO.getSubjectsQuests(id);
+        List<Subject> subjects = new ArrayList<>();
+        subjects.addAll(items);
+        subjects.addAll(quests);
+        Collections.sort(subjects);
+
+        JtwigTemplate template = JtwigTemplate.classpathTemplate("queststore/templates/wallet.twig");
+        JtwigModel model = JtwigModel.newModel();
+        model.with("codecooler", codecooler);
+        model.with("subjects", subjects);
         String response = template.render(model);
         return response;
     }

@@ -56,6 +56,10 @@ public class Item {
         return date.toString();
     }
 
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
     public Date getDate() {
         return date;
     }
@@ -67,4 +71,6 @@ public class Item {
     public int getQuantity() {
         return quantity;
     }
+
+
 }

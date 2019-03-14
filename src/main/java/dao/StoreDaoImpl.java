@@ -133,6 +133,20 @@ public class StoreDaoImpl implements DAOStore {
         return null;
     }
 
+//    private Item getItemByName(String name) throws SQLException {
+//        pst = connection.prepareStatement("SELECT * FROM item WHERE id = ?;");
+//        pst.setInt(1, id);
+//        ResultSet recordFromDatabase = pst.executeQuery();
+//        if (recordFromDatabase.next()) {
+//            String name = recordFromDatabase.getString("name");
+//            String description = recordFromDatabase.getString("description");
+//            int price = recordFromDatabase.getInt("price");
+//            String itemtype = recordFromDatabase.getString("itemtype");
+//            return new Item(id, name, description, price, itemtype);
+//        }
+//        return null;
+//    }
+
 
     public void updateItem(Item item) {
         try {
@@ -202,11 +216,20 @@ public class StoreDaoImpl implements DAOStore {
     }
 
     private void addBought_ItemToDatabase(Codecooler codecooler, Item item) throws SQLException {
-        pst = connection.prepareStatement("INSERT INTO bought_items (userid, itemid, date) VALUES (?, ?, ?)");
-        pst.setInt(1, codecooler.getId());
-        pst.setInt(2, item.getId());
-        pst.setDate(3, item.getDate());
-        pst.executeUpdate();
+        try {
+            connection = connectionPool.takeOut();
+            pst = connection.prepareStatement("INSERT INTO bought_items (userid, itemid, date) VALUES (?, ?, ?)");
+            pst.setInt(1, codecooler.getId());
+            pst.setInt(2, item.getId());
+            pst.setDate(3, item.getDate());
+            pst.executeUpdate();
+        } catch(SQLException se) {
+            se.printStackTrace();
+        } catch(Exception e) {
+            e.printStackTrace();
+        } finally {
+            connectionPool.takeIn(connection);
+        }
     }
 
     public List<Item> getCodecoolerItemsWithQuantity(Codecooler codecooler) {
