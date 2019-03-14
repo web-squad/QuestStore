@@ -23,7 +23,7 @@ public class MentorDAOImplementation implements MentorDAO {
 
         try{
             connection = connectionPool.takeOut();
-            connection.setAutoCommit(false);
+//            connection.setAutoCommit(false);
             sqlStatement = connection.prepareStatement("SELECT * FROM users u INNER JOIN Mentor m ON u.id=m.userid;");
             connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/QuestStore", "admin", "123");
             ResultSet recordsFromDB = sqlStatement.executeQuery();
@@ -39,7 +39,7 @@ public class MentorDAOImplementation implements MentorDAO {
 
                 mentors.add(new Mentor(mentorId, login, password, userType, name, surname, email));
             }
-            connection.commit();
+//            connection.commit();
         } catch (Exception e) {
             System.err.println( e.getClass().getName()+": "+ e.getMessage() );
         } try {

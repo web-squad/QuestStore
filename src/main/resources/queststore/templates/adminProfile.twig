@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="../../static/css/style.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <script src="script/myScript.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="author" content="Kamil Olsza">
+    <title>Quest Store</title>
+</head>
+
+<body>
+
+<header>
+    <div class="header">
+        <div id="logo">
+            <a href="admin.html"><img src="../../static/img/logo6.png" alt="logo"></a>
+        </div>
+
+        <div id="main-nav">
+            <div class="dropdown">
+                <button class="dropbtn">Mentors</button>
+                <div class="dropdown-content">
+                    <a href="admin.html">Mentors List</a>
+                    <a href="/queststore/admin/addNewMentor/{{ admin.getId() }}">Add Mentor</a>
+                </div>
+            </div>
+            <div class="dropdown">
+                <button class="dropbtn">Classes</button>
+                <div class="dropdown-content">
+                    <a href="#">Add Class</a>
+                    <a href="#">Edit Class</a>
+                </div>
+            </div>
+            <div class="dropdown">
+                <button class="dropbtn">
+                    <a href="login.html">Logout</a>
+                </button>
+            </div>
+        </div>
+    </div>
+</header>
+
+<div id="contener">
+    <div id="heading">
+        <h1>Mentors</h1>
+    </div>
+    <div id="content" style="overflow-x:auto;">
+        <table>
+            <tr class="table-top">
+                <th class="table-title">Lp.</th>
+                <th class="table-title">Name</th>
+                <th class="table-title">Surname</th>
+                <th class="table-title">Contact</th>
+                <th class="table-title">Edit Profile</th>
+                <!--<th class="table-title td-center">Class</th>-->
+                <!--<th class="table-title td-center">Level</th>-->
+            </tr>
+            {% for mentor in mentors %}
+            <tr>
+                <td> {{ mentor.getId() }} </td>
+                <td> {{ mentor.getName() }} </td>
+                <td> {{ mentor.getSurname() }} </td>
+                <td> {{ mentor.getEmail() }} </td>
+                <td> Edit </td>
+            </tr>
+            {% endfor %}
+            <tr>
+                <td><a href="#">1.</a></td>
+                <td>Janusz</td>
+                <td>Kowalski</td>
+                <td>janusz.kowalski@codecool.pl</td>
+                <td class="td-center">IV</td>
+                <!--<td class="td-center">2</td>-->
+            </tr>
+        </table>
+    </div>
+</div>
+
+<footer>
+    <div id="footer-cont">
+        <div>
+            <p>© Quest Store 2019</p>
+        </div>
+        <div id="footer-logo">
+            <img src="../../static/img/whitering60.png">
+        </div>
+        <div>
+            <p>Created by:</p>
+            <ul id="autors">
+                <li>Ewelina Jaworska</li>
+                <li>Konrad Suseł</li>
+                <li>Kamil Olsza</li>
+                <li>Andrzej Rzeszut</li>
+            </ul>
+        </div>
+
+    </div>
+
+</footer>
+
+</body>
+
+</html>
