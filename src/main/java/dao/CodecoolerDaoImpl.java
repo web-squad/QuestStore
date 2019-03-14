@@ -1,5 +1,6 @@
 package dao;
 
+import com.sun.org.apache.bcel.internal.classfile.Code;
 import dao.connectionPool.JDBCConnectionPool;
 import dao.interfaces.CodecoolerDAO;
 import model.user.Codecooler;
@@ -150,6 +151,7 @@ public class CodecoolerDaoImpl implements CodecoolerDAO {
                 codecooler.setRoomId(roomId);
                 codecooler.setTeamId(teamId);
                 codecooler.setEarnings(earnings);
+                return codecooler;
             }
             connection.commit();
         } catch(SQLException se) {

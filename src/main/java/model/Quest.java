@@ -1,4 +1,5 @@
 package model;
+import java.sql.Date;
 
 public class Quest {
 
@@ -7,6 +8,18 @@ public class Quest {
     private String description;
     private int coins;
     private String questType;
+    private Date date;
+    private int quantity;
+    private int total;
+
+    public Quest(int id, String name, String description, int coins, String questType, Date date) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.coins = coins;
+        this.questType = questType;
+        this.date = date;
+    }
 
     public Quest(int id, String name, String description, int coins, String questType) {
         this.id = id;
@@ -40,7 +53,27 @@ public class Quest {
         this.coins = coins;
     }
 
-    public String toString() {
-        return "id: "+ getId()+ "\nName: " + getName() + "\nDescription: " + getDescription() + "\nCoins: " + getCoins() + "\nQuest type: " + getQuestType();
+    public String getDateString() {
+        return date.toString();
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public int getTotal() {
+        return total;
+    }
+
+    public void setTotal(int total) {
+        this.total = total;
     }
 }

@@ -3,6 +3,8 @@ package dao.interfaces;
 import model.Quest;
 import model.user.Codecooler;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 
 public interface DAOQuests {
@@ -13,5 +15,5 @@ public interface DAOQuests {
     void addQuest(Quest quest);
     void updateQuest(Quest quest);
     List<Quest> getCodecoolerQuests(Codecooler codecooler);
-    void addCompleteQuest(int userId, int questId);
-    }
+    List<Quest> getCodecoolerQuestsWithQuantity(Codecooler codecooler);
+}

@@ -11,8 +11,8 @@ public abstract class ObjectPool<T> {
     public ObjectPool()
     {
         deadTime = 50000; // 50 seconds 
-        lock = new Hashtable<T, Long>();
-        unlock = new Hashtable<T, Long>();
+        lock = new Hashtable<T, Long>(); //taking out
+        unlock = new Hashtable<T, Long>(); //taking in
     }
 
     public abstract T create();
@@ -30,7 +30,7 @@ public abstract class ObjectPool<T> {
             while (e.hasMoreElements()) {
                 t = e.nextElement();
                 if ((now - unlock.get(t)) > deadTime) {
-                    // object has deadd 
+                    // object has dead
                     unlock.remove(t);
                     dead(t);
                     t = null;
