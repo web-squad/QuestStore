@@ -17,7 +17,7 @@ public class main {
         HttpServer server = HttpServer.create(new InetSocketAddress(7000), 0);
 
         // set routes
-        server.createContext("/queststore/login", new Controller(pool));
+        server.createContext("/queststore", new Controller(pool));
         server.createContext("/queststore/codecooler", new CodecoolerController(pool));
         server.createContext("/queststore/mentor", new MentorController(pool));
         server.createContext("/static", new Static());
