@@ -1,6 +1,7 @@
 import com.sun.net.httpserver.HttpServer;
 import controller.CodecoolerController;
 import controller.Controller;
+import controller.LoginController;
 import controller.MentorController;
 import dao.connectionPool.JDBCConnectionPool;
 
@@ -8,7 +9,7 @@ import dao.connectionPool.JDBCConnectionPool;
 import java.net.InetSocketAddress;
 
 
-public class main {
+public class Application {
     public static void main(String[] args) throws Exception {
 
         JDBCConnectionPool pool = new JDBCConnectionPool("jdbc:postgresql://localhost:5432/QuestStore",
@@ -17,7 +18,8 @@ public class main {
         HttpServer server = HttpServer.create(new InetSocketAddress(7000), 0);
 
         // set routes
-        server.createContext("/queststore/login", new Controller(pool));
+        server.createContext("/queststore", new Controller());
+        server.createContext("/queststore/login", new LoginController(pool));
         server.createContext("/queststore/codecooler", new CodecoolerController(pool));
         server.createContext("/queststore/mentor", new MentorController(pool));
         server.createContext("/queststore/addNewStudent", new MentorController(pool));

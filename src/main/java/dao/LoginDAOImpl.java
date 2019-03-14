@@ -80,4 +80,22 @@ public class LoginDAOImpl implements LoginDAO {
             connectionPool.takeIn(connection);
         }
     }
+
+    public void removeSessionid(String sessionid) {
+        System.out.println(sessionid);
+        try {
+            connection = connectionPool.takeOut();
+            connection.setAutoCommit(false);
+            pst = connection.prepareStatement("DELETE FROM session WHERE sessionid = ?");
+            pst.setString(1, sessionid);
+            pst.executeUpdate();
+            connection.commit();
+        } catch(SQLException se) {
+            se.printStackTrace();
+        } catch(Exception e) {
+            e.printStackTrace();
+        } finally {
+            connectionPool.takeIn(connection);
+        }
+    }
 }
