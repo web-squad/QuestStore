@@ -43,7 +43,7 @@ public class CodecoolerDaoImpl implements CodecoolerDAO {
                 codecooler.setEarnings(earnings);
                 codecoolerList.add(codecooler);
             }
-            connection.commit();
+//            connection.commit();
         } catch(SQLException se) {
             se.printStackTrace();
         } catch(Exception e) {
@@ -164,6 +164,30 @@ public class CodecoolerDaoImpl implements CodecoolerDAO {
         return null;
     }
 
+    public int getCodecoolerIdByLoginPasswordNameSurname(Codecooler codecooler) {
+        try {
+            connection = connectionPool.takeOut();
+            pst = connection.prepareStatement("SELECT * FROM users WHERE login = ? AND password = ? AND usertype = 'codecooler' AND name = ? AND surname = ?");
+            pst.setString(1, codecooler.getLogin());
+            pst.setString(2, codecooler.getPassword());
+            pst.setString(3, codecooler.getName());
+            pst.setString(4, codecooler.getSurname());
+
+            ResultSet recordFromDatabase = pst.executeQuery();
+            if (recordFromDatabase.next()) {
+                int id = recordFromDatabase.getInt("id");
+                return id;
+            }
+        } catch(SQLException se) {
+            se.printStackTrace();
+        } catch(Exception e) {
+            e.printStackTrace();
+        } finally {
+            connectionPool.takeIn(connection);
+        }
+        return 0;
+    }
+
 
     public void addCodecooler(Codecooler codecooler) {
         try {
@@ -174,8 +198,25 @@ public class CodecoolerDaoImpl implements CodecoolerDAO {
             pst.setInt(3, codecooler.getId());
             pst.setInt(4, codecooler.getEarnings());
             pst.executeUpdate();
+        } catch(SQLException se) {
+            se.printStackTrace();
+        } catch(Exception e) {
+            e.printStackTrace();
+        } finally {
+            connectionPool.takeIn(connection);
+        }
+    }
 
-            connection.commit();
+    public void addCodecoolerToUsersTable(Codecooler codecooler) {
+        try {
+            connection = connectionPool.takeOut();
+            pst = connection.prepareStatement("INSERT INTO users (login, password, usertype, name, surname) VALUES(?, ?, ?, ?, ?)");
+            pst.setString(1, codecooler.getLogin());
+            pst.setString(2, codecooler.getPassword());
+            pst.setString(3, codecooler.getUserType());
+            pst.setString(4, codecooler.getName());
+            pst.setString(5, codecooler.getSurname());
+            pst.executeUpdate();
         } catch(SQLException se) {
             se.printStackTrace();
         } catch(Exception e) {
@@ -194,9 +235,16 @@ public class CodecoolerDaoImpl implements CodecoolerDAO {
             pst.setInt(2, codecooler.getTeamId());
             pst.setInt(3, codecooler.getId());
             pst.setInt(4, codecooler.getEarnings());
-            pst.setInt(4, codecooler.getId());
+            pst.setInt(5, codecooler.getId());
             pst.executeUpdate();
-            connection.commit();
+            pst = connection.prepareStatement("UPDATE users SET login = ?, password = ?, name = ?, surname = ? WHERE id = ?;");
+            pst.setString(1, codecooler.getLogin());
+            pst.setString(2, codecooler.getPassword());
+            pst.setString(3, codecooler.getName());
+            pst.setString(4, codecooler.getSurname());
+            pst.setInt(5, codecooler.getId());
+            pst.executeUpdate();
+
         } catch(SQLException se) {
             se.printStackTrace();
         } catch(Exception e) {
