@@ -1,91 +1,33 @@
-import dao.*;
-import dao.RoomsDaoImpl;
+import com.sun.net.httpserver.HttpServer;
+import controller.CodecoolerController;
+import controller.Controller;
+import controller.MentorController;
 import dao.connectionPool.JDBCConnectionPool;
-import dao.interfaces.DAOQuests;
-import dao.interfaces.*;
-//import model.Mentor;
-import model.Quest;
-import model.Room;
-import model.user.Codecooler;
 
-import java.util.ArrayList;
-import java.util.List;
-import model.user.Mentor;
+
+import java.net.InetSocketAddress;
+
 
 public class main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
 
         JDBCConnectionPool pool = new JDBCConnectionPool("jdbc:postgresql://localhost:5432/QuestStore",
                 "admin", "123");
 
+        HttpServer server = HttpServer.create(new InetSocketAddress(7000), 0);
+
+        // set routes
+        server.createContext("/queststore/login", new Controller(pool));
+        server.createContext("/queststore/codecooler", new CodecoolerController(pool));
+        server.createContext("/queststore/mentor", new MentorController(pool));
+        server.createContext("/static", new Static());
+        //server.createContext("/static/img", new Static());
 
 
-//        RoomsDAO roomsDao = new RoomsDaoImpl(pool);
-//        Room cl = roomsDao.getRoomById(1);
-//        System.out.println(cl.getName());
-//
-//        Room cl2 = roomsDao.getRoomByName("java");
-//        System.out.println(cl2.getId());
 
-//        DAORooms roomsDao = new RoomsDaoImpl(pool);
-//        Room cl = roomsDao.getRoomById(1);
-//        System.out.println(cl.getName());
+        server.setExecutor(null); // creates a default executor
 
-//        MentorDAO mentorDao = new MentorDAOImplementation(pool);
-//        Mentor mentor = mentorDao.getMentorByLogin("");
-//        System.out.println(mentor);
-
-//        MentorDAO mentorDao = new MentorDAOImplementation(pool);
-//        Mentor mentor = new Mentor(2, "aegaaeg", "555345", "mentor", "Ada", "Kol", "qwfqf@gmail.com");
-//        mentorDao.addNewMentor(mentor);
-
-//        MentorDAO mentorDao = new MentorDAOImplementation(pool);
-//        mentorDao.updateMentorData("login", "kamilus", "kamalanitus");
-//        DAOQuests questsDao = new QuestsDaoImpl(pool);
-//        List<Quest> basicQuests = new ArrayList<Quest>();
-//        basicQuests = questsDao.getBasicQuests();
-
-
-//        MentorDAO mentorDao = new MentorDAOImplementation(pool);
-//        Mentor mentor = mentorDao.getMentorByLogin("kondzio");
-//        System.out.println(mentor);
-
-//        MentorDAO mentorDao = new MentorDAOImplementation(pool);
-//        Mentor mentor = new Mentor(2, "kamilus", "5555", "mentor", "Kamil", "Anno", "kamil@gmail.com");
-//        mentorDao.addNewMentor(mentor);
-
-//         MentorDAO mentorDao = new MentorDAOImplementation(pool);
-//         mentorDao.updateMentorData("name", "Adam", "kondzio");
-
-//        DAOQuests questsDao = new QuestsDaoImpl(pool);
-//        List<Quest> basicQuests = new ArrayList<Quest>();
-//        basicQuests = questsDao.getBasicQuests();
-//
-//        for (Quest bQuest: basicQuests) {
-//            System.out.println(bQuest.toString());
-//            System.out.println();
-//        }
-//        DAOQuests questsDao = new QuestsDaoImpl(pool);
-//        List<Quest> basicQuests = new ArrayList<Quest>();
-//        basicQuests = questsDao.getBasicQuests();
-//
-//        for (Quest bQuest: basicQuests) {
-//            System.out.println(bQuest.toString());
-//            System.out.println();
-//        }
-
-//        UserDaoImpl userDao = new UserDaoImpl(pool);
-//        Codecooler codecooler = new Codecooler("user20", "123", "codecooler", "Gi", "Kowalska");
-//        userDao.addUser(codecooler);
-//        Codecooler codecooler = userDao.getCodecoolerByUserId(2);
-//        System.out.println(codecooler.getName());
-
-//        UserDaoImpl userDao = new UserDaoImpl(pool);
-//        Mentor mentor = new Mentor(3, "asdf", "1234", "mentor", "Viper", "Rze", "lipa@gmail.com");
-//        userDao.addUser(mentor);
-//        Mentor mentor = userDao.getMentorByUserId(1);
-//        System.out.println(mentor.toString());
-
-
+        // start listening
+        server.start();
     }
 }

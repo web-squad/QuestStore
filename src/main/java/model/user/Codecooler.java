@@ -11,7 +11,6 @@ public class Codecooler extends User {
     private int earnings;
     private int roomId;
     private int teamId;
-    private int codecoolerId;
 
     public Codecooler(int id, String login, String password, String userType, String name, String surname) {
         super(id, login, password, userType, name, surname);
@@ -27,6 +26,8 @@ public class Codecooler extends User {
         this.roomId = 0;
         this.teamId = 0;
     }
+
+    public Codecooler() {}
 
     public void addItem(Item item) {
         itemsList.add(item);
@@ -56,10 +57,6 @@ public class Codecooler extends User {
         return teamId;
     }
 
-    public int getCodecoolerId() {
-        return codecoolerId;
-    }
-
     public void setItemsList(List<Item> itemsList) {
         this.itemsList = itemsList;
     }
@@ -76,21 +73,6 @@ public class Codecooler extends User {
         this.teamId = teamId;
     }
 
-    public void setCodecoolerId(int codecoolerId) {
-        this.codecoolerId = codecoolerId;
-    }
 
-//    public void save() {
-//        userdao.addCodecooler(this)
-//        userdao.setId(this)
-//        codecolerdao.addCodecooler(this)
-//    }
 
-    public void update() {
-
-    }
-
-    public void delete() {
-
-    }
 }

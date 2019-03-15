@@ -1,5 +1,6 @@
 package dao;
 
+import com.sun.org.apache.bcel.internal.classfile.Code;
 import dao.connectionPool.JDBCConnectionPool;
 import dao.interfaces.CodecoolerDAO;
 import model.user.Codecooler;
@@ -23,17 +24,23 @@ public class CodecoolerDaoImpl implements CodecoolerDAO {
         List<Codecooler> codecoolerList = new ArrayList<Codecooler>();
         try {
             connection = connectionPool.takeOut();
-            pst = connection.prepareStatement("SELECT users.* FROM users " +
+            pst = connection.prepareStatement("SELECT users.*, codecooler.* FROM users " +
                                                     "INNER JOIN codecooler " +
                                                     "ON users.id = codecooler.userid");
             ResultSet recordFromDatabase = pst.executeQuery();
             while (recordFromDatabase.next()) {
-                int userid = recordFromDatabase.getInt("id");
+                int id = recordFromDatabase.getInt("id");
                 String login = recordFromDatabase.getString("login");
                 String password = recordFromDatabase.getString("password");
                 String name = recordFromDatabase.getString("name");
                 String surname = recordFromDatabase.getString("surname");
-                Codecooler codecooler = new Codecooler(userid,login,password,"codecooler",name, surname);
+                int roomid = recordFromDatabase.getInt("roomid");
+                int teamId = recordFromDatabase.getInt("teamid");
+                int earnings = recordFromDatabase.getInt("earnings");
+                Codecooler codecooler = new Codecooler(id,login,password,"codecooler",name, surname);
+                codecooler.setRoomId(roomid);
+                codecooler.setTeamId(teamId);
+                codecooler.setEarnings(earnings);
                 codecoolerList.add(codecooler);
             }
             connection.commit();
@@ -51,7 +58,7 @@ public class CodecoolerDaoImpl implements CodecoolerDAO {
         List<Codecooler> codecoolerList = new ArrayList<Codecooler>();
         try {
             connection = connectionPool.takeOut();
-            pst = connection.prepareStatement("SELECT users.* FROM users " +
+            pst = connection.prepareStatement("SELECT users.*, codecooler.* FROM users " +
                                                     "INNER JOIN codecooler " +
                                                     "ON users.id = codecooler.userid " +
                                                     "WHERE codecooler.teamid = ?");
@@ -63,7 +70,14 @@ public class CodecoolerDaoImpl implements CodecoolerDAO {
                 String password = recordFromDatabase.getString("password");
                 String name = recordFromDatabase.getString("name");
                 String surname = recordFromDatabase.getString("surname");
+                int roomid = recordFromDatabase.getInt("roomid");
+                int teamId = recordFromDatabase.getInt("teamid");
+                int earnings = recordFromDatabase.getInt("earnings");
                 Codecooler codecooler = new Codecooler(id,login,password,"codecooler",name, surname);
+                codecooler.setRoomId(roomid);
+                codecooler.setTeamId(teamId);
+                codecooler.setEarnings(earnings);
+                codecoolerList.add(codecooler);
                 codecoolerList.add(codecooler);
             }
             connection.commit();
@@ -93,7 +107,15 @@ public class CodecoolerDaoImpl implements CodecoolerDAO {
                 String password = recordFromDatabase.getString("password");
                 String name = recordFromDatabase.getString("name");
                 String surname = recordFromDatabase.getString("surname");
+                int teamId = recordFromDatabase.getInt("teamid");
+                int earnings = recordFromDatabase.getInt("earnings");
                 Codecooler codecooler = new Codecooler(id,login,password,"codecooler",name, surname);
+                codecooler.setRoomId(roomid);
+                codecooler.setTeamId(teamId);
+                codecooler.setEarnings(earnings);
+                codecoolerList.add(codecooler);
+                codecoolerList.add(codecooler);
+
                 codecoolerList.add(codecooler);
             }
             connection.commit();
@@ -107,17 +129,16 @@ public class CodecoolerDaoImpl implements CodecoolerDAO {
         return codecoolerList;
     }
 
-    public Codecooler getCodecoolerByUserId(int codecoolerId) {
+    public Codecooler getCodecoolerById(int id) {
         try {
             connection = connectionPool.takeOut();
             pst = connection.prepareStatement("SELECT users.*, codecooler.* FROM users " +
                                                     "INNER JOIN codecooler " +
                                                     "ON users.id = codecooler.userid " +
-                                                    "WHERE codecooler.id = ?");
-            pst.setInt(1, codecoolerId);
+                                                    "WHERE codecooler.userid = ?");
+            pst.setInt(1, id);
             ResultSet recordFromDatabase = pst.executeQuery();
             while (recordFromDatabase.next()) {
-                int id = recordFromDatabase.getInt("id");
                 String login = recordFromDatabase.getString("login");
                 String password = recordFromDatabase.getString("password");
                 String name = recordFromDatabase.getString("name");
@@ -127,10 +148,10 @@ public class CodecoolerDaoImpl implements CodecoolerDAO {
                 int earnings = recordFromDatabase.getInt("earnings");
 
                 Codecooler codecooler = new Codecooler(id,login,password,"codecooler",name, surname);
-                codecooler.setCodecoolerId(codecoolerId);
                 codecooler.setRoomId(roomId);
                 codecooler.setTeamId(teamId);
                 codecooler.setEarnings(earnings);
+                return codecooler;
             }
             connection.commit();
         } catch(SQLException se) {
@@ -142,6 +163,7 @@ public class CodecoolerDaoImpl implements CodecoolerDAO {
         }
         return null;
     }
+
 
     public void addCodecooler(Codecooler codecooler) {
         try {
@@ -167,11 +189,12 @@ public class CodecoolerDaoImpl implements CodecoolerDAO {
         try {
             connection = connectionPool.takeOut();
             pst = connection.prepareStatement("UPDATE codecooler " +
-                    "SET roomid = ?, teamid = ?, userid = ?, earnings = ?");
+                    "SET roomid = ?, teamid = ?, userid = ?, earnings = ? WHERE userid = ?");
             pst.setInt(1, codecooler.getRoomId());
             pst.setInt(2, codecooler.getTeamId());
             pst.setInt(3, codecooler.getId());
             pst.setInt(4, codecooler.getEarnings());
+            pst.setInt(4, codecooler.getId());
             pst.executeUpdate();
             connection.commit();
         } catch(SQLException se) {

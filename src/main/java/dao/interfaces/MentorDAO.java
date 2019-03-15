@@ -6,8 +6,9 @@ import java.util.List;
 public interface MentorDAO {
 
     List<Mentor> getListOfMentors();
-//    model.Mentor getMentorByLogin(String login);
+    Mentor getMentorByLogin(String login);
+    Mentor getMentorById(int id);
     void addNewMentor(Mentor mentor);
-    void updateMentorData (Mentor mentor);
-
+    Mentor getMentorByRoomId(int roomid);
+    void updateMentorData(Mentor mentor);
 }

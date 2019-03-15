@@ -1,6 +1,7 @@
 package dao.interfaces;
 
 import model.Item;
+import model.user.Codecooler;
 
 import java.util.List;
 
@@ -12,7 +13,7 @@ public interface DAOStore {
     Item getItemById(int id);
     void updateItem(Item item);
     void addItem(Item item);
-    void addBasicItem();
-    void addMagicItem();
-    List<Item> getCodecoolerItems();
+    List<Item> getCodecoolerItems(Codecooler codecooler);
+    void handleBuyingItem(Codecooler codecooler, Item item);
+    List<Item> getCodecoolerItemsWithQuantity(Codecooler codecooler);
 }

@@ -6,7 +6,11 @@ import model.user.Mentor;
 import model.user.User;
 
 public interface UserDAO {
-    String getUserType(String login, String password);
+    String getUserType(int id);
+
+    boolean isLoginSuccessful(String login, String password);
+
+    int getUserId(String login, String password);
 
     CreepyGuy getCreepyGuyByLoginAndPassword(String login, String password);
 
@@ -14,13 +18,9 @@ public interface UserDAO {
 
     Mentor getMentorByLoginAndPassword(String login, String password);
 
-    Codecooler getCodecoolerByUserId(int userId);
-
-    Mentor getMentorByUserId(int userId);
+    Mentor getMentorById(int id);
 
     void addUser(User user);
-
-    void setUserId(User user);
 
     void updateUser(User user);
 

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="../../static/css/style.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Codecooler Profile</title>
+</head>
+
+<body>
+
+<header>
+    <div class="header">
+        <div id="logo">
+            <a href="/queststore/codecooler/{{codecooler.getId()}}"><img src="../../static/img/logo6.png" alt="logo"></a>
+        </div>
+
+        <div id="main-nav">
+            <a class="active" href="/queststore/codecooler/{{codecooler.getId()}}">My Profile</a>
+            <a href="/queststore/codecooler/experience/{{codecooler.getId()}}">Experience</a>
+            <a href="/queststore/codecooler/wallet/{{codecooler.getId()}}">Wallet</a>
+            <a href="/queststore/codecooler/store/{{codecooler.getId()}}">Store</a>
+            <a href="/queststore/codecooler/logout/{{codecooler.getId()}}">Logout</a>
+        </div>
+    </div>
+</header>
+
+<div id="contener">
+    <div id="heading">
+        <h1>My Profile</h1>
+    </div>
+    <div id="profile-content">
+        <div id="profile">
+            <p>
+                <span class="info-type">Name:</span>
+                <span class="profile-info">{{codecooler.getName()}}&nbsp;{{codecooler.getSurname()}}</span>
+            </p>
+            <p>
+                <span class="info-type">Room:</span>
+                <span class="profile-info">{{room.getName()}}</span>
+            </p>
+            <p>
+                <span class="info-type">Mentor:</span>
+                <span class="profile-info">{{mentor.getName()}}&nbsp;{{mentor.getSurname()}}</span>
+            </p>
+        </div>
+        <p class="info-type">My quests:</p>
+
+        <div id="student-guests">
+            <table>
+                <tr class="table-top">
+                    <th class="table-title">Quest</th>
+                    <th class="table-title">Description</th>
+                    <th class="table-title">Quantity</th>
+                </tr>
+                {% for  quest in questList %}
+                <tr>
+                    <td>{{quest.getName()}}</td>
+                    <td>{{quest.getDescription()}}</td>
+                    <td>{{quest.getQuantity()}}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+
+
+        <p class="info-type">My items:</p>
+        <div id="student-items" style="overflow-x:auto;">
+            <table>
+                <tr class="table-top">
+                    <th class="table-title">Item</th>
+                    <th class="table-title">Description</th>
+                    <th class="table-title">Quantity</th>
+                </tr>
+                {% for  item in itemList %}
+                <tr>
+                    <td>{{item.getName()}}</td>
+                    <td>{{item.getDescription()}}</td>
+                    <td>{{item.getQuantity()}}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+</div>
+
+<footer>
+    <div id="footer-cont">
+        <div>
+            <p>© Quest Store 2019</p>
+        </div>
+        <div id="footer-logo">
+            <img src="../../static/img/whitering60.png">
+        </div>
+        <div>
+            <p>Created by:</p>
+            <ul id="autors">
+                <li>Ewelina Jaworska</li>
+                <li>Konrad Suseł</li>
+                <li>Kamil Olsza</li>
+                <li>Andrzej Rzeszut</li>
+            </ul>
+        </div>
+
+    </div>
+
+</footer>
+
+</body>
+
+
