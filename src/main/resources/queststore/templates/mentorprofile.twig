@@ -59,7 +59,7 @@
         <div id="profile">
             <p>
                 <span class="info-type">Logged in as: </span>
-                <span class="profile-info">{{mentor.getName()}}</span>
+                <span class="profile-info">{{ mentor.getName() }} {{ mentor.getSurname() }}</span>
             </p>
         </div>
     </div>
@@ -79,7 +79,7 @@
                     <td>{{ codecooler.getName() }}</td>
                     <td>{{ codecooler.getSurname() }}</td>
                     <td>{{ codecooler.getRoomId() }}</td>
-                    <td><button class="editbtn"><i class="fa fa-edit" style="font-size: 15px"></i></button></td>
+                    <td><a href="/queststore/mentor/editStudent/{{ codecooler.getId() }}/{{ mentor.getId() }}" button class="editbtn"><i class="fa fa-edit" style="font-size: 15px"></i></button></a></td>
                 </tr>
                 {% endfor %}
         </table>

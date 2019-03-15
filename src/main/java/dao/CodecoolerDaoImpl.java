@@ -235,9 +235,16 @@ public class CodecoolerDaoImpl implements CodecoolerDAO {
             pst.setInt(2, codecooler.getTeamId());
             pst.setInt(3, codecooler.getId());
             pst.setInt(4, codecooler.getEarnings());
-            pst.setInt(4, codecooler.getId());
+            pst.setInt(5, codecooler.getId());
             pst.executeUpdate();
-            connection.commit();
+            pst = connection.prepareStatement("UPDATE users SET login = ?, password = ?, name = ?, surname = ? WHERE id = ?;");
+            pst.setString(1, codecooler.getLogin());
+            pst.setString(2, codecooler.getPassword());
+            pst.setString(3, codecooler.getName());
+            pst.setString(4, codecooler.getSurname());
+            pst.setInt(5, codecooler.getId());
+            pst.executeUpdate();
+
         } catch(SQLException se) {
             se.printStackTrace();
         } catch(Exception e) {
