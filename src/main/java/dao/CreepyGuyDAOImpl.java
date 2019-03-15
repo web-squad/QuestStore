@@ -3,6 +3,7 @@ package dao;
 import dao.connectionPool.JDBCConnectionPool;
 import dao.interfaces.DAOCreepyGuy;
 import model.user.CreepyGuy;
+import model.user.Mentor;
 
 import java.sql.*;
 
@@ -41,6 +42,38 @@ public class CreepyGuyDAOImpl implements DAOCreepyGuy {
         }
         return null;
     }
+    public Mentor getMentorByLogin(String login) {
+        try {
+            connection = connectionPool.takeOut();
+            connection.setAutoCommit(false);
+            pst = connection.prepareStatement("SELECT * FROM users u LEFT JOIN mentor m ON u.id = m.userid WHERE u.login LIKE ?;");
+            pst.setString(1,login);
+            ResultSet recordFromDB = pst.executeQuery();
 
+            if(recordFromDB.next()){
+                int id = recordFromDB.getInt("id");
+                String login2 = recordFromDB.getString("login");
+                String password = recordFromDB.getString("password");
+                String userType = recordFromDB.getString("userType");
+                String name = recordFromDB.getString("name");
+                String surname = recordFromDB.getString("surname");
+                String email = recordFromDB.getString("email");
+                return new Mentor(id, login2, password, userType, name, surname, email);
+            }
+            else {
+                System.out.println("Wrong login!");
+            }
+            connection.commit();
+            return null;
+
+        } catch (Exception e) {
+            System.err.println( e.getClass().getName()+": "+ e.getMessage() );
+        } try {
+            connectionPool.takeIn(connection);
+        } catch (Exception e){
+            System.err.println( e.getClass().getName()+": "+ e.getMessage() );
+        }
+        return null;
+    }
 }
 

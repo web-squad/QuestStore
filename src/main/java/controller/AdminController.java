@@ -62,6 +62,10 @@ public class AdminController implements HttpHandler {
             displayProfile(httpExchange);
         } else if (path.equals("/queststore/admin/addNewMentor/" + index)) {
             displayAddNewMentor(httpExchange);
+        } else if (path.equals("/queststore/admin/logout/" + index)) {
+            String sessionid = getSessionIdFromCookie(cookie);
+            loginDAO.removeSessionid(sessionid);
+            goToLogin(httpExchange);
         } else {
             goToLogin(httpExchange);
         }
@@ -86,16 +90,19 @@ public class AdminController implements HttpHandler {
                     Map inputs = parseFormData(formData);
 
                     //add user to DB
-//                    User user = new User(String login, String password, String userType, String name, String surname);
                     String firstName = inputs.get("firstname").toString();
-                    String lastName = inputs.get("lastName").toString();
+                    String lastName = inputs.get("lastname").toString();
+                    String login = inputs.get("login").toString();
+                    String password = inputs.get("password").toString();
+                    String mail = inputs.get("mail").toString();
 
                     //add mentor to DB
-//                    Mentor mentor = new Mentor();
+                    Mentor mentor = new Mentor(666, login, password, "mentor", firstName, lastName, mail);
+                    mentorDAO.addNewMentor(mentor);
 
-//                    System.out.println("location change");
-//                    httpExchange.getResponseHeaders().set("Location", "/queststore/login");
-//                    httpExchange.sendResponseHeaders(302,0);
+                    System.out.println("location change");
+                    httpExchange.getResponseHeaders().set("Location", "/queststore/login");
+                    httpExchange.sendResponseHeaders(302,0);
                 }
 
                 if (method.equals("GET")) {

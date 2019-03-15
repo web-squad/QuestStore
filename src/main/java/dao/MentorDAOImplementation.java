@@ -96,17 +96,25 @@ public class MentorDAOImplementation implements MentorDAO {
         try {
             connection = connectionPool.takeOut();
             connection.setAutoCommit(false);
-            sqlStatement = connection.prepareStatement("INSERT INTO users (login, password, userType, name, surname, email) VALUES (?, ?, ?, ?, ?, ?)");
+            sqlStatement = connection.prepareStatement("INSERT INTO users (login, password, userType, name, surname) VALUES (?, ?, ?, ?, ?)");
 
             sqlStatement.setString(1, login);
             sqlStatement.setString(2, password);
             sqlStatement.setString(3, userType);
             sqlStatement.setString(4, name);
-            sqlStatement.setString(4, surname);
-            sqlStatement.setString(5, email);
+            sqlStatement.setString(5, surname);
 
             sqlStatement.executeUpdate();
-            System.out.println("Mentor " + name + " addes succesfully!");
+            sqlStatement = connection.prepareStatement("INSERT INTO mentor (email, roomid, userid) VALUES (?, ?, ?)");
+
+            CreepyGuyDAOImpl adminDAO = new CreepyGuyDAOImpl(connectionPool);
+
+            sqlStatement.setString(1, email);
+            sqlStatement.setInt(2, 1);
+            sqlStatement.setString(3, adminDAO.getMentorByLogin(login).getLogin());
+            sqlStatement.executeUpdate();
+
+            System.out.println("Mentor " + name + " added succesfully!");
             connection.commit();
         } catch (Exception e) {
             System.err.println( e.getClass().getName()+": "+ e.getMessage() );
