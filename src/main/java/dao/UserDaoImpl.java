@@ -1,5 +1,6 @@
 package dao;
 
+import com.sun.org.apache.bcel.internal.classfile.Code;
 import dao.connectionPool.JDBCConnectionPool;
 import dao.interfaces.UserDAO;
 import model.user.Codecooler;
@@ -22,18 +23,17 @@ public class UserDaoImpl implements UserDAO {
         this.connectionPool = connectionPool;
     }
 
-    public String getUserType(String login, String password) {
+    public String getUserType(int id) {
         String usertype = "";
         try {
             connection = connectionPool.takeOut();
             connection.setAutoCommit(false);
-            pst = connection.prepareStatement("SELECT * FROM users WHERE login = ? AND password = ?");
-            pst.setString(1, login);
-            pst.setString(2, password);
+            pst = connection.prepareStatement("SELECT * FROM users WHERE id = ?");
+            pst.setInt(1, id);
 
             ResultSet recordFromDatabase = pst.executeQuery();
             if (recordFromDatabase.next()) {
-                  usertype = recordFromDatabase.getString("usertype");
+                usertype = recordFromDatabase.getString("usertype");
             }
             connection.commit();
         } catch(SQLException se) {
@@ -44,6 +44,53 @@ public class UserDaoImpl implements UserDAO {
             connectionPool.takeIn(connection);
         }
         return usertype;
+    }
+
+    public boolean isLoginSuccessful(String login, String password) {
+        try {
+            connection = connectionPool.takeOut();
+            connection.setAutoCommit(false);
+            pst = connection.prepareStatement("SELECT * FROM users WHERE login = ? AND password = ?");
+            pst.setString(1, login);
+            pst.setString(2, password);
+
+            ResultSet recordFromDatabase = pst.executeQuery();
+            if (recordFromDatabase.next()) {
+                  return true;
+            }
+            connection.commit();
+        } catch(SQLException se) {
+            se.printStackTrace();
+        } catch(Exception e) {
+            e.printStackTrace();
+        } finally {
+            connectionPool.takeIn(connection);
+        }
+        return false;
+    }
+
+    public int getUserId(String login, String password) {
+        int id = 0;
+        try {
+            connection = connectionPool.takeOut();
+            connection.setAutoCommit(false);
+            pst = connection.prepareStatement("SELECT * FROM users WHERE login = ? AND password = ?");
+            pst.setString(1, login);
+            pst.setString(2, password);
+
+            ResultSet recordFromDatabase = pst.executeQuery();
+            if (recordFromDatabase.next()) {
+                id = recordFromDatabase.getInt("id");
+            }
+            connection.commit();
+        } catch(SQLException se) {
+            se.printStackTrace();
+        } catch(Exception e) {
+            e.printStackTrace();
+        } finally {
+            connectionPool.takeIn(connection);
+        }
+        return id;
     }
 
     public CreepyGuy getCreepyGuyByLoginAndPassword(String login, String password) {

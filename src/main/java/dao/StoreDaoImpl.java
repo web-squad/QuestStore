@@ -4,10 +4,7 @@ import dao.interfaces.DAOStore;
 import model.Item;
 import model.user.Codecooler;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -96,21 +93,11 @@ public class StoreDaoImpl implements DAOStore {
         return items;
     }
 
-//    private List<Item> createListOfBought_Items(ResultSet recordFromDatabase) throws SQLException {
-//        List items = new ArrayList<Item>();
-//        while (recordFromDatabase.next()) {
-//            int userid =
-//            System.out.println(name);
-//            Item item = new Item(id, name, description, price, itemType);
-//            items.add(item);
-//        }
-//        return items;
-//    }
 
     public List<Item> getMagicItems() {
         try {
             openDatabaseConnection();
-            return getListOfItemsFromDatabase("SELECT * FROM item WHERE itemtype LIKE 'magic';");
+            return getListOfItemsFromDatabase("SELECT * FROM item WHERE itemtype LIKE 'extra';");
         } catch (SQLException e) {
             System.err.println(e.getClass().getName() + ": " + e.getMessage());
         } finally {
@@ -145,6 +132,20 @@ public class StoreDaoImpl implements DAOStore {
         }
         return null;
     }
+
+//    private Item getItemByName(String name) throws SQLException {
+//        pst = connection.prepareStatement("SELECT * FROM item WHERE id = ?;");
+//        pst.setInt(1, id);
+//        ResultSet recordFromDatabase = pst.executeQuery();
+//        if (recordFromDatabase.next()) {
+//            String name = recordFromDatabase.getString("name");
+//            String description = recordFromDatabase.getString("description");
+//            int price = recordFromDatabase.getInt("price");
+//            String itemtype = recordFromDatabase.getString("itemtype");
+//            return new Item(id, name, description, price, itemtype);
+//        }
+//        return null;
+//    }
 
 
     public void updateItem(Item item) {
@@ -215,9 +216,53 @@ public class StoreDaoImpl implements DAOStore {
     }
 
     private void addBought_ItemToDatabase(Codecooler codecooler, Item item) throws SQLException {
-        pst = connection.prepareStatement("INSERT INTO bought_items (userid, itemid) VALUES (?, ?)");
-        pst.setInt(1, codecooler.getId());
-        pst.setInt(2, item.getId());
-        pst.executeUpdate();
+        try {
+            connection = connectionPool.takeOut();
+            pst = connection.prepareStatement("INSERT INTO bought_items (userid, itemid, date) VALUES (?, ?, ?)");
+            pst.setInt(1, codecooler.getId());
+            pst.setInt(2, item.getId());
+            pst.setDate(3, item.getDate());
+            pst.executeUpdate();
+        } catch(SQLException se) {
+            se.printStackTrace();
+        } catch(Exception e) {
+            e.printStackTrace();
+        } finally {
+            connectionPool.takeIn(connection);
+        }
     }
+
+    public List<Item> getCodecoolerItemsWithQuantity(Codecooler codecooler) {
+        try {
+            openDatabaseConnection();
+            return getListOfItemsFromDatabaseWithQuantity("SELECT item.*, count(bought_items.itemid) as quantity FROM item LEFT JOIN bought_items ON item.id = bought_items.itemid WHERE userid ="+codecooler.getId()+" group by item.id");
+        } catch (SQLException e) {
+            System.err.println(e.getClass().getName() + ": " + e.getMessage());
+        } finally {
+            closeDatabaseConnection();
+        }
+        return null;
+    }
+
+    private List<Item> getListOfItemsFromDatabaseWithQuantity(String sqlStatement) throws SQLException {
+        pst = connection.prepareStatement(sqlStatement);
+        ResultSet recordFromDatabase = pst.executeQuery();
+        return createListOfItemsWithQuantity(recordFromDatabase);
+    }
+
+    private List<Item> createListOfItemsWithQuantity(ResultSet recordFromDatabase) throws SQLException {
+        List items = new ArrayList<Item>();
+        while (recordFromDatabase.next()) {
+            int id = recordFromDatabase.getInt("id");
+            String name = recordFromDatabase.getString("name");
+            String description = recordFromDatabase.getString("description");
+            int price = recordFromDatabase.getInt("price");
+            String itemType = recordFromDatabase.getString("itemtype");
+            Item item = new Item(id, name, description, price, itemType);
+            item.setQuantity(recordFromDatabase.getInt("quantity"));
+            items.add(item);
+        }
+        return items;
+    }
+
 }

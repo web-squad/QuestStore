@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Add new student</title>
+    <link rel="stylesheet" href="../../../../static/css/style.css">
+
+</head>
+
+<body>
+
+<header>
+    <div class="header">
+        <div id="logo">
+            <a href="/queststore/mentor/"><img src="../../../static/img/logo6.png" alt="logo"></a>
+        </div>
+
+        <div class="navbar">
+            <a href="/queststore/mentor/">Back to main site</a>
+        </div>
+    </div>
+</header>
+
+<div class="container">
+    <form method="POST" name="inputs">
+        <div class="row">
+            <div class="col-25">
+                <label for="name">Student's name</label>
+            </div>
+            <div class="col-75">
+                <input type="text" id="name" name="firstname" placeholder="Student name..">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-25">
+                <label for="surname">Student's surname</label>
+            </div>
+            <div class="col-75">
+                <input type="text" id="surname" name="lastname" placeholder="Student surname">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-25">
+                <label for="studentClass">Student's class</label>
+            </div>
+            <div class="col-75">
+                <input type="text" id="studentClass" name="studentClass" placeholder="Student class">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-25">
+                <label for="country">Country</label>
+            </div>
+            <div class="col-75">
+                <select id="country" name="country">
+                    <option value="australia">Australia</option>
+                    <option value="canada">Canada</option>
+                    <option value="usa">USA</option>
+                    <option value="poland">Poland</option>
+                    <option value="england">England</option>
+                    <option value="germany">Germany</option>
+                    <option value="hungary">Hungary</option>
+                </select>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-25">
+                <label for="mail">Student's mail</label>
+            </div>
+            <div class="col-75">
+                <textarea id="mail" name="mail" placeholder="Student mail.."></textarea>
+                <input type="submit" id="btSubmit" value="Add Student">
+            </div>
+        </div>
+    </form>
+</div>
+
+<footer>
+    <div id="footer-cont">
+        <div class="footer-el">
+            <p>© Quest Store 2019</p>
+        </div>
+        <div id="footer-logo">
+            <img src="../../../static/img/whitering60.png">
+        </div>
+        <div class="footer-el">
+            <p>Created by:</p>
+            <ul id="autors">
+                <li>Ewelina Jaworska</li>
+                <li>Konrad Suseł</li>
+                <li>Kamil Olsza</li>
+                <li>Andrzej Rzeszut</li>
+            </ul>
+        </div>
+    </div>
+</footer>
+</body>
+
+</html>

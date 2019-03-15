@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Mentor profile</title>
+    <link rel="stylesheet" href="../../static/css/style.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ"
+          crossorigin="anonymous">
+</head>
+
+<body>
+<header>
+    <div class="header">
+        <div id="logo">
+            <a href="/queststore/mentor/"><img src="/../../static/img/logo6.png" alt="logo"></a>
+        </div>
+
+        <div id="main-nav">
+            <div class="dropdown">
+                <button class="dropbtn">Student</button>
+                <div class="dropdown-content">
+                    <a href="/queststore/mentor/addNewStudent/{{ mentor.getId() }}">Add Student</a>
+                </div>
+            </div>
+            <div class="dropdown">
+                <button class="dropbtn">Quest</button>
+                <div class="dropdown-content">
+                    <a href="quests.html">Show Quests</a>
+                    <a href="#">Edit Quest</a>
+                    <a href="#">Add Quest</a>
+                    <a href="#">Delete Quest</a>
+                </div>
+            </div>
+            <div class="dropdown">
+                <button class="dropbtn">Artefact</button>
+                <div class="dropdown-content">
+                    <a href="#">Show Artefacts</a>
+                    <a href="#">Edit Artefact</a>
+                    <a href="#">Add Artefact</a>
+                    <a href="#">Delete Artefact</a>
+                </div>
+            </div>
+            <div class="dropdown">
+                <button class="dropbtn">
+                    <a href="/queststore/mentor/logout/{{ mentor.getId() }}">Logout</a>
+                </button>
+            </div>
+        </div>
+    </div>
+</header>
+
+<div id="contener">
+    <div id="heading">
+        <h1>Welcome mentor on our Quest Store</h1>
+    </div>
+    <div id="profile-content">
+        <div id="profile">
+            <p>
+                <span class="info-type">Logged in as: </span>
+                <span class="profile-info">{{ mentor.getName() }} {{ mentor.getSurname() }}</span>
+            </p>
+        </div>
+    </div>
+
+    <div id="content" style="overflow-x:auto;">
+        <table>
+            <tr>
+                <th>Id number</th>
+                <th>Name</th>
+                <th>Surname</th>
+                <th>Room</th>
+                <th>Edit profile</th>
+            </tr>
+            {% for codecooler in codecoolers %}
+                <tr>
+                    <td>{{ codecooler.getId() }}</td>
+                    <td>{{ codecooler.getName() }}</td>
+                    <td>{{ codecooler.getSurname() }}</td>
+                    <td>{{ codecooler.getRoomId() }}</td>
+                    <td><a href="/queststore/mentor/editStudent/{{ codecooler.getId() }}/{{ mentor.getId() }}" button class="editbtn"><i class="fa fa-edit" style="font-size: 15px"></i></button></a></td>
+                </tr>
+                {% endfor %}
+        </table>
+    </div>
+</div>
+
+<footer>
+    <div id="footer-cont">
+        <div class="footer-el">
+            <p>© Quest Store 2019</p>
+        </div>
+        <div id="footer-logo">
+            <img src="../../static/img/whitering60.png">
+        </div>
+        <div class="footer-el">
+            <p>Created by:</p>
+            <ul id="autors">
+                <li>Ewelina Jaworska</li>
+                <li>Konrad Suseł</li>
+                <li>Kamil Olsza</li>
+                <li>Andrzej Rzeszut</li>
+            </ul>
+        </div>
+
+    </div>
+
+</footer>
+</body>
+
+</html>
