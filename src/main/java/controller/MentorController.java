@@ -55,18 +55,6 @@ public class MentorController implements HttpHandler {
         this.cookie = getCookieBySessionCookieName(httpExchange);
         String response = "";
         String method = httpExchange.getRequestMethod();
-//        if (method.equals("POST")) {
-//            System.out.println("post nowego studenta");
-//            InputStreamReader isr = new InputStreamReader(httpExchange.getRequestBody(), "utf-8");
-//            BufferedReader br = new BufferedReader(isr);
-//            String formData = br.readLine();
-//
-//            System.out.println(formData);
-//            //Map inputs = parseFormData(formData);
-//            displayProfile(httpExchange);
-//
-//
-//        }
         URI uri = httpExchange.getRequestURI();
         System.out.println("looking for: " + uri.getPath());
         String path = uri.getPath();
@@ -74,11 +62,14 @@ public class MentorController implements HttpHandler {
         String[] pathParts = path.split("/");
         String urlEnding = pathParts[pathParts.length - 1];
         int index = getIdFromURL(httpExchange, urlEnding);
+        String indexOfStudentToEdit = pathParts[pathParts.length - 2];
 
         if (path.equals("/queststore/mentor/" + index)) {
             displayProfile(httpExchange);
         } else if (path.equals("/queststore/mentor/addNewStudent/" + index) ) {
             displayAddNewStudentPage(httpExchange);
+        } else if (path.equals("/queststore/mentor/editStudent/" + indexOfStudentToEdit + "/" + index) ) {
+            displayEditStudentPage(httpExchange);
         }  else if (path.equals("/queststore/mentor/logout/" + index)) {
             String sessionid = getSessionIdFromCookie(cookie);
             loginDAO.removeSessionid(sessionid);
@@ -86,50 +77,12 @@ public class MentorController implements HttpHandler {
         } else {
             goToLogin(httpExchange);
         }
-
-
-
     }
 
     private Optional<HttpCookie> getCookieBySessionCookieName(HttpExchange httpExchange) {
         String cookieStr = httpExchange.getRequestHeaders().getFirst("Cookie");
         List<HttpCookie> cookies = cookieHelper.parseCookies(cookieStr);
         return cookieHelper.findCookieByName(SESSION_COOKIE_NAME, cookies);
-    }
-//    private void handleFile(HttpExchange httpExchange, String path) throws IOException {
-//        ClassLoader classLoader = getClass().getClassLoader();
-//        URL fileURL = classLoader.getResource("." + path);
-//        if (fileURL == null) {
-//            send404(httpExchange);
-//        } else {
-//            sendFile(httpExchange, fileURL);
-//        }
-//    }
-
-    private void send404(HttpExchange httpExchange) throws IOException {
-        String response = "404 (Not Found)\n";
-        httpExchange.sendResponseHeaders(404, response.length());
-        OutputStream os = httpExchange.getResponseBody();
-        os.write(response.toString().getBytes());
-        os.close();
-    }
-
-    private void sendFile(HttpExchange httpExchange, URL fileURL) throws IOException {
-        File file = new File(fileURL.getFile());
-        MimeTypeResolver resolver = new MimeTypeResolver(file);
-        String mime = resolver.getMimeType();
-        httpExchange.getResponseHeaders().set("Content-Type", mime);
-        httpExchange.sendResponseHeaders(200, 0);
-        OutputStream os = httpExchange.getResponseBody();
-
-        // send the file
-        FileInputStream fs = new FileInputStream(file);
-        final byte[] buffer = new byte[0x10000];
-        int count = 0;
-        while ((count = fs.read(buffer)) >= 0) {
-            os.write(buffer,0,count);
-        }
-        os.close();
     }
 
     private int getIdFromURL(HttpExchange httpExchange, String urlEnding) throws IOException {
@@ -206,6 +159,70 @@ public class MentorController implements HttpHandler {
         }
     }
 
+    private void displayEditStudentPage(HttpExchange httpExchange) throws IOException {
+        if (cookie.isPresent()) {
+            String sessionid = getSessionIdFromCookie(cookie);
+            if (loginDAO.isActiveSession(sessionid)) {
+                int id = loginDAO.getUserId(sessionid);
+                Mentor mentor = mentorDAO.getMentorById(id);
+                String method = httpExchange.getRequestMethod();
+
+                if (method.equals("POST")) {
+                    System.out.println("post wlecial");
+                    InputStreamReader isr = new InputStreamReader(httpExchange.getRequestBody(), "utf-8");
+                    BufferedReader br = new BufferedReader(isr);
+                    String formData = br.readLine();
+                    Map inputs = parseFormData(formData);
+
+                    String login = inputs.get("login").toString();
+                    String password = inputs.get("password").toString();
+                    String name = inputs.get("name").toString();
+                    String surname = inputs.get("surname").toString();
+                    int studentRoom = Integer.valueOf(inputs.get("studentRoom").toString());
+                    int studentTeam = Integer.parseInt(inputs.get("studentTeam").toString());
+                    int studentEarnings = Integer.parseInt(inputs.get("studentEarnings").toString());
+
+                    URI uri = httpExchange.getRequestURI();
+                    String path = uri.getPath();
+                    String[] pathParts = path.split("/");
+                    String urlEnding = pathParts[pathParts.length - 1];
+                    String indexOfStudentToEdit = pathParts[pathParts.length - 2];
+
+                    Codecooler codecooler = new Codecooler(Integer.parseInt(indexOfStudentToEdit), login, password, "codecooler", name, surname);
+                    codecooler.setRoomId(studentRoom);
+                    codecooler.setTeamId(studentTeam);
+                    codecooler.setEarnings(studentEarnings);
+                    codecoolerDAO.updateCodecooler(codecooler);
+                    System.out.println("Codecooler updated in database");
+
+                    System.out.println("location change");
+                    httpExchange.getResponseHeaders().set("Location", "/queststore/login");
+                    httpExchange.sendResponseHeaders(302,0);
+                }
+                if (method.equals("GET")) {
+                    URI uri = httpExchange.getRequestURI();
+                    String path = uri.getPath();
+                    String[] pathParts = path.split("/");
+                    String urlEnding = pathParts[pathParts.length - 1];
+                    int index = getIdFromURL(httpExchange, urlEnding);
+                    String indexOfStudentToEdit = pathParts[pathParts.length - 2];
+                    Codecooler codecooler = codecoolerDAO.getCodecoolerById(Integer.parseInt(indexOfStudentToEdit));
+                    String response = generateResponseEditStudent(codecooler);
+                    sendResponse(httpExchange, response);
+                }
+            }
+        }
+    }
+
+    private String generateResponseEditStudent(Codecooler codecooler) throws IOException {
+        JtwigTemplate template = JtwigTemplate.classpathTemplate("queststore/templates/editStudent.twig");
+        JtwigModel model = JtwigModel.newModel();
+//        model.with("id", mentorDAO.getMentorById(mentor.getId()));
+        model.with("codecooler", codecooler);
+        String response = template.render(model);
+        return response;
+    }
+
     private static Map<String, String> parseFormData(String formData) throws UnsupportedEncodingException {
         Map<String, String> map = new HashMap<>();
         String[] pairs = formData.split("&");
@@ -228,14 +245,10 @@ public class MentorController implements HttpHandler {
         return response;
     }
 
-
-
     private String getSessionIdFromCookie(Optional<HttpCookie> cookie) {
         String cookieValue = cookie.get().getValue();
         return cookieValue.substring(1, cookieValue.length()-1);
     }
-
-
 
     private void sendResponse(HttpExchange httpExchange, String response) throws IOException {
         httpExchange.sendResponseHeaders(200, response.getBytes().length);
